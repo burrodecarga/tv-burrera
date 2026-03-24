@@ -1,0 +1,1 @@
+export const PAGO=['Binance','Zelle','Bs','Pesos Colombianos','Pesos Chilenos','Pesos Uruguayos','Cartera en App']
