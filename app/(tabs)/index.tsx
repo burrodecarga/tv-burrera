@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase';
 import { Billetera } from '@/lib/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UserInfo = {
   billetera: Billetera | null
@@ -29,13 +30,22 @@ export default function HomeScreen() {
     }
   };
 
+
+
   useEffect(() => {
 
     if (session) {
       fetchBilletera(session.user.id).then((data) => storeData(data))
     }
-
   }, [session])
+
+if (loading) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Cargando...</Text>
+      </SafeAreaView>
+    )
+  }
 
   return (
     <ParallaxScrollView

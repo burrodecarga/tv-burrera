@@ -1,12 +1,13 @@
-import { Tables } from "@/db_types";
-import { Database } from "@/db_types_linked";
-
-export type Profile=Tables<"profiles">
-export type Polla=Tables<"pollas">
-export type Apuesta=Tables<"apuestas">
-export type Billetera=Tables<"billeteras">
+import { Database, Tables } from "@/db_types";
+import { Database as Datab } from "@/db_types_linked";
+export type Profile=Database["public"]['Tables']['profiles']['Row']
+export type Polla=Database["public"]['Tables']['pollas']['Row']
+export type Billetera=Database["public"]['Tables']['billeteras']['Row']
+export type Apuesta=Database["public"]['Tables']['apuestas']['Row']
+export type Transacciopn=Database["public"]['Tables']['transacciones']['Row']
 export type Transaccion=Tables<"transacciones">
-export type User=Database["auth"]["Tables"]["users"]["Row"]
+export type User=Datab["auth"]["Tables"]["users"]["Row"]
+
 export type UserWithProfile = User & { profile: Profile }
 export type UserWithProfileAndBilletera = UserWithProfile & { billetera: Billetera }
 export type UserWithProfileAndBilleteraAndTransacciones = UserWithProfileAndBilletera & { transacciones: Transaccion[] }

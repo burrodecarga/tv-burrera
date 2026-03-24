@@ -12,6 +12,7 @@ import Card from './ui/Card';
 
 interface Props {
   onSubmit: (content: string, image: string) => void;
+content?:string
 }
 
 const RecargaForm = ({ onSubmit }: Props) => {
@@ -34,7 +35,7 @@ const RecargaForm = ({ onSubmit }: Props) => {
       <TextInput
         value={content}
         onChangeText={setContent}
-        placeholder="¿Qué estás pensando?"
+        placeholder="Imagen de transacción"
       />
       <Card style={styles.row}>
         <TouchableOpacity onPress={handlePickImage}>

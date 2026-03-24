@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { ThemedView } from '@/components/themed-view';
 import { Fonts } from '@/constants/theme';
 import { useApuesta } from '@/hooks/useApuesta';
+import { useUserInfo } from '@/hooks/userContext';
 import { Polla } from '@/lib/types';
 import { usePollas } from '@/provider/PollasProvider';
 import { getFecha, getHora } from '@/utils/date';
@@ -11,7 +12,6 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useUserInfo } from '@/hooks/userContext';
 
 
 export default function PollasScreen() {
@@ -70,13 +70,13 @@ export default function PollasScreen() {
   
 useEffect(()=>{
   getData().then(data=>{
-    console.log(JSON.stringify(data, null, 2))
+    //console.log(JSON.stringify(data, null, 2))
     setMiBilletera(data)
   })
 
 },[])
 
-console.log(disponibilidad)
+//console.log(disponibilidad)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 / 5, }}>

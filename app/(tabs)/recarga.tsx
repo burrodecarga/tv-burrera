@@ -23,21 +23,33 @@ export default function TabTwoScreen() {
   const [tasa, setTasa] = useState(1)
   const [fichas, setFichas] = useState(1)
   const [monto, setMonto] = useState(0)
+  const [procesar, setProcesar] = useState(false)
+  const [info, setInfo] = useState('')
+  const [seleccion1, setSeleccion1] = useState(false)
+  const [seleccion2, setSeleccion2] = useState(false)
 
 
   const handleSelectMoneda = (value: number) => {
+    setSeleccion1(true)
     setTasa(value)
     setMonto(0)
-  }
+setProcesar(false) 
+setInfo('')  
+}
   const handleSelectFichas = (value: number) => {
+    setSeleccion2(true)
     setFichas(value)
     setMonto(0)
-
+setProcesar(false) 
+setInfo('')
   }
 
   const calcularMonto = (f: number, tasa: number) => {
     const total = f * tasa
     setMonto(total)
+    setProcesar(true)
+    const texto = 'Evidencia para Recargar :'+monto+' '+fichas+'  mediante '+plataforma
+    setInfo(`Recargar :{monto+' '+fichas+'  mediante '+plataforma}`)
 
 
   }
@@ -93,6 +105,7 @@ export default function TabTwoScreen() {
           Seleccione Moneda
         </ThemedText>
         <Picker
+         
           selectedValue={moneda?.tasa}
           onValueChange={(itemValue, itemIndex) =>
             handleSelectMoneda(itemValue)
@@ -147,7 +160,7 @@ export default function TabTwoScreen() {
         </Picker>
       </View >
       <View style={{flex:1/2}}>
-        <TouchableOpacity onPress={() => calcularMonto(tasa, fichas)} style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, borderColor: '#fff', borderWidth: 1 }}>
+        <TouchableOpacity disabled={!seleccion1 && !seleccion2 } onPress={() => calcularMonto(tasa, fichas)} style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, borderColor: '#fff', borderWidth: 1 }}>
           <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Caluclar</Text>
         </TouchableOpacity>
         <Text style={{ color: '#fff', fontSize: 20, textAlign: 'center', marginVertical: 10 }}>{monto} </Text>
@@ -156,8 +169,8 @@ export default function TabTwoScreen() {
       <View style={{backgroundColor:'red', flex:1}}>
         <Text style={{backgroundColor:'#0a4e7a', color:'#fff', textAlign:'center', padding:6}}>Recargar :{monto+' '+fichas+'  mediante '+plataforma}</Text>
       </View>
-      <View style={{backgroundColor:'red', flex:1, justifyContent:'center'}}>
-<RecargaForm onSubmit={handleSubmit}/>
+      <View style={{backgroundColor:'#fff', flex:1, justifyContent:'center'}}>
+{procesar && <RecargaForm onSubmit={handleSubmit} content={info}/>}
       </View>
     </ParallaxScrollView>
   );

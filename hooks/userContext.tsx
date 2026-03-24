@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { Profile } from "@/lib/types";
 import { Session } from "@supabase/supabase-js";
+import { router } from "expo-router";
 import {
   createContext,
   ReactNode,
@@ -34,10 +35,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      getProfile()
       setUserInfo({ ...userInfo, session });
     });
     supabase.auth.onAuthStateChange((_event, session) => {
       setUserInfo({ session, profile: null });
+      if(session){
+        router.replace('/')
+      }else{
+        router.replace('/auth/login')
+      }
     });
   }, []);
 
