@@ -35,7 +35,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      getProfile()
       setUserInfo({ ...userInfo, session });
     });
     supabase.auth.onAuthStateChange((_event, session) => {

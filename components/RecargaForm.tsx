@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import { Image, ImageBackground } from 'expo-image';
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Card from './ui/Card';
 
 
@@ -23,7 +23,7 @@ const RecargaForm = ({ onSubmit }: Props) => {
 
   const handlePickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images']
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -51,11 +51,13 @@ const RecargaForm = ({ onSubmit }: Props) => {
         />
       </Card>
       {Image && (
+        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', gap:10}}>
         <ImageBackground source={{ uri: image }} style={styles.image}>
-          <TouchableOpacity onPress={() => setImage("")}>
-            <Feather name="x" size={24} color="black" />
-          </TouchableOpacity>
         </ImageBackground>
+          <TouchableOpacity onPress={() => setImage("")}>
+            <Feather name="x" size={24} color={image.length>0 ?"black":'white'} />
+          </TouchableOpacity>
+        </View>
       )}
     </Card>
   );

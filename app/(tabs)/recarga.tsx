@@ -83,6 +83,7 @@ setInfo('')
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#50a6df', dark: '#353636' }}
+      
 
       headerImage={
         <AntDesign name="line-chart" size={120} color="#cbeb91" style={{ margin: 'auto' }} />
@@ -92,33 +93,43 @@ setInfo('')
           type="subtitle"
           style={{
             fontFamily: Fonts.rounded,
+            fontSize:14, marginVertical:0
           }}>
           Recarga
         </ThemedText>
       </ThemedView>
-      <View>
+      <View style={{flexDirection:'row', justifyContent:'center',alignItems:'center' }}>
+        
+      <View style={{ flex:1, borderWidth:1, borderRadius:8,marginRight:6}}>
         <ThemedText
           type="default"
           style={{
             fontFamily: Fonts.rounded,
+            fontSize:12,textAlign:'center'
           }}>
-          Seleccione Moneda
+          Sel. Moneda
         </ThemedText>
         <Picker
-         
+        style={{fontSize:10}}
+         itemStyle={{fontSize:10}}
           selectedValue={moneda?.tasa}
           onValueChange={(itemValue, itemIndex) =>
             handleSelectMoneda(itemValue)
           }>
-          {monedas && monedas.map((moneda, index) => <Picker.Item label={moneda.moneda + ' tasa: ' + moneda.tasa} value={moneda.tasa} />)}
+          {monedas && monedas.map((moneda, index) => <Picker.Item 
+          label={moneda.moneda + ' tasa: ' + moneda.tasa} value={moneda.tasa} />)}
 
         </Picker>
+        </View>
+             <View style={{ flex:1, borderWidth:1, borderRadius:8,}}>
+
         <ThemedText
           type="default"
           style={{
             fontFamily: Fonts.rounded,
+            fontSize:12, textAlign:'center'
           }}>
-          Seleccione Cantidad de Fichas
+          Cant. de Fichas
         </ThemedText>
         <Picker
           selectedValue={fichas}
@@ -141,6 +152,7 @@ setInfo('')
 
 
       </View>
+      </View>
       <View style={{flexDirection:'row', backgroundColor: '#0a4e7a', padding: 8, borderWidth: 1, borderColor: '#fff', borderRadius: 10 }}>
       <View style={{flex:1, backgroundColor:'#fff', marginHorizontal:6, borderRadius:10, padding:6}}>
         <ThemedText
@@ -156,7 +168,6 @@ setInfo('')
           {
             PAGO.map(p => <Picker.Item label={p} value={p} />)
           }
-
         </Picker>
       </View >
       <View style={{flex:1/2}}>
@@ -167,7 +178,7 @@ setInfo('')
       </View>
       </View>
       <View style={{backgroundColor:'red', flex:1}}>
-        <Text style={{backgroundColor:'#0a4e7a', color:'#fff', textAlign:'center', padding:6}}>Recargar :{monto+' '+fichas+'  mediante '+plataforma}</Text>
+        <Text style={{backgroundColor:'#0a4e7a', color:'#fff', textAlign:'center', padding:6, fontSize:8}}>Recargar :{monto+'  mediante '+plataforma+' -> fichas '+fichas}</Text>
       </View>
       <View style={{backgroundColor:'#fff', flex:1, justifyContent:'center'}}>
 {procesar && <RecargaForm onSubmit={handleSubmit} content={info}/>}
