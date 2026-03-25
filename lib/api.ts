@@ -97,3 +97,20 @@ export const fetchTasasDeCambio=async () => {
 
 export type TasasDeCambio=Awaited<ReturnType<typeof fetchTasasDeCambio>>
 export type TasaDeCambio=TasasDeCambio[number]
+
+export const fetchPlataformas=async () => {
+  const { data, error }=await supabase
+    .from("plataformas")
+    .select("id,moneda,tasa,fecha,simbolo,plataforma")
+    .eq("activa", 1)
+  if (error) {
+    console.log("error", error)
+    return []
+  } else {
+    return data
+  }
+}
+
+export type Plataformas=Awaited<ReturnType<typeof fetchPlataformas>>
+export type Plataforma=Plataformas[number]
+

@@ -1,4 +1,3 @@
-import Logo from '@/components/Logo'
 import { ThemedText } from '@/components/themed-text'
 import ThemedButton from '@/components/ThemedButton'
 import ThemeTextInput from '@/components/ThemeTextInput'
@@ -7,7 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { SignInWithPasswordCredentials } from '@supabase/supabase-js'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert, KeyboardAvoidingView, StyleSheet, useWindowDimensions, View } from 'react-native'
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const LoginScreen=() => {
@@ -57,14 +56,12 @@ const LoginScreen=() => {
 
     return (
         <KeyboardAvoidingView
-            behavior='padding'
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ flex: 1 }}>
             <ScrollView style={{ paddingHorizontal: 40 }}>
-                <View style={{ paddingTop: height*0.05 }}>
-                    <Logo />
-
+                <View style={{ marginVertical:height*0.04 }}>
                     <ThemedText type='subtitle' 
-                    style={{ borderWidth: 1, padding: 10, borderColor: primary, textAlign: 'center', marginBottom: 10,
+                    style={{borderRadius:8, borderWidth: 1, padding: 10, borderColor: primary, textAlign: 'center', marginBottom: 10,
                      color: primary }}>TvBurrera</ThemedText>
                     <ThemedText style={{ color: 'gray' }}>Para continuar, por favor ingrese sus datos</ThemedText>
                 </View>
@@ -95,11 +92,10 @@ const LoginScreen=() => {
 
                 <View style={{ marginTop: 10 }} />
 
-                <ThemedText style={{ fontSize: 11, color: primary }}>ATENCIÓN: Esta aplicación pertenece al Ing. Nathalie García Martínez </ThemedText>
-                <ThemedText style={{ fontSize: 11, color: primary }}>Esta diseñada para ser usada única y exclusivamente por las personas que el Nathalie Gracía Martínez autorice </ThemedText>
+                <ThemedText style={{ fontSize: 11, color: primary, textAlign:'justify' }}>ATENCIÓN: Esta aplicación pertenece al Ing. Nathalie García Martínez, esta diseñada para ser usada única y exclusivamente por las personas que la Ing. Nathalie Gracía Martínez autorice </ThemedText>
                 <View style={{ marginTop: 10 }} />
 
-                <ThemedText style={{ fontSize: 10, color: primary, marginBottom: 10 }}>Desarrollo: Edwin Henriquez, edwinhenriquezh@gmail.com</ThemedText>
+                <ThemedText style={{ fontSize: 10, color: primary, marginBottom: 10, textAlign:'center' }}>Desarrollo: Edwin Henriquez, edwinhenriquezh@gmail.com</ThemedText>
             </ScrollView>
         </KeyboardAvoidingView>
     )

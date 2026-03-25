@@ -1,11 +1,15 @@
 import React from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, useWindowDimensions } from 'react-native'
 
-const Logo=() => {
-    const imgUri='./assets/icon.png'
+
+
+const Logo=()=> {
+        const { height,width }=useWindowDimensions()
+    
+    const imgUri='./assets/tvburrera.jpg'
         return (
 
-        <Image source={{ uri: imgUri }} style={{ width: '100%', height: '50%', resizeMode: 'contain', backgroundColor: '#f7f7f8' }} />
+        <Image source={{ uri: imgUri }} style={{ width: width, height: height*0.02, resizeMode: 'contain', backgroundColor: '#f7f7f8' }} />
 
     )
 }

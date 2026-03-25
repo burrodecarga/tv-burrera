@@ -16,8 +16,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
 
-  const [monedas, setMonedas] = useState<TasasDeCambio>()
-  const [moneda, setMoneda] = useState<TasaDeCambio>()
+  const [tasasDeCambio, setTasasDeCambio] = useState<TasasDeCambio>()
+  const [tasaDeCambio, settasaDeCambio] = useState<TasaDeCambio>()
   const [plataforma, setPlataforma] = useState('')
   const [loading, setLoading] = useState(false)
   const [tasa, setTasa] = useState(1)
@@ -29,7 +29,7 @@ export default function TabTwoScreen() {
   const [seleccion2, setSeleccion2] = useState(false)
 
 
-  const handleSelectMoneda = (value: number) => {
+  const handleSelecttasaDeCambio = (value: number) => {
     setSeleccion1(true)
     setTasa(value)
     setMonto(0)
@@ -61,7 +61,7 @@ setInfo('')
     setLoading(true)
     const getTasaDeCambio = async () => {
       const result = await fetchTasasDeCambio()
-      setMonedas(result)
+      setTasasDeCambio(result)
       setLoading(false)
     }
     getTasaDeCambio()
@@ -78,7 +78,7 @@ setInfo('')
     )
   }
 
-  //console.log(moneda)
+  //console.log(tasaDeCambio)
 
   return (
     <ParallaxScrollView
@@ -107,16 +107,16 @@ setInfo('')
             fontFamily: Fonts.rounded,
             fontSize:12,textAlign:'center'
           }}>
-          Sel. Moneda
+          Tasa De Cambio
         </ThemedText>
         <Picker
         style={{fontSize:10}}
          itemStyle={{fontSize:10}}
-          selectedValue={moneda?.tasa}
+          selectedValue={tasaDeCambio?.tasa}
           onValueChange={(itemValue, itemIndex) =>
-            handleSelectMoneda(itemValue)
+            handleSelecttasaDeCambio(itemValue)
           }>
-          {monedas && monedas.map((moneda, index) => <Picker.Item 
+          {tasasDeCambio && tasasDeCambio.map((moneda, index) => <Picker.Item 
           label={moneda.moneda + ' tasa: ' + moneda.tasa} value={moneda.tasa} />)}
 
         </Picker>
