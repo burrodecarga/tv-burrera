@@ -11,7 +11,7 @@ import { getFecha, getHora } from '@/utils/date';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -73,35 +73,28 @@ export default function PollasScreen() {
 
 //console.log(disponibilidad)
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1,width:width, height:height*0.1 }}>
+    <SafeAreaView style={{ flex: 1,backgroundColor:'#fff' }}>
+      <View style={{ flex: 1,width:width, }}>
         <Image
           source={require('@/assets/images/baneer.jpg')}
           style={styles.reactLogo}
           contentFit="cover"
         />
         <Perfil profile={profile} uri={profile?.avatar_url}  />
-      </View>
-      <View style={{
-        flex: 1, justifyContent: 'center', alignItems: 'center',
-        marginTop: 0,
-      }}>
         <Text
           style={{
             fontFamily: Fonts.rounded,
-            fontSize: 24,
+            fontSize: 16,
             fontWeight: 'bold',
             color: '#0e0e0e',
+            textAlign:'center'
           }}>
           Listado de Pollas
         </Text>
-        <Text>{profile?.username}</Text>
-        <Text>Disponibilidad :   fichas</Text>
-
-      </View>
-      <View style={{ flex: 3 / 5, backgroundColor: '#fff', marginHorizontal: 20, borderRadius: 8, padding: 10, justifyContent: 'center', alignItems: 'center' }}>
+      
         <FlatList
-        showsVerticalScrollIndicator={false}
+style={{flex:2}}
+showsVerticalScrollIndicator={false}
           data={pollas}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
@@ -109,7 +102,7 @@ export default function PollasScreen() {
               padding: 10, borderRadius: 8,
               borderWidth: 1, borderColor: '#9df3f3',
               backgroundColor: '#9fcdf8', width: '100%',
-              marginVertical:20
+              marginVertical:10
             }}>
               <Text >{item.polla}</Text>
               <Text >Fecha:{item.fecha ? getFecha(item.fecha.toString()) : 'xx/xx/xxxx'}</Text>
@@ -130,16 +123,17 @@ export default function PollasScreen() {
 
           )}
         />
-      </View>
+     
       <TouchableOpacity
                 onPress={() => router.push('/')}
                 style={{
                   marginTop: 10, backgroundColor: '#2f60e9', padding: 10,
                   borderRadius: 8, alignItems: 'center',
-                  marginHorizontal:30,marginVertical:20
+                  marginHorizontal:20,marginBottom:20
                 }}>
                 <Text style={{ color: '#fff', fontWeight: 'bold' }}>Home</Text>
               </TouchableOpacity>
+      </View>
     </SafeAreaView>
 
   );
