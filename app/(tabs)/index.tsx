@@ -1,16 +1,15 @@
 import { Image } from 'expo-image';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import Perfil from '@/components/Perfil';
 import ThemedButton from '@/components/ThemedButton';
 import { useUserInfo } from '@/hooks/userContext';
-import { fetchBilletera } from '@/lib/api';
+import { fetchBilleteras, TypeFectchBilletera } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { Billetera } from '@/lib/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UserInfo = {
@@ -19,7 +18,8 @@ export type UserInfo = {
 
 export default function HomeScreen() {
 
-  const { session, loading } = useUserInfo()
+  const { session, loading,profile } = useUserInfo()
+  const [billetera, setBilletera] = useState<TypeFectchBilletera|undefined>()
 
   const storeData = async (value: any) => {
     try {
@@ -33,11 +33,15 @@ export default function HomeScreen() {
 
 
   useEffect(() => {
+if(!session)return
+    const getDisponibilidad = async  ()=> {
+      
+      const res = await fetchBilleteras(session.user.id)
+      if(res) setBilletera(res[0])
 
-    if (session) {
-      fetchBilletera(session.user.id).then((data) => storeData(data))
     }
-  }, [session])
+    getDisponibilidad()
+  }, [session, billetera])
 
 if (loading) {
     return (
@@ -46,7 +50,7 @@ if (loading) {
       </SafeAreaView>
     )
   }
-
+//console.log('Billeteras',billetera)
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -57,31 +61,74 @@ if (loading) {
           contentFit="cover"
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="subtitle">Bienvenido a Pollas TvBurrera!</ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Paso 1: Carreras</ThemedText>
-        <ThemedText>
+        <Perfil profile={profile} uri={profile?.avatar_url} disponibilidad={billetera ? billetera.fichas!:0 }/>
+      <View style={styles.titleContainer}>
+        <Text style={{fontSize:12, fontWeight:'600'}}>Bienvenido a Pollas TvBurrera!</Text>
+      </View>
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 1: Carreras</Text>
+        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
           {`En la pestaña de Carreras, podrás seleccionar tus caballos favoritos para cada carrera. Simplemente haz clic en los botones correspondientes a cada caballo para elegir tu apuesta. ¡Buena suerte!`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Paso 2: Crea tú Polla Ganadora</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 2: Crea tú Polla Ganadora</Text>
+        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+          {`Selecciona un caballo para cada carrera pulsando en el número de cabaloo de tú elección`}
+        </Text>
+      </View>
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 3: Enviar Polla Ganadora</Text>
+        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+          {`Una vez seleccionados los caballos ganadores procesa tú polla ganadora de forma automática si dispones de suficientes fichas y en caso contrario recarga tú cartera con la cantidad de fichas que cuesta tú polla ganadora`}
+        </Text>
+      </View>
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 4: Polla Ganadora</Text>
+         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+          {`Cada carrera genera puntos acumulativos,`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`primer lugar (1° lugar) :5 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`segundo lugar (2° lugar) :3 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`tercer lugar (3° Lugar) :1 punto`}
+        </Text>
+      </View>
+
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 5: Premios</Text>
+         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+          {`Cada carrera genera puntos acumulativos,`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`primer lugar (1° lugar) :5 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`segundo lugar (2° lugar) :3 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`tercer lugar (3° Lugar) :1 punto`}
+        </Text>
+      </View>
+      <View style={styles.stepContainer}>
+        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 6: Transferencia de Fichas</Text>
+         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+          {`Cada carrera genera puntos acumulativos,`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`primer lugar (1° lugar) :5 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`segundo lugar (2° lugar) :3 puntos`}
+        </Text>
+        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+          {`tercer lugar (3° Lugar) :1 punto`}
+        </Text>
+      </View>
       <ThemedButton onPress={() => supabase.auth.signOut()} >Salir</ThemedButton>
     </ParallaxScrollView>
   );

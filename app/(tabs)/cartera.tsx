@@ -1,59 +1,63 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { ExternalLink } from '@/components/external-link';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
+import Perfil from '@/components/Perfil';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { Collapsible } from '@/components/ui/collapsible';
-import { Fonts } from '@/constants/theme';
+import { useUserInfo } from '@/hooks/userContext';
+import { fetchBilleteras, TypeFectchBilletera } from '@/lib/api';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
+  const [billetera, setBilletera] = useState<TypeFectchBilletera>()
+
+  const { profile, session, loading, saveProfile } = useUserInfo()
+
+
+
+  if (loading) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Cargando...</Text>
+      </SafeAreaView>
+    )
+  }
+
+  useEffect(() => {
+    const getDisponibilidad = async () => {
+      if (session?.user.id) {
+        const result = await fetchBilleteras(session.user.id)
+        if (result) setBilletera(result[0])
+      }
+    }
+    getDisponibilidad()
+  }, [])
+
+  //console.log(billetera)
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-       headerImage={
-              <Image
-                source={require('@/assets/images/dinero.jpg')}
-                style={styles.reactLogo}
-                contentFit="cover"
-              />
-            }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-        Mi Cartera
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>Edwin Henriquez.</ThemedText>
+      headerImage={
+        <Image
+          source={require('@/assets/images/dinero.jpg')}
+          style={styles.reactLogo}
+          contentFit="cover"
+        />
+      }>
+
+     <Perfil profile={profile} size={130} uri={profile?.avatar_url}/>
+
       <Collapsible title="Disponibilidad">
-        <ThemedText>         
-          <ThemedText type="defaultSemiBold">350 </ThemedText> 
-          <ThemedText type="defaultSemiBold">Unidades de Apuesta</ThemedText>
-        </ThemedText>
         <ThemedText>
-          Unidades de Apuesta por Apuesta <ThemedText type="defaultSemiBold">50</ThemedText>          
+          <ThemedText type="defaultSemiBold">{billetera ? billetera.fichas : 0} </ThemedText>
+          <ThemedText type="defaultSemiBold" style={{ fontSize: 10 }}>Unidades de Apuesta</ThemedText>
         </ThemedText>
-        <ThemedText>
-          Cantidad de apuestas disponibles <ThemedText type="defaultSemiBold">7</ThemedText>          
-        </ThemedText>
-         <ThemedText>
-          Cantidad de apuestas por certificar <ThemedText type="defaultSemiBold">3</ThemedText>          
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Leer más</ThemedText>
-        </ExternalLink>
       </Collapsible>
-       <Collapsible title="Recargar Cartera Digital">
-        <ThemedText>         
-          <ThemedText type="defaultSemiBold">Agregas unidades de Apuesta a tú cartera digital </ThemedText> 
-         </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Recargar Cartera Digital</ThemedText>
-        </ExternalLink>
+      <Collapsible title="Perfil de Usuario">
+        <TouchableOpacity style={{borderWidth:1, borderRadius:8,padding:10}} onPress={()=>router.replace('/(tabs)/pollas/user')}><Text style={{textAlign:'center'}}>Modificar Perfil de Usuario</Text></TouchableOpacity>
       </Collapsible>
     </ParallaxScrollView>
   );
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
-   reactLogo: {
+  reactLogo: {
     height: 178,
     width: 420,
     bottom: 0,

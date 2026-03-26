@@ -40,20 +40,15 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="crown-circle-outline" size={24} color={color} />,
         }}
       />
+     
        <Tabs.Screen
         name="recarga"
-        options={{
-          title: 'Recarga',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="download-network-outline" size={24} color={color} />,
-        }}
-      />
-       <Tabs.Screen
-        name="recarga1"
         options={{
           title: 'Recarga',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="piggy-bank-outline" size={24} color={color} />,
         }}
       />
+       
       
     </Tabs>
     

@@ -1,5 +1,6 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
+import Perfil from '@/components/Perfil';
 import { ThemedView } from '@/components/themed-view';
 import { Fonts } from '@/constants/theme';
 import { useApuesta } from '@/hooks/useApuesta';
@@ -16,13 +17,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PollasScreen() {
 
+  const { height,width }=useWindowDimensions()
 
   const { profile, loading } = useUserInfo()
   const { pollas, loading: cargando } = usePollas()
   const [miBilletera,setMiBilletera]=useState()
   const {setPollaInfo,pollaInfo}=useApuesta()
 
-  const {disponibilidad}=useApuesta()
+ 
 
   const storeData = async (value:Polla) => {
   try {
@@ -68,27 +70,21 @@ export default function PollasScreen() {
 
   //console.log('PROFILE',profile)
   
-useEffect(()=>{
-  getData().then(data=>{
-    //console.log(JSON.stringify(data, null, 2))
-    setMiBilletera(data)
-  })
-
-},[])
 
 //console.log(disponibilidad)
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 / 5, }}>
+      <View style={{ flex: 1,width:width, height:height*0.1 }}>
         <Image
           source={require('@/assets/images/baneer.jpg')}
           style={styles.reactLogo}
           contentFit="cover"
         />
+        <Perfil profile={profile} uri={profile?.avatar_url}  />
       </View>
       <View style={{
-        flex: 1 / 5, justifyContent: 'center', alignItems: 'center',
-        marginTop: 20,
+        flex: 1, justifyContent: 'center', alignItems: 'center',
+        marginTop: 0,
       }}>
         <Text
           style={{
@@ -163,6 +159,7 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 178,
     width: 420,
+    marginBottom:10
   },
 
 });

@@ -1,4 +1,4 @@
-import { fetchBilletera, TypeFectchBilleteras, } from "@/lib/api";
+import {  fetchBilleteras, TypeFectchBilleteras, } from "@/lib/api";
 import { Polla } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useUserInfo } from "./userContext";
@@ -21,7 +21,7 @@ export const useApuesta = () => {
   useEffect(()=>{
   const getDisponibilidad =async ()=>{    
   if(session?.user.id){
-    const result = await fetchBilletera(session.user.id)
+    const result = await fetchBilleteras(session.user.id)
     setDisponibilidad(result)
       }}
       getDisponibilidad()

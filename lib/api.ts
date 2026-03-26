@@ -31,6 +31,26 @@ export const fetchProfiles=async (userId: string) => {
 export type Users=Awaited<ReturnType<typeof fetchProfiles>>
 export type User=Users[number]
 
+export const downloadAvatar = async (path: string): Promise<string> => {
+  try {
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .download(path);
+    if (error) throw error;
+    const fr = new FileReader();
+    fr.readAsDataURL(data);
+    return new Promise((resolve) => {
+      fr.onload = () => {
+        resolve(fr.result as string);
+      };
+    });
+  } catch (err) {
+    console.log("error", err);
+    return "";
+  }
+};
+
+
 
 export const fetchPollasActivas=async (condicion:number) => {
   //console.log(condicion)
@@ -50,19 +70,24 @@ export const fetchPollasActivas=async (condicion:number) => {
 export type PollasActivas=Awaited<ReturnType<typeof fetchPollasActivas>>
 export type PollaActiva=PollasActivas[number]
 
-export const fetchBilletera=async (userId: string) => {
+export const fetchBilleteras=async (userId: string) => {
   const { data, error }=await supabase
     .from("billeteras")
     .select("*")
     .eq("id_user", userId)
   if (error) {
-    console.log("error", error)    
+    console.log("error", error) 
+    return []
   } else {
+    //console.log(data)
     return data
   }
 }
 
-export type TypeFectchBilleteras=Awaited<ReturnType<typeof fetchBilletera>>
+export type TypeFectchBilleteras=Awaited<ReturnType<typeof fetchBilleteras>>
+export type TypeFectchBilletera=TypeFectchBilleteras[number]
+
+
 
 export const addApuesta=async (apuesta: Apuesta) => {
 const { data, error } = await supabase
