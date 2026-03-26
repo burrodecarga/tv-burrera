@@ -34,22 +34,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="cartera"
+        name="usuario"
         options={{
-          title: 'Cartera',
+          title: 'Usuario',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="crown-circle-outline" size={24} color={color} />,
         }}
-      />
-     
-       <Tabs.Screen
-        name="recarga"
-        options={{
-          title: 'Recarga',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="piggy-bank-outline" size={24} color={color} />,
-        }}
-      />
+      />    
        
-      
     </Tabs>
     
   );

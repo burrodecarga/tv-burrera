@@ -2,6 +2,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '@/hooks/userContext';
 import PollasProvider from '@/provider/PollasProvider';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Root as PopupRootProvider } from '@sekizlipenguen/react-native-popup-confirm-toast';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -17,6 +18,7 @@ export default function RootLayout() {
  
 
   return (
+    <PopupRootProvider>
     <AuthProvider>
       <PollasProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
@@ -32,5 +34,6 @@ export default function RootLayout() {
           </GestureHandlerRootView>    
       </PollasProvider>
     </AuthProvider>
+    </PopupRootProvider>
   );
 }

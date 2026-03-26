@@ -57,7 +57,7 @@ export default function TabTwoScreen() {
         </ThemedText>
       </Collapsible>
       <Collapsible title="Perfil de Usuario">
-        <TouchableOpacity style={{borderWidth:1, borderRadius:8,padding:10}} onPress={()=>router.replace('/(tabs)/pollas/user')}><Text style={{textAlign:'center'}}>Modificar Perfil de Usuario</Text></TouchableOpacity>
+        <TouchableOpacity style={{borderWidth:1, borderRadius:8,padding:10}} onPress={()=>router.replace('/(tabs)/usuario/user')}><Text style={{textAlign:'center'}}>Modificar Perfil de Usuario</Text></TouchableOpacity>
       </Collapsible>
     </ParallaxScrollView>
   );

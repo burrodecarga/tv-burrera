@@ -6,11 +6,10 @@ import { addApuesta } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { Apuesta, Polla } from '@/lib/types';
 import { globalStyles } from '@/styles/global-styles';
-import { getFecha, getHora } from '@/utils/date';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type MiApuesta={
@@ -25,6 +24,7 @@ export type MiApuesta={
   
 }
 const Bets = () => {
+  const { height,width }=useWindowDimensions()
 
   const { carrera1, setCarrera1, carrera2, setCarrera2, carrera3, setCarrera3, carrera4, setCarrera4, carrera5, setCarrera5, carrera6,
     setCarrera6 } = useApuesta()
@@ -95,7 +95,7 @@ const Bets = () => {
       Alert.alert('Hay un Error en la Polla', 'Debe seleccionar un caballo para cada carrera')
       return
     }
-    console.log('apostando')
+    //console.log('apostando')
     registrarApuesta(carrera1,carrera2,carrera3,carrera4,carrera5,carrera6)
   }
 
@@ -132,6 +132,18 @@ console.log('LIMPIANDO',data)
     router.push('/(tabs)/pollas')
   }
 
+  const ListadoDeApuestas = () => {
+    setCarrera1(0)
+    setCarrera2(0)
+    setCarrera3(0)
+    setCarrera4(0)
+    setCarrera5(0)
+    setCarrera6(0)
+
+    router.push('/(tabs)/pollas')
+  }
+
+
   const registrarApuesta = async (a:number,b:number,c:number,d:number,e:number,f:number) => {
     const apuesta:MiApuesta={
       carrera_1:a,
@@ -147,9 +159,9 @@ console.log('LIMPIANDO',data)
     const resultado =await addApuesta(apuesta as Apuesta)
     removeValue()
     limpiar()
-    cancelar()
+    ListadoDeApuestas()
+//console.log('APUESTA', resultado)
 
-console.log('APUESTA', resultado)
   }
 
 
@@ -173,57 +185,51 @@ console.log('APUESTA', resultado)
 
   return (
 
-    <SafeAreaView style={{ flex: 1, marginVertical: 20 }}>
-
+    <SafeAreaView style={{ flex: 1, marginVertical: height*0.08, backgroundColor:'#fff' }}>
       <View style={{
-        flex: 2 / 12, backgroundColor: '#fff', padding: 10,
+        flex: 1, backgroundColor: '#fff', paddingHorizontal: 15,
         justifyContent: 'center', alignContent: 'center',
-        borderRadius: 8, borderColor: '#5a5555', borderWidth: 1, marginHorizontal: 20
+        borderRadius: 8,  marginHorizontal: 0,width:'100%'
       }}>
         {/* Resultados */}
-        <ThemedText style={{ fontWeight: '600', fontSize: 13 }}>Polla N° {miPolla?.id}</ThemedText>
-        <ThemedText style={{ fontWeight: '600' }}>Fecha: {getFecha(miPolla?.fecha!)} --- hora:{getHora(miPolla?.fecha!)}</ThemedText>
-        <ThemedText style={{ fontWeight: '600',fontSize:13 }}>Fecha Cierre: {getFecha(miPolla?.cierre!)} --- hora Cierre:{getHora(miPolla?.cierre!)}</ThemedText>
-
-        <ThemedText style={{ fontWeight: '600' }}>Jugadores {miPolla?.apuestas} </ThemedText>
-        <ThemedText style={{ fontWeight: '600' }}>Unidades a Repartir {miPolla?.fichas} UA </ThemedText>
-      </View>
-      <View style={{ flex: 9 / 12, marginVertical: 5 }}>
+        <View style={{flexDirection:'column',borderWidth:1, borderRadius:8, padding:10, marginBottom:5}}>
+        <ThemedText style={{ fontWeight: '600', fontSize: 10 }}>{miPolla?.polla}</ThemedText>
+       <ThemedText style={{ fontWeight: '600', fontSize: 10, textAlign:'center' }}>1ra={carrera1} 2da={carrera2} 3ra={carrera3} 4ta={carrera4} 5ta={carrera5} 6ta={carrera6}</ThemedText> 
+        </View>
         {/* Filas de botones */}
 
-        <View style={[globalStyles.carrerasContainer, { flex: 1 }]}>
+        <View style={[globalStyles.carrerasContainer, { flex: 1, width:'100%',marginHorizontal:0,borderWidth:0 }]}>
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={6} carrera={1} selected={carrera1} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={12} carrera={2} selected={carrera2} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={10} carrera={3} selected={carrera3} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={8} carrera={4} selected={carrera4} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={12} carrera={5} selected={carrera5} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={15} carrera={6} selected={carrera6} />
-
-        </View>
-      </View>
+       </View>
       <View style={{
         width: '100%', flexDirection: 'row', marginHorizontal: 0,
-        justifyContent: 'space-between', alignContent: 'center', flex: 1 / 12, marginBottom: 0
+        justifyContent: 'space-between', alignContent: 'center',  marginTop: 10, borderTopWidth:1,padding:10
       }}>
         <TouchableOpacity onPress={() => apostar()} style={{
           ...globalStyles.button, alignSelf: 'center',
-          width: '25%', borderRadius: 5, paddingHorizontal: 10, backgroundColor: '#226d04'
+          width: '25%', borderRadius: 5, paddingHorizontal: 6, backgroundColor: '#226d04'
         }}>
-          <ThemedText style={[globalStyles.buttonText, { fontSize: 16 }]}>Enviar</ThemedText>
+          <ThemedText style={[globalStyles.buttonText, { fontSize: 9 }]}>Enviar</ThemedText>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => limpiar()} style={{
           ...globalStyles.button, alignSelf: 'center',
-          width: '25%', borderRadius: 5, paddingHorizontal: 10, backgroundColor: '#3f68ee'
+          width: '25%', borderRadius: 5, paddingHorizontal: 6, backgroundColor: '#3f68ee'
         }}>
-          <ThemedText style={[globalStyles.buttonText, { fontSize: 16 }]}>Limpiar</ThemedText>
+          <ThemedText style={[globalStyles.buttonText, { fontSize: 9 }]}>Limpiar</ThemedText>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => cancelar()} style={{
           ...globalStyles.button, alignSelf: 'center',
-          width: '25%', borderRadius: 5, paddingHorizontal: 10, backgroundColor: '#ad0808'
+          width: '25%', borderRadius: 5, paddingHorizontal: 6, backgroundColor: '#ad0808'
         }}>
-          <ThemedText style={[globalStyles.buttonText, { fontSize: 16 }]}>Cancelar</ThemedText>
+          <ThemedText style={[globalStyles.buttonText, { fontSize: 9 }]}>Cancelar</ThemedText>
         </TouchableOpacity>
+      </View>
       </View>
 
     </SafeAreaView>

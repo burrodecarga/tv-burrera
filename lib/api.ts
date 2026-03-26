@@ -139,3 +139,20 @@ export const fetchPlataformas=async () => {
 export type Plataformas=Awaited<ReturnType<typeof fetchPlataformas>>
 export type Plataforma=Plataformas[number]
 
+export const fetchApuestasById=async (userId: string) => {
+  const { data, error }=await supabase
+    .from("apuestas")
+    .select("*")
+    .eq("id_user", userId)
+  if (error) {
+    console.log("error", error) 
+    return []
+  } else {
+    //console.log(data)
+    return data
+  }
+}
+
+export type ApuestasById=Awaited<ReturnType<typeof fetchApuestasById>>
+export type ApuestaById=ApuestasById[number]
+

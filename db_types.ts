@@ -23,6 +23,7 @@ export type Database = {
           carrera_5: number | null
           carrera_6: number | null
           cobrado: number | null
+          confirmada: number | null
           created_at: string
           fichas: number | null
           ganador: number | null
@@ -45,6 +46,7 @@ export type Database = {
           carrera_5?: number | null
           carrera_6?: number | null
           cobrado?: number | null
+          confirmada?: number | null
           created_at?: string
           fichas?: number | null
           ganador?: number | null
@@ -67,6 +69,7 @@ export type Database = {
           carrera_5?: number | null
           carrera_6?: number | null
           cobrado?: number | null
+          confirmada?: number | null
           created_at?: string
           fichas?: number | null
           ganador?: number | null

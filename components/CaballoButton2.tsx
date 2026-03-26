@@ -30,6 +30,7 @@ const CaballoButton22 = ({
 }: Props) => {
 
  const [isChecked, setChecked] = useState(false);
+ 
   return (
    
       <Pressable 
@@ -38,8 +39,9 @@ const CaballoButton22 = ({
               borderRadius:5,
               marginHorizontal:10,
               borderWidth:1,
-              borderColor:'#b9b3b3',
-              padding:5
+              borderColor:'#111cb6',
+              padding:5,
+              backgroundColor:color
             
             })}
             onPress={() => {
@@ -49,8 +51,8 @@ const CaballoButton22 = ({
             }}
       >
         <View style={{
-          marginHorizontal:10, borderWidth:1, borderColor:'#b9b3b3',
-          flexDirection:'row', alignItems:'center', justifyContent:'center',backgroundColor:color, padding:2 }}>
+          gap:10,  borderColor:'#b9b3b3',
+          flexDirection:'row', alignItems:'center', justifyContent:'center',backgroundColor:color, padding:2,}}>
 
        <MaterialIcons name={checked ? "check-box" : "check-box-outline-blank"} size={20} 
        color={checked ? "#fff" : color} />
