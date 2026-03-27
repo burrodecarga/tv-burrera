@@ -12,10 +12,10 @@ const UsuarioScreen = () => {
   const textBody='Confirmar Pago de Polla'
   const buttonText='Pagar Polla'
   const handleCancel =()=>{
-    console.log('CANCLENDO')
+    //console.log('CANCLENDO')
   }
    const handleOk =()=>{
-    console.log('ON OK')
+    //console.log('ON OK')
    }
     const { profile, loading } = useUserInfo()
   return (

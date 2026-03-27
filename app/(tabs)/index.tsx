@@ -18,8 +18,8 @@ export type UserInfo = {
 
 export default function HomeScreen() {
 
-  const { session, loading,profile } = useUserInfo()
-  const [billetera, setBilletera] = useState<TypeFectchBilletera|undefined>()
+  const { session, loading, profile } = useUserInfo()
+  const [billetera, setBilletera] = useState<TypeFectchBilletera | undefined>()
 
   const storeData = async (value: any) => {
     try {
@@ -33,24 +33,24 @@ export default function HomeScreen() {
 
 
   useEffect(() => {
-if(!session)return
-    const getDisponibilidad = async  ()=> {
-      
+    if (!session) return
+    const getDisponibilidad = async () => {
+
       const res = await fetchBilleteras(session.user.id)
-      if(res) setBilletera(res[0])
+      if (res) setBilletera(res[0])
 
     }
     getDisponibilidad()
   }, [session, billetera])
 
-if (loading) {
+  if (loading) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Cargando...</Text>
       </SafeAreaView>
     )
   }
-//console.log('Billeteras',billetera)
+  //console.log('Billeteras',billetera)
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -61,71 +61,71 @@ if (loading) {
           contentFit="cover"
         />
       }>
-        <Perfil profile={profile} uri={profile?.avatar_url} disponibilidad={billetera ? billetera.fichas!:0 }/>
+      <Perfil profile={profile} uri={profile?.avatar_url} disponibilidad={billetera ? billetera.fichas! : 0} />
       <View style={styles.titleContainer}>
-        <Text style={{fontSize:12, fontWeight:'600'}}>Bienvenido a Pollas TvBurrera!</Text>
+        <Text style={{ fontSize: 12, fontWeight: '600' }}>Bienvenido a Pollas TvBurrera!</Text>
       </View>
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 1: Carreras</Text>
-        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 1: Carreras</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`En la pestaña de Carreras, podrás seleccionar tus caballos favoritos para cada carrera. Simplemente haz clic en los botones correspondientes a cada caballo para elegir tu apuesta. ¡Buena suerte!`}
         </Text>
       </View>
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 2: Crea tú Polla Ganadora</Text>
-        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 2: Crea tú Polla Ganadora</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`Selecciona un caballo para cada carrera pulsando en el número de cabaloo de tú elección`}
         </Text>
       </View>
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 3: Enviar Polla Ganadora</Text>
-        <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 3: Enviar Polla Ganadora</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`Una vez seleccionados los caballos ganadores procesa tú polla ganadora de forma automática si dispones de suficientes fichas y en caso contrario recarga tú cartera con la cantidad de fichas que cuesta tú polla ganadora`}
         </Text>
       </View>
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 4: Polla Ganadora</Text>
-         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 4: Polla Ganadora</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`Cada carrera genera puntos acumulativos,`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`primer lugar (1° lugar) :5 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`segundo lugar (2° lugar) :3 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`tercer lugar (3° Lugar) :1 punto`}
         </Text>
       </View>
 
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 5: Premios</Text>
-         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 5: Premios</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`Cada carrera genera puntos acumulativos,`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`primer lugar (1° lugar) :5 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`segundo lugar (2° lugar) :3 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`tercer lugar (3° Lugar) :1 punto`}
         </Text>
       </View>
       <View style={styles.stepContainer}>
-        <Text style={{fontSize:12, fontWeight:'800'}}>Paso 6: Transferencia de Fichas</Text>
-         <Text style={{wordWrap:'true', textAlign:'justify', fontSize:11}}>
+        <Text style={{ fontSize: 12, fontWeight: '800' }}>Paso 6: Transferencia de Fichas</Text>
+        <Text style={{ wordWrap: 'true', textAlign: 'justify', fontSize: 11 }}>
           {`Cada carrera genera puntos acumulativos,`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`primer lugar (1° lugar) :5 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`segundo lugar (2° lugar) :3 puntos`}
         </Text>
-        <Text style={{wordWrap:'true', textAlign:'center', fontSize:11, fontWeight:'600'}}>
+        <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`tercer lugar (3° Lugar) :1 punto`}
         </Text>
       </View>

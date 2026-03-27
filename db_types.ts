@@ -373,7 +373,7 @@ export type Database = {
       disponibilidad: { Args: { user_id: string }; Returns: number }
       hello_name: { Args: { name_param: string }; Returns: string }
       restar_de_billetera: {
-        Args: { monto: number; user_id: string }
+        Args: { monto: number; usuario: string }
         Returns: undefined
       }
       sumar_a_billetera: {

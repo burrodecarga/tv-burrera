@@ -43,7 +43,7 @@ export default function TabTwoScreen() {
     setProcesar(false)
     setInfo('')
     if (seleccion1 === true && seleccion2 === true) {
-      console.log('CIERTO')
+      //console.log('CIERTO')
       setVerBoton(prev => true)
     } else {
       setInfo('')
@@ -66,7 +66,7 @@ export default function TabTwoScreen() {
     setProcesar(false)
     setInfo('')
     if (seleccion1 === true && seleccion2 === true) {
-      console.log('CIERTO')
+      //console.log('CIERTO')
       setVerBoton(prev => true)
     } else {
       setInfo('')
@@ -79,7 +79,7 @@ export default function TabTwoScreen() {
     //console.log('F',f,'tasa',tasa,'FICHAS',fichas,'TASA',tasa)
 
     const total = f * tasa
-    setMonto(prev=>total)
+    setMonto(prev => total)
     setProcesar(true)
     const texto = 'Enviar Evidencia para Recargar :' + total + ' ' + moneda + ', ' + fichas + ' fichas'
     setInfo(texto)
@@ -113,7 +113,7 @@ export default function TabTwoScreen() {
     )
   }
 
-  console.log('PLATAFORMA', plataforma, 'SELECCION1', seleccion1, 'SELECCION2', seleccion2, 'VERBOTON', verBoton)
+  //console.log('PLATAFORMA', plataforma, 'SELECCION1', seleccion1, 'SELECCION2', seleccion2, 'VERBOTON', verBoton)
 
   return (
     <ParallaxScrollView
@@ -124,23 +124,23 @@ export default function TabTwoScreen() {
       }>
       <ThemedView style={[styles.titleContainer]}>
       </ThemedView>
-        <Text
-          style={{
-            fontFamily: Fonts.rounded,
-            fontSize: 12, textAlign: 'center',
-            margin:0,
-            fontWeight:'bold'
-          }}>
-          Recargar Fichas
-        </Text>
+      <Text
+        style={{
+          fontFamily: Fonts.rounded,
+          fontSize: 12, textAlign: 'center',
+          margin: 0,
+          fontWeight: 'bold'
+        }}>
+        Recargar Fichas
+      </Text>
       <View style={{ flex: 1, borderWidth: 1, borderRadius: 8, }}>
         <Picker
-        
+
           selectedValue={fichas}
           onValueChange={(itemValue, itemIndex) =>
             handleSelectFichas(itemValue, itemIndex)
           }>
-          <Picker.Item label="Seleccionar cantidad de Fichas" value={0}   style={{fontSize:13}} />
+          <Picker.Item label="Seleccionar cantidad de Fichas" value={0} style={{ fontSize: 13 }} />
           <Picker.Item label="1 ficha" value={1} />
           <Picker.Item label="2 fichas" value={2} />
           <Picker.Item label="3 fichas" value={3} />
@@ -159,27 +159,27 @@ export default function TabTwoScreen() {
         <Picker
           selectedValue={plataforma}
           onValueChange={(itemValue, itemIndex) => handleSelectPlataforma(itemValue, itemIndex)}>
-          <Picker.Item label="Seleccionar forma de pago" value={0} style={{fontSize:13}} />
+          <Picker.Item label="Seleccionar forma de pago" value={0} style={{ fontSize: 13 }} />
           {
-            plataformas && plataformas.map(p => <Picker.Item label={p.plataforma + ' ' + p.moneda + ' tasa: ' + p.tasa as string} value={p} style={{fontSize:14}} />)
+            plataformas && plataformas.map(p => <Picker.Item label={p.plataforma + ' ' + p.moneda + ' tasa: ' + p.tasa as string} value={p} style={{ fontSize: 14 }} />)
           }
         </Picker>
       </View>
 
-      <View style={{ flexDirection:'row', justifyContent:'space-between',borderWidth:1,borderRadius:8, padding:4, display: (seleccion1 === true && seleccion2 === true) ? 'flex' : 'none' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderWidth: 1, borderRadius: 8, padding: 4, display: (seleccion1 === true && seleccion2 === true) ? 'flex' : 'none' }}>
         <TouchableOpacity disabled={verBoton} onPress={() => calcularMonto(tasa, fichas)} style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, borderColor: '#fff', borderWidth: 1, }}>
           <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>Calcular</Text>
         </TouchableOpacity>
-        <View style={{flexDirection:'column', gap:0}}>
-        <Text style={{ color: '#0751da', fontSize: 12, textAlign: 'center', marginVertical: 0 }}>{moneda}   </Text>
-        <Text style={{ color: '#0751da', fontSize: 12, textAlign: 'center', marginVertical: 0 }}>Total: {monto}   </Text>
+        <View style={{ flexDirection: 'column', gap: 0 }}>
+          <Text style={{ color: '#0751da', fontSize: 12, textAlign: 'center', marginVertical: 0 }}>{moneda}   </Text>
+          <Text style={{ color: '#0751da', fontSize: 12, textAlign: 'center', marginVertical: 0 }}>Total: {monto}   </Text>
 
         </View>
       </View>
-            <Text style={{textAlign:'center',fontSize:10}}>{info.length > 0 && info}</Text>
+      <Text style={{ textAlign: 'center', fontSize: 10 }}>{info.length > 0 && info}</Text>
 
 
-      <View style={{ backgroundColor: '#fff', flex: 1, justifyContent: 'center',display: (seleccion1 === true && seleccion2 === true) ? 'flex' : 'none' }}>
+      <View style={{ backgroundColor: '#fff', flex: 1, justifyContent: 'center', display: (seleccion1 === true && seleccion2 === true) ? 'flex' : 'none' }}>
         {procesar && <RecargaForm onSubmit={handleSubmit} content={info} />}
       </View>
     </ParallaxScrollView>

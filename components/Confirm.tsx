@@ -24,12 +24,12 @@ const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCa
                     buttonText: buttonText,
                     confirmText: 'Cancelar',
                     callback: () => {
-                        alert('Okey Callback && hidden');
+                      //  alert('Okey Callback && hidden');
                         onOk()
                         Popup.hide();
                     },
                     cancelCallback: () => {
-                        alert('Cancel Callback && hidden');
+                     //   alert('Cancel Callback && hidden');
                         onCancel()
                         Popup.hide();
                     },

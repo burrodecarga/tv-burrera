@@ -4,7 +4,9 @@ import { Session } from "@supabase/supabase-js";
 import { router } from "expo-router";
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -18,11 +20,17 @@ export interface UserInfo {
   profile: Profile | null;
   loading?: boolean;
   saveProfile?: (updatedProfile: Profile, avatarUpdated: boolean) => void;
+  disponibilidad?:number;
+  actualizar:boolean;
+  setActualizar?:Dispatch<SetStateAction<boolean>>;
+
 }
 
 const UserContext = createContext<UserInfo>({
   session: null,
   profile: null,
+  disponibilidad:0,
+  actualizar:false,
 });
 
 // crear un provider donde vamos a tener la logica para escuchar cambios de la session
@@ -30,15 +38,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userInfo, setUserInfo] = useState<UserInfo>({
     session: null,
     profile: null,
+    disponibilidad:0,
+    actualizar:false,
   });
   const [loading, setLoading] = useState(false);
-
+  const [disponibilidad, setDisponibilidad] = useState(0)
+const [actualizar, setActualizar] = useState(false)
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUserInfo({ ...userInfo, session });
     });
     supabase.auth.onAuthStateChange((_event, session) => {
-      setUserInfo({ session, profile: null });
+      setUserInfo({ session, profile: null, actualizar:false,disponibilidad:0,setActualizar });
       if(session){
         router.replace('/')
       }else{
@@ -60,9 +71,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const getDisponibilidad = async () => {
+    if (!userInfo.session) return;
+    const { data, error } = await supabase
+      .from("billeteras")
+      .select("*")
+      .eq("id_user", userInfo.session.user.id);
+    if (error) {
+      console.log(error);
+      return 0
+    } else {
+      setDisponibilidad(data[0].fichas!);
+    }
+  };
+
+
   useEffect(() => {
     getProfile();
   }, [userInfo.session]);
+
+  useEffect(() => {
+    getDisponibilidad();
+  }, [userInfo.session,actualizar]);
 
   const saveProfile = async (
     updatedProfile: Profile,
@@ -103,14 +133,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         getProfile();
       }
     } catch (error: any) {
-      Alert.alert("Server Error", error.message);
-    }
+      Alert.alert("Server Error", error.message);    }
 
     setLoading(false);
   };
 
+
+
   return (
-    <UserContext.Provider value={{ ...userInfo, loading, saveProfile }}>
+    <UserContext.Provider value={{ ...userInfo, loading, saveProfile, disponibilidad, actualizar,setActualizar }}>
       {children}
     </UserContext.Provider>
   );

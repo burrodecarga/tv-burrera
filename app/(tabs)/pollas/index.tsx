@@ -17,28 +17,32 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PollasScreen() {
 
-  const { height,width }=useWindowDimensions()
+  const { height, width } = useWindowDimensions()
 
   const { profile, loading } = useUserInfo()
   const { pollas, loading: cargando } = usePollas()
-  const [miBilletera,setMiBilletera]=useState()
-  const {setPollaInfo,pollaInfo}=useApuesta()
-
- 
-
-  const storeData = async (value:Polla) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('my-polla', jsonValue);
-  } catch (e) {
-    // saving error
-  }
-};
+  const [miBilletera, setMiBilletera] = useState()
+  const { setPollaInfo, pollaInfo } = useApuesta()
 
 
-  const crearPolla = (value: Polla)=>{
+
+  const storeData = async (value: Polla) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('my-polla', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+
+  const crearPolla = (value: Polla) => {
     storeData(value)
-    router.push('/(tabs)/pollas/bets')
+    //router.push('/(tabs)/pollas/bets')
+    router.push({
+      pathname: '/(tabs)/pollas/bets',
+      params: { idPolla: value.id, precio: value.precio }
+    });
   }
 
 
@@ -59,42 +63,42 @@ export default function PollasScreen() {
   }
 
   const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('my-billetera');
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-  }
-};
+    try {
+      const jsonValue = await AsyncStorage.getItem('my-billetera');
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
 
 
   //console.log('PROFILE',profile)
-  
 
-//console.log(disponibilidad)
+
+  //console.log(disponibilidad)
   return (
-    <SafeAreaView style={{ flex: 1,backgroundColor:'#fff' }}>
-      <View style={{ flex: 1,width:width, }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ flex: 1, width: width, }}>
         <Image
           source={require('@/assets/images/baneer.jpg')}
           style={styles.reactLogo}
           contentFit="cover"
         />
-        <Perfil profile={profile} uri={profile?.avatar_url}  />
+        <Perfil profile={profile} uri={profile?.avatar_url} />
         <Text
           style={{
             fontFamily: Fonts.rounded,
             fontSize: 16,
             fontWeight: 'bold',
             color: '#0e0e0e',
-            textAlign:'center'
+            textAlign: 'center'
           }}>
           Listado de Pollas
         </Text>
-      
+
         <FlatList
-style={{flex:2}}
-showsVerticalScrollIndicator={false}
+          style={{ flex: 2 }}
+          showsVerticalScrollIndicator={false}
           data={pollas}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
@@ -102,7 +106,7 @@ showsVerticalScrollIndicator={false}
               padding: 10, borderRadius: 8,
               borderWidth: 1, borderColor: '#9df3f3',
               backgroundColor: '#9fcdf8', width: '100%',
-              marginVertical:10
+              marginVertical: 10
             }}>
               <Text >{item.polla}</Text>
               <Text >Fecha:{item.fecha ? getFecha(item.fecha.toString()) : 'xx/xx/xxxx'}</Text>
@@ -123,16 +127,16 @@ showsVerticalScrollIndicator={false}
 
           )}
         />
-     
-      <TouchableOpacity
-                onPress={() => router.push('/')}
-                style={{
-                  marginTop: 10, backgroundColor: '#2f60e9', padding: 10,
-                  borderRadius: 8, alignItems: 'center',
-                  marginHorizontal:20,marginBottom:20
-                }}>
-                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Home</Text>
-              </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => router.push('/')}
+          style={{
+            marginTop: 10, backgroundColor: '#2f60e9', padding: 10,
+            borderRadius: 8, alignItems: 'center',
+            marginHorizontal: 20, marginBottom: 20
+          }}>
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>Home</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
 
@@ -153,7 +157,7 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 178,
     width: 420,
-    marginBottom:10
+    marginBottom: 10
   },
 
 });
