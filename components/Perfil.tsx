@@ -47,9 +47,9 @@ const Perfil = ({ profile, uri, size=60, disponibilidad=0, actualizar=true }: Pr
           <Avatar uri={avatarUrl} size={size} />
         </View>
         <View style={{flex:1}}>
-          <Text style={{ textTransform: 'uppercase', fontSize: 13, textAlign: 'center', fontWeight: '500', }} >{profile?.full_name}.</Text>
+          <Text adjustsFontSizeToFit numberOfLines={1} style={{ textTransform: 'uppercase', fontSize: 13, textAlign: 'center', fontWeight: '500', }} >{profile?.full_name}.</Text>
           <Text style={{ fontSize: 11, textAlign: 'center', marginVertical: 0, paddingVertical: 0, }} >{profile?.username}.</Text>
-                 <Text style={{ fontSize: 11, textAlign: 'center', marginVertical: 0, paddingVertical: 0, }} >Fichas Disponibles : {billetera?.fichas}.</Text>
+                 <Text adjustsFontSizeToFit numberOfLines={1} style={{ fontSize: 11, textAlign: 'center', marginVertical: 0, paddingVertical: 0, }} >Fichas Disponibles : {billetera?.fichas}.</Text>
 
         </View>
         <TouchableOpacity onPress={()=>supabase.auth.signOut()} style={{marginHorizontal:10}}>

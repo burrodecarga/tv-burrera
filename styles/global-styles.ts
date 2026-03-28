@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native';
 export const globalStyles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: Colors.background,
   },
 
   calculatorContainer: {
@@ -16,7 +15,7 @@ export const globalStyles = StyleSheet.create({
     flex: 3/7,
     justifyContent: 'flex-end',
     paddingBottom: 10,
-    borderColor: Colors.darkGray,
+    borderColor: Colors.red,
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 20,

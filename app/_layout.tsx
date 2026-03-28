@@ -7,6 +7,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
+import Toast from 'react-native-toast-message';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -34,6 +35,7 @@ export default function RootLayout() {
           </GestureHandlerRootView>    
       </PollasProvider>
     </AuthProvider>
+    <Toast/>
     </PopupRootProvider>
   );
 }

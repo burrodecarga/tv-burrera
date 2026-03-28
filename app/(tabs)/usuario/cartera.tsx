@@ -1,20 +1,29 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import Perfil from '@/components/Perfil';
-import { ThemedText } from '@/components/themed-text';
-import { Collapsible } from '@/components/ui/collapsible';
+import RecargaCard from '@/components/RecargaCard';
+import RecargaCardImage from '@/components/RecargaCardImage';
+import { useThemeColor } from '@/hooks/use-theme-color';
 import { useUserInfo } from '@/hooks/userContext';
 import { fetchBilleteras, TypeFectchBilletera } from '@/lib/api';
 import { Image } from 'expo-image';
-import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabTwoScreen() {
+  const color = useThemeColor({}, 'tint')
   const [billetera, setBilletera] = useState<TypeFectchBilletera>()
-
   const { profile, session, loading, saveProfile } = useUserInfo()
+  const { height, width } = useWindowDimensions()
+  const [recargar, setRecargar] = useState(false)
+
+
+  const ancho = width * 0.7
+  const alto = ancho * 0.57
+  const pos = 10
+  const icono = recargar ? 'cloud-download-outline' : 'cloud-upload-outline'
+  const titulo = !recargar ? 'Acción : Recargar Cartera' : 'Acción Retirar'
 
 
 
@@ -38,42 +47,45 @@ export default function TabTwoScreen() {
 
   //console.log(billetera)
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/dinero.jpg')}
-          style={styles.reactLogo}
-          contentFit="cover"
-        />
-      }>
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ParallaxScrollView
+          headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+          headerImage={
+            <Image
+              source={require('@/assets/images/dinero.jpg')}
+              style={styles.reactLogo}
+              contentFit="cover"
+            />
+          }>
 
-     <Perfil profile={profile} size={130} uri={profile?.avatar_url}/>
+          <Perfil profile={profile} size={130} uri={profile?.avatar_url} />
+          <View style={{alignItems:'center', justifyContent:'center',marginHorizontal:20}}>
+              <TouchableOpacity onPress={() => setRecargar(!recargar)} style={{backgroundColor:color, paddingVertical:6, paddingHorizontal:20, borderRadius:8, width:'100%', }}>
+                <Text style={{color:'#fff', textAlign:'center'}}>{titulo}</Text>
+              </TouchableOpacity>
+          </View>
 
-      <Collapsible title="Disponibilidad">
-        <ThemedText>
-          <ThemedText type="defaultSemiBold">{billetera ? billetera.fichas : 0} </ThemedText>
-          <ThemedText type="defaultSemiBold" style={{ fontSize: 10 }}>Unidades de Apuesta</ThemedText>
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Perfil de Usuario">
-        <TouchableOpacity style={{borderWidth:1, borderRadius:8,padding:10}} onPress={()=>router.replace('/(tabs)/usuario/user')}><Text style={{textAlign:'center'}}>Modificar Perfil de Usuario</Text></TouchableOpacity>
-      </Collapsible>
-    </ParallaxScrollView>
+          {/* <RecargaCardImage /> */}
+          <View style={{ display: recargar ? 'flex' : 'none' }}>
+            <RecargaCardImage />
+          </View>
+          <View style={{ display: recargar ? 'none' : 'flex', margin: 'auto', }}>
+            <RecargaCard alto={alto} ancho={ancho} />
+          </View>
+
+
+        </ParallaxScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#b45050',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+
   reactLogo: {
     height: 178,
     width: 420,
@@ -81,4 +93,6 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+
 });
+

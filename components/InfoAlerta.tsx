@@ -11,7 +11,7 @@ type AlertProps={
     buttonText:string
    
 }
-const Alert = ({titulo,textBody,buttonText,color='#fff',boton='Ok'}:AlertProps) => {
+const InfoAlerta = ({titulo,textBody,buttonText,color='#fff',boton='Ok'}:AlertProps) => {
   return (
     <TouchableOpacity
         onPress={() =>
@@ -29,4 +29,4 @@ const Alert = ({titulo,textBody,buttonText,color='#fff',boton='Ok'}:AlertProps) 
   )
 }
 
-export default Alert
+export default InfoAlerta

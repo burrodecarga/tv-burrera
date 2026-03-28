@@ -15,8 +15,6 @@ interface Props {
   doubleSize?: boolean;
   onPress: () => void;
   checked?: boolean;
-  
- 
 }
 
 const CaballoButton22 = ({
@@ -30,6 +28,7 @@ const CaballoButton22 = ({
 }: Props) => {
 
  const [isChecked, setChecked] = useState(false);
+ const numeros =['2','4','15','25']
  
   return (
    
@@ -56,7 +55,7 @@ const CaballoButton22 = ({
 
        <MaterialIcons name={checked ? "check-box" : "check-box-outline-blank"} size={20} 
        color={checked ? "#fff" : color} />
-        <Text style={[styles.paragraph, { backgroundColor: color }]}>{label}</Text>
+        <Text style={[styles.paragraph, { backgroundColor: color, color:numeros.includes(label)? '#b9a42b':'white' }]}>{label}</Text>
         </View>
       </Pressable>
    

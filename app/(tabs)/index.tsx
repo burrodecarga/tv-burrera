@@ -5,11 +5,10 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import Perfil from '@/components/Perfil';
 import ThemedButton from '@/components/ThemedButton';
 import { useUserInfo } from '@/hooks/userContext';
-import { fetchBilleteras, TypeFectchBilletera } from '@/lib/api';
+import { TypeFectchBilletera } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { Billetera } from '@/lib/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UserInfo = {
@@ -21,28 +20,7 @@ export default function HomeScreen() {
   const { session, loading, profile } = useUserInfo()
   const [billetera, setBilletera] = useState<TypeFectchBilletera | undefined>()
 
-  const storeData = async (value: any) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('my-billetera', jsonValue);
-    } catch (e) {
-      // saving error
-    }
-  };
-
-
-
-  useEffect(() => {
-    if (!session) return
-    const getDisponibilidad = async () => {
-
-      const res = await fetchBilleteras(session.user.id)
-      if (res) setBilletera(res[0])
-
-    }
-    getDisponibilidad()
-  }, [session, billetera])
-
+  
   if (loading) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -127,6 +105,16 @@ export default function HomeScreen() {
         </Text>
         <Text style={{ wordWrap: 'true', textAlign: 'center', fontSize: 11, fontWeight: '600' }}>
           {`tercer lugar (3° Lugar) :1 punto`}
+        </Text>
+      </View>
+      <View>
+        <Text>
+          El ganador es quien tenga la mayor puntuación repartiendo el premio disponible, en caso de empate su distribución será válida entre los usuarios que estén ubicados en el 1er.Lugar.
+De haber empate en el primer lugar se repartira el premio total acumulado y se divide entre los que acertaron mas puntos. (En este caso no se premiaria el segundo lugar)
+El segundo lugar es quien tenga la segunda puntuación mayor repartiendo el premio disponible, en caso de empate su distribución será válida entre los usuarios que estén ubicados en el 2do.Lugar.
+Las Pollas tienen una hora tope de jugada, después de la hora de cierre no será válida la jugada.
+Una vez efectuada sus combinaciones no se hace reintegro de saldos ni mucho menos se anulan las jugadas.
+Cuando un Caballo esté retirado y está en sus combinaciones se tomará el número siguiente, si el número siguiente igualmente está retirado se tomará el siguiente y así sucesivamente hasta llegar a un ejemplar activo.
         </Text>
       </View>
       <ThemedButton onPress={() => supabase.auth.signOut()} >Salir</ThemedButton>

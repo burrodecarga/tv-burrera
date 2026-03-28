@@ -33,3 +33,5 @@ export const BANDERAS =['#fff',
 '#94c0cc','#142d47','#145327','#575c80','#ef4caa',
 '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff'
 ]
+
+export const PUNTOS=[0,5,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]

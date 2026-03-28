@@ -30,6 +30,7 @@ export type Database = {
           id: string
           id_polla: string | null
           id_user: string | null
+          polla: string | null
           puntos: number | null
           puntos_1: number | null
           puntos_2: number | null
@@ -53,6 +54,7 @@ export type Database = {
           id?: string
           id_polla?: string | null
           id_user?: string | null
+          polla?: string | null
           puntos?: number | null
           puntos_1?: number | null
           puntos_2?: number | null
@@ -76,6 +78,7 @@ export type Database = {
           id?: string
           id_polla?: string | null
           id_user?: string | null
+          polla?: string | null
           puntos?: number | null
           puntos_1?: number | null
           puntos_2?: number | null
@@ -123,8 +126,9 @@ export type Database = {
           competidores: number | null
           created_at: string
           ganador: number | null
+          hipodromo: string | null
           hora: string | null
-          id: number
+          id: string
           polla_id: string | null
           segundo: number | null
           tercero: number | null
@@ -133,8 +137,9 @@ export type Database = {
           competidores?: number | null
           created_at?: string
           ganador?: number | null
+          hipodromo?: string | null
           hora?: string | null
-          id?: number
+          id?: string
           polla_id?: string | null
           segundo?: number | null
           tercero?: number | null
@@ -143,8 +148,9 @@ export type Database = {
           competidores?: number | null
           created_at?: string
           ganador?: number | null
+          hipodromo?: string | null
           hora?: string | null
-          id?: number
+          id?: string
           polla_id?: string | null
           segundo?: number | null
           tercero?: number | null
@@ -287,6 +293,41 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      resultados: {
+        Row: {
+          caballo: number | null
+          carrera_id: string | null
+          created_at: string
+          id: string
+          posicion: number | null
+          puntos: number | null
+        }
+        Insert: {
+          caballo?: number | null
+          carrera_id?: string | null
+          created_at?: string
+          id?: string
+          posicion?: number | null
+          puntos?: number | null
+        }
+        Update: {
+          caballo?: number | null
+          carrera_id?: string | null
+          created_at?: string
+          id?: string
+          posicion?: number | null
+          puntos?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resultados_carrera_id_fkey"
+            columns: ["carrera_id"]
+            isOneToOne: false
+            referencedRelation: "carreras"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tasas: {
         Row: {

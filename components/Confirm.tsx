@@ -1,11 +1,13 @@
+import { Feather } from '@expo/vector-icons';
 import { Popup } from '@sekizlipenguen/react-native-popup-confirm-toast';
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 
 type ConfirmProps={
     boton?:string
     color?: string
+    size?:number
     titulo:string
     textBody:string|undefined
     buttonText:string
@@ -13,9 +15,10 @@ type ConfirmProps={
     onOk:()=>void
     
 }
-const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCancel,onOk}:ConfirmProps) => {
+const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCancel,onOk,size=40}:ConfirmProps) => {
   return (
         <TouchableOpacity
+         style={{justifyContent:'center', alignItems:'center',  }}
             onPress={() =>
                 Popup.show({
                     type: 'confirm',
@@ -36,7 +39,8 @@ const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCa
                 })
             }
         >
-            <Text style={{padding:6, justifyContent:'center', alignItems:'center', textAlign:'center', backgroundColor:'#269405', margin:'auto', borderRadius:8, width:'100%',color:color}}>{boton}</Text>
+            <Feather name="check-circle" size={size} color={color} />
+            {/* <Text style={{fontSize:10, justifyContent:'center', alignItems:'center', textAlign:'center',  margin:'auto', borderRadius:8,  color:color}}>{boton}</Text> */}
         </TouchableOpacity>
   )
 }
