@@ -33,6 +33,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="horse-variant-fast" size={24} color={color} />,
         }}
       />
+       <Tabs.Screen
+        name="resultados"
+        options={{
+          title: 'Resultados',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="printer-pos-check-outline" size={24} color={color} />,
+        }}
+      />   
       <Tabs.Screen
         name="usuario"
         options={{

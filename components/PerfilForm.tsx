@@ -113,7 +113,7 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
             <KeyboardAvoidingView
                 behavior={Platform.OS==="ios"? "padding":"height"}
                 style={styles.container}
-            >
+            ><Text style={{ color: "#000",textAlign:'center', fontSize:10 }}>Pulse la imagen para cambiarla</Text>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <ThemedView style={styles.inner}>
                         <ThemedView style={styles.input}>
@@ -164,8 +164,8 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
 
                         <ThemedView style={[styles.input]}>
                             <Button
-                                title="Ir a Home"
-                                onPress={() => router.push('/')}
+                                title="Regresar"
+                                onPress={() => router.push('/(tabs)/usuario')}
                                 disabled={loading}
                                 style={{backgroundColor:'#df1a1a'}}
                             />
@@ -179,6 +179,7 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
 const styles=StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
     },
     inner: {
         padding: 16,

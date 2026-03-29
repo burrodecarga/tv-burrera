@@ -6,10 +6,7 @@ const PollasLayout = () => {
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name='index' />
             <Stack.Screen name='user' />
-            <Stack.Screen name='recarga' />
             <Stack.Screen name='cartera' />
-
-
         </Stack>
     )
 }

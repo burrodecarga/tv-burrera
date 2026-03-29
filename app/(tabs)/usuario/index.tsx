@@ -35,7 +35,7 @@ const UsuarioScreen = () => {
   <Entypo name="price-ribbon" size={18} color={color} />
   <FontAwesome6 name="users-rectangle" size={18} color={color} />
 </TouchableOpacity>
-<TouchableOpacity>
+<TouchableOpacity onPress={()=>router.push('/(tabs)/usuario/user')}>
   <Ionicons name="settings-outline" size={44} color={color} />
 </TouchableOpacity>
 
