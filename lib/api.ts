@@ -1,3 +1,4 @@
+import { Database } from "@/db_types"
 import { supabase } from "./supabase"
 import { Apuesta } from "./types"
 
@@ -156,3 +157,20 @@ export const fetchApuestasById=async (userId: string) => {
 export type ApuestasById=Awaited<ReturnType<typeof fetchApuestasById>>
 export type ApuestaById=ApuestasById[number]
 
+
+export const addTransaccion=async (transaccion: Database['public']['Tables']['transacciones']['Insert']) => {
+const { data, error } = await supabase
+  .from('transacciones')
+  .insert([
+    transaccion
+  ])
+  .select()
+
+  if (error) {
+    console.log("error", error)
+    return []
+  } else {
+    return data
+  }
+
+}

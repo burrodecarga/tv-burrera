@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, use
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import Perfil from '@/components/Perfil';
 import RecargaCard from '@/components/RecargaCard';
-import RecargaCardImage from '@/components/RecargaCardImage';
+import ReiraCard from '@/components/RetiraCard';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { useUserInfo } from '@/hooks/userContext';
 import { fetchBilleteras, TypeFectchBilletera } from '@/lib/api';
@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function TabTwoScreen() {
   const color = useThemeColor({}, 'tint')
   const [billetera, setBilletera] = useState<TypeFectchBilletera>()
-  const { profile, session, loading, saveProfile } = useUserInfo()
+  const { profile, session, loading, saveProfile,disponibilidad } = useUserInfo()
   const { height, width } = useWindowDimensions()
   const [recargar, setRecargar] = useState(false)
 
@@ -23,7 +23,7 @@ export default function TabTwoScreen() {
   const alto = ancho * 0.57
   const pos = 10
   const icono = recargar ? 'cloud-download-outline' : 'cloud-upload-outline'
-  const titulo = !recargar ? 'Acción : Recargar Cartera' : 'Acción Retirar'
+  const titulo = !recargar ? 'Acción : Pulse si desea RETIRAR DE CARTERA' : 'Pulse si desea RECARGAR CARTERA'
 
 
 
@@ -45,7 +45,7 @@ export default function TabTwoScreen() {
     getDisponibilidad()
   }, [])
 
-  //console.log(billetera)
+  console.log(billetera)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
@@ -70,15 +70,14 @@ export default function TabTwoScreen() {
           </View>
 
           {/* <RecargaCardImage /> */}
-          <View style={{ display: recargar ? 'flex' : 'none' }}>
-            <RecargaCardImage />
+          <View style={{ display: recargar ? 'flex' : 'none',flex:1 }}>
+            <ReiraCard disponibilidad={disponibilidad}  userId={session?.user.id!} profile={profile!} billetera={billetera!}/>
           </View>
           <View style={{ display: recargar ? 'none' : 'flex', margin: 'auto', }}>
-            <RecargaCard alto={alto} ancho={ancho} />
+            {billetera&&<RecargaCard alto={alto} ancho={ancho} billetera={billetera!}  />}
           </View>
-
-
         </ParallaxScrollView>
+          <View style={{ height: 5, backgroundColor:'#fff' }} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

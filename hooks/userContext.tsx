@@ -21,6 +21,7 @@ export interface UserInfo {
   loading?: boolean;
   saveProfile?: (updatedProfile: Profile, avatarUpdated: boolean) => void;
   disponibilidad?:number;
+  billetera?:string|null;
   actualizar:boolean;
   setActualizar?:Dispatch<SetStateAction<boolean>>;
 
@@ -30,6 +31,7 @@ const UserContext = createContext<UserInfo>({
   session: null,
   profile: null,
   disponibilidad:0,
+  billetera:null,
   actualizar:false,
 });
 
@@ -39,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session: null,
     profile: null,
     disponibilidad:0,
+    billetera:null,
     actualizar:false,
   });
   const [loading, setLoading] = useState(false);
