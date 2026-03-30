@@ -132,6 +132,7 @@ export default function PollasScreen() {
             </ThemedView>
 
           )}
+          ListFooterComponent={<View style={{ justifyContent:'center', alignItems: 'center' }} ><Text>No hay registro de Apuestas</Text></View>}
         />
 
         <TouchableOpacity

@@ -22,7 +22,7 @@ const CarreraButton22 = ({ carrera, selected =0,num_caballos,onSeleccion}: Props
       <ScrollView style={{backgroundColor:'#979090', borderWidth:0}} horizontal showsHorizontalScrollIndicator={false}>
         {Caballos.slice(0,num_caballos).map((caballo, index) => (
           <CaballoButton22 key={index} label={String(caballo)} onPress={() =>onSeleccion(carrera, caballo)} 
-           color={selected === caballo ? '#031804' : BANDERAS[index+1]} 
+           color={selected === caballo ? BANDERAS[index+1] : BANDERAS[index+1]} 
             checked={selected === caballo ? true : false} 
           
            />

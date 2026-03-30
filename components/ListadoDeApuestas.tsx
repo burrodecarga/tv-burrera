@@ -56,8 +56,11 @@ const ListadoDeApuestas = ({profile}:ProfileProps) => {
       data={apuestas}
       keyExtractor={item=>item.id}
       renderItem={({item})=><CardApuesta apuesta={item}/>}
+        ListEmptyComponent={() => (<View style={{ justifyContent:'center', alignItems: 'center' }} >
+          <Text>No hay registro de Apuestas</Text>
+    </View>)}
       />
-    </View>
+      </View>
   )
 }
 

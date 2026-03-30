@@ -34,7 +34,7 @@ export default function TabLayout() {
         }}
       />
        <Tabs.Screen
-        name="resultados"
+        name="puntos"
         options={{
           title: 'Resultados',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="printer-pos-check-outline" size={24} color={color} />,
