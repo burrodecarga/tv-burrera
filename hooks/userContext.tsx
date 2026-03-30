@@ -84,7 +84,8 @@ const [actualizar, setActualizar] = useState(false)
       console.log(error);
       return 0
     } else {
-      setDisponibilidad(data[0].fichas!);
+      if(data[0]){
+      setDisponibilidad(data[0].fichas!);}
     }
   };
 

@@ -174,3 +174,18 @@ const { data, error } = await supabase
   }
 
 }
+
+export const darDeBaja=async (userId:string) => {
+  console.log(userId)
+const { error } = await supabase
+  .from('profiles')
+  .delete()
+  .eq('id', userId)
+if (error) {
+    console.log("error", error)
+    return error
+  } else {
+    return 'ok'
+  }
+
+}

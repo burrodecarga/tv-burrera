@@ -13,7 +13,7 @@ const LoginScreen=() => {
     const { height,width }=useWindowDimensions()
     const [loading, setLoading]=useState(false)
     const [form, setForm]=useState({
-        email: 'ed@gmail.com',
+        email: 'user3@gmail.com',
         password: '12345678'
     })
 

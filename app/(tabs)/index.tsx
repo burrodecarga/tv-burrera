@@ -5,10 +5,8 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import Perfil from '@/components/Perfil';
 import ThemedButton from '@/components/ThemedButton';
 import { useUserInfo } from '@/hooks/userContext';
-import { TypeFectchBilletera } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { Billetera } from '@/lib/types';
-import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UserInfo = {
@@ -17,8 +15,7 @@ export type UserInfo = {
 
 export default function HomeScreen() {
 
-  const { session, loading, profile } = useUserInfo()
-  const [billetera, setBilletera] = useState<TypeFectchBilletera | undefined>()
+  const { session, loading, profile,disponibilidad } = useUserInfo()
 
   
   if (loading) {
@@ -28,7 +25,6 @@ export default function HomeScreen() {
       </SafeAreaView>
     )
   }
-  //console.log('Billeteras',billetera)
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -39,7 +35,7 @@ export default function HomeScreen() {
           contentFit="cover"
         />
       }>
-      <Perfil profile={profile} uri={profile?.avatar_url} disponibilidad={billetera ? billetera.fichas! : 0} />
+      <Perfil profile={profile} uri={profile?.avatar_url} disponibilidad={disponibilidad ? disponibilidad : 0} loading={loading} />
       <View style={styles.titleContainer}>
         <Text style={{ fontSize: 12, fontWeight: '600' }}>Bienvenido a Pollas TvBurrera!</Text>
       </View>

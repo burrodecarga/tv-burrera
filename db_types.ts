@@ -411,6 +411,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      darse_de_baja: { Args: { user_id: string }; Returns: undefined }
+      delete_own_user: { Args: never; Returns: undefined }
+      delete_user: { Args: { id: string }; Returns: undefined }
       disponibilidad: { Args: { user_id: string }; Returns: number }
       hello_name: { Args: { name_param: string }; Returns: string }
       restar_de_billetera: {

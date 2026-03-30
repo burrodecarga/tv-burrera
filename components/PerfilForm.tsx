@@ -22,6 +22,8 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
     const [avatarUrl, setAvatarUrl]=useState("")
     const [avatarUpdated, setAvatarUpdated]=useState(false)
     const [form, setForm]=useState<Profile>(profile)
+
+    const userId=profile?.id
    
 
     const handlePickImage=async () => {
@@ -107,7 +109,17 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
         }
     }, [form])
 
-
+const irse = async ()=>{
+await supabase.rpc('delete_own_user').then(({ data, error }) => {
+    if (error) {
+        console.log('Error al darse de baja:', error);
+        Alert.alert('Error', 'No se pudo completar la acción. Inténtalo de nuevo.');
+    } else {
+        console.log('Usuario dado de baja:', data);
+        Alert.alert('Cuenta eliminada', 'Tu cuenta ha sido eliminada exitosamente.');
+        supabase.auth.signOut()
+    }})
+}
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
@@ -160,15 +172,26 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
                                 onPress={() => handleSubmit()}
                                 disabled={loading}
                             />
-                        </ThemedView>
-
-                        <ThemedView style={[styles.input]}>
+                       
                             <Button
                                 title="Regresar"
                                 onPress={() => router.push('/(tabs)/usuario')}
                                 disabled={loading}
-                                style={{backgroundColor:'#df1a1a'}}
+                                style={{backgroundColor:'#5ca4b1'}}
                             />
+                        </ThemedView>
+                        <ThemedView style={[styles.input,{marginTop:20}]}>
+                            <Button
+                                title="Darse de Baja"
+                                onPress={() => irse()}
+                                disabled={loading}
+                                                                style={{backgroundColor:'#af0e29'}}
+
+                            />
+                            <ThemedView style={styles.texto}>
+                                <Text style={{fontSize:9,wordWrap:'wrap', textAlign:'center', justifyContent:'center',alignItems:'center'}}>Al darse de baja se eliminará toda la información del usuario y no será recuperable</Text>
+                            </ThemedView>
+                           
                         </ThemedView>
                     </ThemedView>
                 </TouchableWithoutFeedback>
@@ -186,12 +209,23 @@ const styles=StyleSheet.create({
         flex: 1,
     },
     input: {
+        flexDirection:'row',
         paddingVertical: 8,
+        gap: 8,
     },
     avatarButton: {
         alignItems: "center",
         marginBottom: 16,
     },
+    texto:{
+        width:'50%',
+        justifyContent:'center',
+        alignItems:'center',
+        paddingHorizontal:10,
+        borderWidth:0.5,
+        borderColor:'#ccc',
+        borderRadius:5,
+    }
 })
 
 
