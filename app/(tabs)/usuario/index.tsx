@@ -5,7 +5,7 @@ import { useUserInfo } from '@/hooks/userContext'
 import { Entypo, FontAwesome6, Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
-import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const UsuarioScreen = () => {
@@ -25,6 +25,9 @@ const UsuarioScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
       <Perfil profile={profile} uri={profile?.avatar_url} size={140} />
+      <View style={{ flex: 1/3, backgroundColor: '#fff', borderWidth:1, margin:10, borderColor:color,   justifyContent:'center', alignItems:'center' }}>
+        <Text style={{ color: color, fontSize: 18, fontWeight: 'bold', margin:0 }}>Mis Apuestas</Text>
+      </View>
       <View style={{ flex: 2, backgroundColor: '#fff' }}>
 
         <ListadoDeApuestas profile={profile} />

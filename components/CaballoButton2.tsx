@@ -54,7 +54,7 @@ const CaballoButton22 = ({
           flexDirection:'row', alignItems:'center', justifyContent:'center',backgroundColor:color, padding:2,}}>
 
        <MaterialIcons name={checked ? "check-box" : "check-box-outline-blank"} size={20} 
-       color={checked ? "#fff" : color} />
+       color={checked ? "#292727" : color} style={{backgroundColor: '#fff', borderWidth:1, borderColor:'#111cb6'}} />
         <Text style={[styles.paragraph, { backgroundColor: color, color:numeros.includes(label)? '#b9a42b':'white' }]}>{label}</Text>
         </View>
       </Pressable>
