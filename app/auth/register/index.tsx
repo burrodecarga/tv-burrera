@@ -53,8 +53,8 @@ const RegisterScreen=() => {
     })
   console.log(error)
     if (error){ Alert.alert(error.message)}else{
- Alert.alert('Crear cuenta', 'Cuenta creada Correctamente')
-    router.push('/')
+ Alert.alert('Crear cuenta', 'Cuenta creada Correctamente, por favor revise su correo para verificar su cuenta')
+    router.push('/auth/login')
     }
 
     //console.log(data)
