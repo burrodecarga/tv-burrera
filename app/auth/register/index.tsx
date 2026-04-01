@@ -16,19 +16,19 @@ import {
   View,
 } from 'react-native'
 
-const RegisterScreen=() => {
-  const { height }=useWindowDimensions()
-  const backgroundColor=useThemeColor({}, 'background')
-  const [loading, setLoading]=useState(false)
-  const [username, setUsername]=useState('')
-  const [email, setEmail]=useState('')
-  const [password, setPassword]=useState('')
+const RegisterScreen = () => {
+  const { height } = useWindowDimensions()
+  const backgroundColor = useThemeColor({}, 'background')
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-    const primary=useThemeColor({}, 'tint')
+  const primary = useThemeColor({}, 'tint')
 
-  const handleSignup=async (credentials: SignUpWithPasswordCredentials) => {
-    
-    if(username===''||username.trim().length===0){
+  const handleSignup = async (credentials: SignUpWithPasswordCredentials) => {
+
+    if (username === '' || username.trim().length === 0) {
       Alert.alert('Crear cuenta', 'Por favor, ingrese un nombre de usuario')
       return
     }
@@ -38,28 +38,28 @@ const RegisterScreen=() => {
       return
     }
 
-    if(credentials.password===''||credentials.password.trim().length===0){
+    if (credentials.password === '' || credentials.password.trim().length === 0) {
       Alert.alert('Crear cuenta', 'Por favor, ingrese una contraseña')
       return
     }
 
-    
+
     setLoading(true)
-    const { email, password, options }=credentials
-    const { error, data }=await supabase.auth.signUp({
+    const { email, password, options } = credentials
+    const { error, data } = await supabase.auth.signUp({
       email,
       password,
       options,
     })
-  console.log(error)
-    if (error){ Alert.alert(error.message)}else{
- Alert.alert('Crear cuenta', 'Cuenta creada Correctamente, por favor revise su correo para verificar su cuenta')
-    router.push('/auth/login')
+    console.log(error)
+    if (error) { Alert.alert(error.message) } else {
+      Alert.alert('Crear cuenta', 'Cuenta creada Correctamente, por favor revise su correo para verificar su cuenta')
+      router.push('/auth/login')
     }
 
     //console.log(data)
     setLoading(false)
-   
+
 
   }
 
@@ -72,7 +72,7 @@ const RegisterScreen=() => {
           backgroundColor: backgroundColor,
         }}
       >
-        <View style={{ paddingTop: height*0.05 }}>
+        <View style={{ paddingTop: height * 0.05 }}>
           <Logo />
 
           <ThemedText type='subtitle' style={{ borderWidth: 1, padding: 10, borderColor: primary, textAlign: 'center', marginBottom: 10, color: primary }}>TvBurrera</ThemedText>
@@ -117,7 +117,7 @@ const RegisterScreen=() => {
         </View>
 
         {/* Spacer */}
-        <View style={{ marginTop: 10 }} />
+        <View style={{ marginTop: 40 }} />
 
         {/* Botón */}
         <ThemedButton icon="reader-outline"
@@ -125,7 +125,7 @@ const RegisterScreen=() => {
         >Crear cuenta</ThemedButton>
 
         {/* Spacer */}
-        <View style={{ marginTop: 10 }} />
+        <View style={{ marginTop: 40 }} />
         <ThemedButton icon="log-in-outline"
           onPress={() => router.replace('/auth/login')}
         >Iniciar Sesión</ThemedButton>

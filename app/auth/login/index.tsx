@@ -63,7 +63,7 @@ const LoginScreen=() => {
                     <ThemedText type='subtitle' 
                     style={{borderRadius:8, borderWidth: 1, padding: 10, borderColor: primary, textAlign: 'center', marginBottom: 10,
                      color: primary }}>TvBurrera</ThemedText>
-                    <ThemedText style={{ color: 'gray' }}>Para continuar, por favor ingrese sus datos</ThemedText>
+                    <ThemedText style={{ color: 'gray', fontSize:12 }}>Para continuar, por favor ingrese sus datos</ThemedText>
                 </View>
                 <View style={{ marginTop: 0 }} />
                 <ThemeTextInput
@@ -83,11 +83,11 @@ const LoginScreen=() => {
                     value={form.password}
                     onChangeText={(value) => setForm({ ...form, password: value })}
                 />
-                <View style={{ marginTop: 10 }} />
+                <View style={{ marginTop: 20 }} />
                 <ThemedButton icon='arrow-forward-outline' onPress={onLogin} disabled={loading} >Ingresar</ThemedButton>
 
-                 <View style={{ marginTop: 10 }} />
-                <ThemedButton icon='recording-outline' onPress={() => router.replace('/auth/register')} disabled={loading} >Registrarse</ThemedButton>
+                 <View style={{ marginTop: 40 }} />
+                <ThemedButton icon='person-add-outline' onPress={() => router.replace('/auth/register')} disabled={loading} >Registrarse</ThemedButton>
 
 
                 <View style={{ marginTop: 10 }} />
