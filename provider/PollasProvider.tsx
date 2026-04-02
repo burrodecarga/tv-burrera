@@ -21,20 +21,21 @@ export default function PollasProvider({ children }: PollasProviderProps) {
     const [polla, setPolla] = React.useState<Polla | null>(null)
 
 
-    useEffect(() => {
-        const response = fetchPollasActivas(1).then((data) => {
-            if (data) {
-                //console.log('pollas',data)
-                setPollas(data)
-            }
-        }).catch((error) => {
-            console.log("error fetching pollas", error)
-        }).finally(() => {
-            setLoading(false)
-        })
+     useEffect(() => {
+         const response = fetchPollasActivas(0).then((data) => {
+             if (data) {
+                 //console.log('pollas',data)
+                 setPollas(data)
+             }
+         }).catch((error) => {
+             console.log("error fetching pollas", error)
+         }).finally(() => {
+             setLoading(false)
+         })
 
-    }, [])
+     }, [])
 
+   
     return (
         <PollasContext.Provider value={{ pollas, loading,polla }}>
             {children}

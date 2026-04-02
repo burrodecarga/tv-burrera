@@ -1,12 +1,13 @@
 import CarreraButton22 from '@/components/carrera-buttons-22';
 import Confirm from '@/components/Confirm';
+import Seleccionados from '@/components/pollas/Seleccionados';
 import { ThemedText } from '@/components/themed-text';
+import { BANDERAS, BG, TEXTO } from '@/constants/Values';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { useApuesta } from '@/hooks/useApuesta';
 import { useUserInfo } from '@/hooks/userContext';
-import { addApuesta } from '@/lib/api';
+import { CarrerasByPollaId } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
-import { Apuesta } from '@/lib/types';
 import { globalStyles } from '@/styles/global-styles';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -22,11 +23,11 @@ export type MiApuesta = {
   carrera_6: number,
   id_polla: string,
   id_user: string,
-  polla:string
+  polla: string
 
 }
 const Bets = () => {
-  const { idPolla, precio,polla } = useLocalSearchParams();
+  const { idPolla, precio, polla, fecha } = useLocalSearchParams();
   const { height, width } = useWindowDimensions()
   const titulo = 'Confirmar Apuesta'
   const textBody = 'Si Confirma se le descontará el costo de sú Billetera'
@@ -37,6 +38,8 @@ const Bets = () => {
   const color = useThemeColor({}, 'tint')
   const [errores, setErrores] = useState<string[]>([])
   const { session, actualizar, setActualizar } = useUserInfo()
+  const [carreras, setCarreras] = useState<CarrerasByPollaId>()
+  const [loading, setLoading] = useState(false)
 
 
 
@@ -76,7 +79,7 @@ const Bets = () => {
     })
 
     if (error) {
-      Alert.alert('Error en servidor: ',error.message)
+      Alert.alert('Error en servidor: ', error.message)
     }
     //console.log('DESCONTANDO',userId,monto)
     setActualizar?.(!actualizar)
@@ -158,10 +161,10 @@ const Bets = () => {
       carrera_6: f,
       id_polla: idPolla as string,
       id_user: session?.user.id!,
-      polla:polla as string
+      polla: polla as string
     }
     descontarDeBilleter()
-    const resultado = await addApuesta(apuesta as Apuesta)
+    //const resultado = await addApuesta(apuesta as Apuesta)
     limpiar()
     ListadoDeApuestas()
     //console.log('APUESTA', resultado,polla)
@@ -170,33 +173,44 @@ const Bets = () => {
   }
 
 
-  const bg = '#979090'
-  const te = '#33f914'
-  const ne = '#000000'
+
+
   return (
 
-    <SafeAreaView style={{ flex: 1, marginVertical: height * 0.08, backgroundColor: bg }}>
-      <View style={{
-        flex: 1, paddingHorizontal: 15,
-        justifyContent: 'center', alignContent: 'center',
-        borderRadius: 8, marginHorizontal: 0, width: '100%'
-      }}>
+
+    <SafeAreaView style={{ flex: 1, marginVertical: height * 0.01, backgroundColor: '#fff', justifyContent:'space-between' }}>
+      <View style={{ flex: 1, marginHorizontal: width * 0.05, backgroundColor: BG, justifyContent: 'center', alignItems: 'center', borderRadius: 8, padding: 10, borderWidth:0.5, borderColor:'#ccc' }}>
         {/* Resultados */}
-        <View><Text style={{textAlign:'center', fontSize:16,fontWeight:'700',color:color, backgroundColor:'#fff', marginBottom:6,padding:6}}>Números Seleccionados</Text></View>
-        <View style={{ flexDirection: 'row',  borderRadius: 8, justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={[styles.cuadro, { backgroundColor: carrera1 === 0 ? bg : ne, color: carrera1 === 0 ? bg : te }]}>{carrera1}</Text>
-          <Text style={[styles.cuadro, { backgroundColor: carrera2 === 0 ? bg : ne, color: carrera2 === 0 ? bg : te }]}>{carrera2}</Text>
-          <Text style={[styles.cuadro, { backgroundColor: carrera3 === 0 ? bg : ne, color: carrera3 === 0 ? bg : te }]}>{carrera3}</Text>
-          <Text style={[styles.cuadro, { backgroundColor: carrera4 === 0 ? bg : ne, color: carrera4 === 0 ? bg : te }]}>{carrera4}</Text>
-          <Text style={[styles.cuadro, { backgroundColor: carrera5 === 0 ? bg : ne, color: carrera5 === 0 ? bg : te }]}>{carrera5}</Text>
-          <Text style={[styles.cuadro, { backgroundColor: carrera6 === 0 ? bg : ne, color: carrera6 === 0 ? bg : te }]}>{carrera6}</Text>
-
-
+       
+         
+            <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '700', color: color, backgroundColor: BG, marginBottom: 1, padding: 1 }}>
+            {polla}
+            </Text>
+         
+          <Text style={{ textAlign: 'center', fontSize: 11, fontWeight: '700', color: color, backgroundColor: BG, marginBottom: 6, padding: 6 }}>Ejemplares Seleccionados
+          </Text>
+        
+        <View style={{ flexDirection: 'row', borderRadius: 8, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Seleccionados carrera={'1ra'} caballo={carrera1} />
+          <Seleccionados carrera={'2da'} caballo={carrera2} />
+          <Seleccionados carrera={'3ra'} caballo={carrera3} />
+          <Seleccionados carrera={'4ta'} caballo={carrera4} />
+          <Seleccionados carrera={'5ta'} caballo={carrera5} />
+          <Seleccionados carrera={'6ta'} caballo={carrera6} />
+        </View>
+        <View style={{ flexDirection: 'row', borderRadius: 8, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera1 === 0 ? BG : BANDERAS[carrera1], color: carrera1 === 0 ? BG : TEXTO[carrera1] }]}>{carrera1}</Text>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera2 === 0 ? BG : BANDERAS[carrera2], color: carrera2 === 0 ? BG : TEXTO[carrera1] }]}>{carrera2}</Text>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera3 === 0 ? BG : BANDERAS[carrera3], color: carrera3 === 0 ? BG : TEXTO[carrera1] }]}>{carrera3}</Text>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera4 === 0 ? BG : BANDERAS[carrera4], color: carrera4 === 0 ? BG : TEXTO[carrera1] }]}>{carrera4}</Text>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera5 === 0 ? BG : BANDERAS[carrera5], color: carrera5 === 0 ? BG : TEXTO[carrera1] }]}>{carrera5}</Text>
+          <Text style={[styles.cuadro1, { backgroundColor: carrera6 === 0 ? BG : BANDERAS[carrera6], color: carrera6 === 0 ? BG : TEXTO[carrera1] }]}>{carrera6}</Text>
         </View>
         {/* Filas de botones */}
 
-        <View style={[globalStyles.carrerasContainer, { flex: 1, width: '100%', marginHorizontal: 0, borderWidth: 0 }]}>
-          <CarreraButton22 onSeleccion={onSeleccion} num_caballos={6} carrera={1} selected={carrera1} />
+        <View style={[globalStyles.carrerasContainer, { flex: 1, width: '100%', marginHorizontal: 0, borderWidth: 0, gap: 10, height: 'auto' }]}>
+
+          <CarreraButton22 onSeleccion={onSeleccion} num_caballos={24} carrera={1} selected={carrera1} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={12} carrera={2} selected={carrera2} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={10} carrera={3} selected={carrera3} />
           <CarreraButton22 onSeleccion={onSeleccion} num_caballos={8} carrera={4} selected={carrera4} />
@@ -208,7 +222,7 @@ const Bets = () => {
           justifyContent: 'space-between', alignContent: 'center', marginTop: 10, borderTopWidth: 1, padding: 10
         }}>
 
-            <Confirm titulo={titulo} textBody={textBody} onOk={apostar} buttonText={buttonText} onCancel={() => { }} />
+          <Confirm titulo={titulo} textBody={textBody} onOk={apostar} buttonText={buttonText} onCancel={() => { }} />
 
           <TouchableOpacity onPress={() => limpiar()} style={[styles.boton, { backgroundColor: '#0b9bbe', width: '26%' }]}>
             <ThemedText style={[globalStyles.buttonText, { fontSize: 9 }]}>Limpiar</ThemedText>
@@ -227,7 +241,11 @@ export default Bets
 
 const styles = StyleSheet.create({
   cuadro: {
-    fontWeight: '600', fontSize: 20, textAlign: 'center', width: 40, height: 40,
+    fontWeight: '600', fontSize: 12, textAlign: 'center', width: 40, height: 40,
+    alignItems: 'center', justifyContent: 'center'
+  },
+  cuadro1: {
+    fontWeight: '600', fontSize: 13, textAlign: 'center', width: 40, height: 40,
     alignItems: 'center', justifyContent: 'center'
   },
   boton: {

@@ -1,7 +1,8 @@
-import { Feather } from '@expo/vector-icons';
+import { globalStyles } from '@/styles/global-styles';
 import { Popup } from '@sekizlipenguen/react-native-popup-confirm-toast';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { ThemedText } from './themed-text';
 
 
 type ConfirmProps={
@@ -18,7 +19,7 @@ type ConfirmProps={
 const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCancel,onOk,size=40}:ConfirmProps) => {
   return (
         <TouchableOpacity
-         style={{justifyContent:'center', alignItems:'center',  }}
+         style={{justifyContent:'center', alignItems:'center', backgroundColor:'#0e5717', borderRadius:8}}
             onPress={() =>
                 Popup.show({
                     type: 'confirm',
@@ -39,8 +40,8 @@ const Confirm = ({boton='Confirmar',color='#fff',titulo,textBody,buttonText,onCa
                 })
             }
         >
-            <Feather name="check-circle" size={size} color={color} />
-            {/* <Text style={{fontSize:10, justifyContent:'center', alignItems:'center', textAlign:'center',  margin:'auto', borderRadius:8,  color:color}}>{boton}</Text> */}
+            {/* <Feather name="check-circle" size={size} color={color} /> */}
+            <ThemedText style={[globalStyles.buttonText, { fontSize: 9, color:color }]}>Apostar</ThemedText>
         </TouchableOpacity>
   )
 }

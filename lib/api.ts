@@ -175,17 +175,14 @@ const { data, error } = await supabase
 
 }
 
-export const darDeBaja=async (userId:string) => {
-  console.log(userId)
-const { error } = await supabase
-  .from('profiles')
-  .delete()
-  .eq('id', userId)
-if (error) {
+export const fechCarrerasByPolla=async (idPolla: string) => {
+  const { data, error }=await supabase.from("carreras").select("*").eq("polla_id", idPolla)
+  if(error){
     console.log("error", error)
-    return error
-  } else {
-    return 'ok'
+    return []
   }
+  return data
 
 }
+
+export type CarrerasByPollaId=Awaited<ReturnType<typeof fechCarrerasByPolla>>
