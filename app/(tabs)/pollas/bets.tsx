@@ -6,8 +6,9 @@ import { BANDERAS, BG, TEXTO } from '@/constants/Values';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { useApuesta } from '@/hooks/useApuesta';
 import { useUserInfo } from '@/hooks/userContext';
-import { CarrerasByPollaId } from '@/lib/api';
+import { addApuesta, CarrerasByPollaId } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
+import { Apuesta } from '@/lib/types';
 import { globalStyles } from '@/styles/global-styles';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -21,8 +22,8 @@ export type MiApuesta = {
   carrera_4: number,
   carrera_5: number,
   carrera_6: number,
-  id_polla: string,
-  id_user: string,
+  polla_id: string,
+  user_id: string,
   polla: string
 
 }
@@ -159,12 +160,12 @@ const Bets = () => {
       carrera_4: d,
       carrera_5: e,
       carrera_6: f,
-      id_polla: idPolla as string,
-      id_user: session?.user.id!,
+      polla_id: idPolla as string,
+      user_id: session?.user.id!,
       polla: polla as string
     }
     descontarDeBilleter()
-    //const resultado = await addApuesta(apuesta as Apuesta)
+    const resultado = await addApuesta(apuesta as Apuesta)
     limpiar()
     ListadoDeApuestas()
     //console.log('APUESTA', resultado,polla)
@@ -176,8 +177,6 @@ const Bets = () => {
 
 
   return (
-
-
     <SafeAreaView style={{ flex: 1, marginVertical: height * 0.01, backgroundColor: '#fff', justifyContent:'space-between' }}>
       <View style={{ flex: 1, marginHorizontal: width * 0.05, backgroundColor: BG, justifyContent: 'center', alignItems: 'center', borderRadius: 8, padding: 10, borderWidth:0.5, borderColor:'#ccc' }}>
         {/* Resultados */}
