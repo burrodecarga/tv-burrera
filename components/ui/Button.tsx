@@ -38,7 +38,7 @@ export default function Button({
       case 'secondary':
         return {
           container: {
-            backgroundColor: Paleta.background,
+            backgroundColor: Paleta.secondary,
           },
           text: {
             color: '#FFFFFF',

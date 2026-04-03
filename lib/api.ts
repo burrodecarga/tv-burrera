@@ -144,7 +144,7 @@ export const fetchApuestasById=async (userId: string) => {
   const { data, error }=await supabase
     .from("apuestas")
     .select("*")
-    .eq("id_user", userId)
+    .eq("user_id", userId)
   if (error) {
     console.log("error", error) 
     return []

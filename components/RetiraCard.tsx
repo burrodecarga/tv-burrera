@@ -3,14 +3,15 @@ import { useThemeColor } from '@/hooks/use-theme-color'
 import { addTransaccion } from '@/lib/api'
 import { supabase } from '@/lib/supabase'
 import { Billetera, Profile } from '@/lib/types'
-import { Image } from 'expo-image'
+import { Entypo } from '@expo/vector-icons'
 import * as ImagePicker from "expo-image-picker"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ThemeTextInput from './ThemeTextInput'
 import ThemedButton from './ThemedButton'
+import Button from './ui/Button'
 
 
 type CardProps = {
@@ -19,9 +20,11 @@ type CardProps = {
   disponibilidad?:number,
   userId:string,
   profile:Profile
-  billetera:Billetera
+  billetera:Billetera,
+  setActualizar:React.Dispatch<React.SetStateAction<boolean>>,
+  actualizar:boolean
 }
-const RetiraCard = ({ alto = 171, ancho = 300,disponibilidad=0,userId,profile,billetera }: CardProps) => {
+const RetiraCard = ({ alto = 171, ancho = 300,disponibilidad=0,userId,profile,billetera,setActualizar,actualizar }: CardProps) => {
   const [phone, setPhone] = useState('')
   const [monto, setMonto] = useState('')
   const [imagen, setImagen] = useState('')
@@ -47,16 +50,18 @@ const RetiraCard = ({ alto = 171, ancho = 300,disponibilidad=0,userId,profile,bi
         type: 'error',
         text1: 'Error en Procesamiento',
         text2: 'Debe enviar un monto y una imagen del pago movil 👋'
-      });}
+      });
+    return
+    }
 
   const resta = disponibilidad-Number(monto)
   if(resta<0){
 Toast.show({
         type: 'error',
         text1: 'Error en Procesamiento',
-        text2: 'Sólo puede retirar una cantida menor o iguial a sú disponibilidad 👋'
+        text2: 'Monto mayor a sú disponibilidad 👋'
       });
-
+return
   } 
 const {error} =await supabase.rpc('restar_de_billetera',{
   monto:Number(monto),
@@ -100,47 +105,18 @@ Toast.show({
       setMonto('')
       setImagen('')
       setImagenUpdated(false) 
+      setActualizar(!actualizar)
 router.push('/usuario')
   }
 
   return (
-    <>
-      <View style={styles.container}>
-        <ImageBackground
-          source={require('@/assets/images/credito.png')}
-          style={[styles.image, { width: ancho, height: alto }]}
-        >
-          <View style={[styles.cardContainer, ]}>
-            <View style={[styles.visa,{height:alto*0.2}]}>
-              <View>
-                <Text style={styles.cardHolder}>
-                  Visa TvBurrera
-                </Text>
-                <Text style={styles.info}>{profile.full_name}</Text>
-                {/* <Text style={styles.info}>edwinhenriquezh@gmail.com</Text> */}
-                <Text style={styles.info}>{profile.phone}</Text>
-              </View>
-              <Image style={styles.tv} source={require('@/assets/images/tvburrera.jpg')} />
-            </View>
-            <View style={styles.dispo}>
-              <Text style={styles.cardNumber}>Disponibilidad</Text>
-              <Text style={styles.cardNumber}>{disponibilidad}</Text>
-              <Text style={styles.cardNumber}>fichas</Text>
-
-            </View>
-            <View style={styles.dispo}>
-              <Text style={styles.cardNumber}>Por Confirmar</Text>
-              <Text style={styles.cardNumber}>17</Text>
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
-
+    <View style={{ borderRadius: 8, padding: 10, justifyContent: 'flex-start', flex:1 }}>
       <View style={{ marginTop: 10 }} />
       {/* Email y Password */}
       <View style={{ marginTop: 0 }}>
+              <Text style={{textAlign:'center', fontSize:18, fontWeight: 'bold', marginVertical: 10 }}>Recarga de Cartera</Text>
         <ThemeTextInput
-          placeholder="Monto a Retirar"
+          placeholder="Ingrese Monto a Retirar"
           keyboardType='numeric'
           icon="cash-outline"
           value={monto}
@@ -153,6 +129,7 @@ router.push('/usuario')
 
 
       <ThemedButton icon="cloud-upload-outline"
+      
         onPress={() => procesar()}
       >Procesar Retiro </ThemedButton>
 
@@ -165,7 +142,9 @@ router.push('/usuario')
         }}
       >
       </View>
-    </>
+                <Button title='Regresar' onPress={() => router.replace('/(tabs)/usuario')} style={{ marginVertical: 20 }} variant='danger' icon={<Entypo name="arrow-long-left" size={20} color='white' />} />
+
+    </View>
 
   )
 }

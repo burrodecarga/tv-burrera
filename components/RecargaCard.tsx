@@ -3,7 +3,6 @@ import { useThemeColor } from '@/hooks/use-theme-color'
 import { addTransaccion } from '@/lib/api'
 import { Billetera } from '@/lib/types'
 import { MaterialIcons } from '@expo/vector-icons'
-import { Image } from 'expo-image'
 import * as ImagePicker from "expo-image-picker"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
@@ -45,7 +44,9 @@ const RecargaCard = ({ alto = 171, ancho = 300,billetera }: CardProps) => {
         type: 'error',
         text1: 'Error en Procesamiento',
         text2: 'Debe enviar un monto y una imagen del pago movil 👋'
-      });}
+      });
+    return
+    }
    
       const transaccion:Database['public']['Tables']['transacciones']['Insert'] ={
         confirmado: Number(0),
@@ -77,30 +78,10 @@ const RecargaCard = ({ alto = 171, ancho = 300,billetera }: CardProps) => {
 
   //console.log(imagen)
   return (
-    <>
-      <View style={[styles.cardContainer, { width: ancho, height: alto }]}>
-        <View style={styles.visa}>
-          <View>
-            <Text style={styles.cardHolder}>
-              Visa TvBurrera
-            </Text>
-            <Text style={styles.info}>Edwin Henriquez</Text>
-            <Text style={styles.info}>edwinhenriquezh@gmail.com</Text>
-            <Text style={styles.info}>04144753555</Text>
-          </View>
-          <Image style={styles.tv} source={require('@/assets/images/tvburrera.jpg')} />
-        </View>
-        <View style={styles.dispo}>
-          <Text style={styles.cardNumber}>Disponibilidad</Text>
-          <Text style={styles.cardNumber}>{billetera.fichas}</Text>
-          <Text style={styles.cardNumber}>fichas</Text>
-        </View>
-        <View style={styles.dispo}>
-          <Text style={styles.cardNumber}>Por Confirmar</Text>
-          <Text style={styles.cardNumber}>{monto}</Text>
-        </View>
-        <Text style={styles.titleContainer}>Visa TvBurrera</Text>
-      </View>
+    <View>
+
+      <Text style={{textAlign:'center', fontSize:18, fontWeight: 'bold', marginVertical: 10 }}>Recarga de Cartera</Text>
+      
       <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', display: imagen.length > 0 ? 'flex' : 'none' }} >
         {/* evidencia*/}
         {imagen.length > 0 && <Pago uri={imagen} size={150} />}
@@ -151,7 +132,7 @@ const RecargaCard = ({ alto = 171, ancho = 300,billetera }: CardProps) => {
       >
 
       </View>
-    </>
+    </View>
   )
 }
 

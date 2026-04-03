@@ -1,11 +1,11 @@
-import ListadoDeApuestas from '@/components/ListadoDeApuestas'
 import Perfil from '@/components/Perfil'
+import Button from '@/components/ui/Button'
 import { useThemeColor } from '@/hooks/use-theme-color'
 import { useUserInfo } from '@/hooks/userContext'
-import { Entypo, FontAwesome6, Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
-import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Text, useWindowDimensions, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const UsuarioScreen = () => {
@@ -26,28 +26,26 @@ const UsuarioScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
       <Perfil profile={profile} uri={profile?.avatar_url} size={140} />
       <View style={{ flex: 1/3, backgroundColor: '#fff', borderWidth:1, margin:10, borderColor:color,   justifyContent:'center', alignItems:'center' }}>
-        <Text style={{ color: color, fontSize: 18, fontWeight: 'bold', margin:0 }}>Mis Apuestas</Text>
+        <Text style={{ color: color, fontSize: 18, fontWeight: 'bold', margin:0 }}>Configuración</Text>
       </View>
-      <View style={{ flex: 2, backgroundColor: '#fff' }}>
+      <View style={{ flex: 2, backgroundColor: '#eee4e4',flexDirection:'column', gap:10, padding:10, borderRadius:10, margin:10, marginHorizontal:10 }}>
+        
 
-        <ListadoDeApuestas profile={profile} />
-      </View>
-      <View style={{ flex: 1, backgroundColor: '#fff', borderWidth:1, margin:10, borderColor:color}}>
-      <View style={{ flexDirection: 'row', marginLeft: 10,justifyContent:'space-around',alignItems:'center',flex:1 }}>
-<TouchableOpacity style={{flexDirection:'row', borderRadius:100,borderWidth:1,borderColor:color, width:50, height:50, justifyContent:'center',alignItems:'center'}}>
-  <Entypo name="price-ribbon" size={18} color={color} />
-  <FontAwesome6 name="users-rectangle" size={18} color={color} />
-</TouchableOpacity>
-<TouchableOpacity onPress={()=>router.push('/(tabs)/usuario/user')}>
-  <Ionicons name="settings-outline" size={44} color={color} />
-</TouchableOpacity>
+        <Button title='Recargar Cartera' onPress={()=>router.replace('/(tabs)/usuario/recargar_cartera')} icon={<Entypo name="text-document-inverted" size={20} color='white'  />}   variant= 'primary'
+  size= 'small'/>
 
-<TouchableOpacity onPress={()=>router.push('/(tabs)/usuario/cartera')}>
-<FontAwesome6 name="money-check-dollar" size={44} color={color} />
-</TouchableOpacity>
-      </View>  
+  <Button title='Retirar de Cartera' onPress={()=>router.replace('/(tabs)/usuario/retirar_cartera')} icon={<Entypo name="text-document-inverted" size={20} color='white'  />}   variant= 'primary'
+  size= 'small'/>
+
+  <Button title='Mis Apuestas' onPress={()=>router.replace('/(tabs)/usuario/apuestas')} icon={<Entypo name="text-document-inverted" size={20} color='white'  />}   variant= 'primary'
+  size= 'small'/>
+  
+  
+        <Button title='Modificar Perfil de Usuario' onPress={()=>router.replace('/(tabs)/usuario/user')} icon={<Entypo name="cog" size={20} color='white'  />}   variant= 'secondary'
+  size= 'small'/>
+
       </View>
-    </SafeAreaView>
+        </SafeAreaView>
   )
 }
 
