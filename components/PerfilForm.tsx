@@ -78,7 +78,7 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
             updatedProfile.avatar_url=filePath
         }
 
-        console.log('ACTUALIZADO AVATAR XX')
+        //console.log('ACTUALIZADO AVATAR XX')
         //setLoading(true)
 
         const { error }=await supabase
@@ -98,7 +98,7 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
     }
 
     const handleSubmit=() => {
-        console.log('saliendo')
+        //.log('saliendo')
         saveProfile({ ...profile, avatar_url: avatarUrl }, avatarUpdated)
     }
 

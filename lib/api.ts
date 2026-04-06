@@ -186,3 +186,16 @@ export const fechCarrerasByPolla=async (idPolla: string) => {
 }
 
 export type CarrerasByPollaId=Awaited<ReturnType<typeof fechCarrerasByPolla>>
+
+export const fetchHipodromos=async () => {
+  const { data, error }=await supabase.from("hipodromos").select("*")
+  if(error){
+    console.log("error", error)
+    return []
+  }
+  console.log(data)
+  return data
+}
+
+export type Hipodromos=Awaited<ReturnType<typeof fetchHipodromos>>
+export type Hipodromo=Hipodromos[number]

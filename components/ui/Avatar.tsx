@@ -7,6 +7,7 @@ interface AvatarProps {
 }
 
 export default function Avatar({ uri, size=32 }: AvatarProps) {
+  console.log('xxx',uri)
   const styles={ height: size, width: size, borderRadius: size/2 }
   if (uri) return <Image source={{ uri }} style={styles} />
   return (

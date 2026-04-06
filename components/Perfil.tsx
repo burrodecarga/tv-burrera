@@ -24,11 +24,13 @@ const Perfil = ({ profile, uri, size=60, disponibilidad=0, actualizar=true, load
   const color=useThemeColor({}, 'tint')
   
   useEffect(() => {
-  
-          if (uri) {
-              downloadAvatar(uri).then(setAvatarUrl)
-          }
-      }, [profile])
+    const getAvatar = async () => {
+      if(!profile?.avatar_url)return
+       if(profile.avatar_url){
+        const url = await downloadAvatar(profile.avatar_url)
+        setAvatarUrl(url)
+       }}
+      getAvatar()},[profile?.avatar_url,actualizar])
 
    useEffect(() => {
   if(!profile)return
@@ -39,9 +41,9 @@ const Perfil = ({ profile, uri, size=60, disponibilidad=0, actualizar=true, load
   
       }
       getDisponibilidad()
-    }, [profile, billetera, actualizar])
+    }, [profile?.fichas, actualizar])
 
-
+    
     
       if (loading) {
         return (
@@ -50,7 +52,7 @@ const Perfil = ({ profile, uri, size=60, disponibilidad=0, actualizar=true, load
           </SafeAreaView>
         )
       }
-  
+ console.log(profile?.avatar_url) 
       
   return (
     <View>

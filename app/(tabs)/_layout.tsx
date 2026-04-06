@@ -46,7 +46,16 @@ export default function TabLayout() {
           title: 'Usuario',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="crown-circle-outline" size={24} color={color} />,
         }}
+      /> 
+
+       <Tabs.Screen
+        name="admin"
+        options={{
+          title: 'Admin',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="crown-circle-outline" size={24} color={color} />,
+        }}
       />    
+          
        
     </Tabs>
     

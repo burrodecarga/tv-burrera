@@ -25,6 +25,7 @@ export default function HomeScreen() {
       </SafeAreaView>
     )
   }
+  //console.log(profile?.avatar_url)
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
