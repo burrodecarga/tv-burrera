@@ -40,3 +40,23 @@ const dia = fechaObj.getDate();
 const horas = fechaObj.getHours();
 const minutos = fechaObj.getMinutes();
  */
+
+export function obtenerDiaYMes(fecha: Date) {
+  const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'long' });
+  const mes = fecha.toLocaleDateString('es-ES', { month: 'long' });
+  const diaNumero = fecha.getDate(); // Opcional: número del día
+
+  const nombreDePolla = `Polla del ${diaSemana} ${diaNumero} de ${mes} de ${fecha.getFullYear()}`;
+  return {
+    diaSemana: diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1),
+    mes: mes.charAt(0).toUpperCase() + mes.slice(1),
+    diaNumero,
+    nombreDePolla
+  };
+}
+
+// Ejemplo de uso:
+const hoy = new Date();
+const resultado = obtenerDiaYMes(hoy);
+//console.log(`Hoy es ${resultado.diaSemana}, ${resultado.diaNumero} de ${resultado.mes}`);
+// Salida aproximada: "Hoy es lunes, 6 de abril de 2026"

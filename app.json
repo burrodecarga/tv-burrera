@@ -16,8 +16,10 @@
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/tvburrera.jpg",
         "backgroundImage": "./assets/images/tvburrera.jpg",
-        "monochromeImage": "./assets/images/tvburrera.jpg"
+        "monochromeImage": "./assets/images/tvburrera.jpg",
+        
       },
+        "softwareKeyboardLayoutMode": "pan",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.edwinhenriquezh.tvburrera"

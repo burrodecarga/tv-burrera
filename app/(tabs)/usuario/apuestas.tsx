@@ -40,7 +40,7 @@ const ApuestasScreen = () => {
     }
   }, [disponibilidad, session?.user.id])
 
-  console.log(apuestas)
+  //console.log(apuestas)
   return (
     <SafeAreaView style={{ flex: 1 }}>  
     <View style={{ flex: 1, justifyContent: 'flex-start', marginHorizontal: 10 }}>

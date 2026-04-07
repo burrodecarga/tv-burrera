@@ -6,7 +6,6 @@ import { ThemedView } from '@/components/themed-view';
 import Card from '@/components/ui/Card';
 import { Fonts } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { useApuesta } from '@/hooks/useApuesta';
 import { useUserInfo } from '@/hooks/userContext';
 import { Polla } from '@/lib/types';
 import { usePollas } from '@/provider/PollasProvider';
@@ -14,7 +13,6 @@ import { getFecha, getHora, getHoraT } from '@/utils/date';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -25,9 +23,7 @@ export default function PollasScreen() {
 
   const { profile, loading, disponibilidad } = useUserInfo()
   const { pollas, loading: cargando } = usePollas()
-  const [miBilletera, setMiBilletera] = useState()
-  const { setPollaInfo, pollaInfo } = useApuesta()
-
+  
 
 
   const storeData = async (value: Polla) => {

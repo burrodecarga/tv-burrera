@@ -46,4 +46,5 @@ export const PUNTOS=[0,5,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 export  const BG = '#e7dede'
 export  const TE = '#000000'
 export  const NE = '#000000'
-  
+
+export const VALIDAS = ['-','1ra carrera','2da carrera','3ra carrera','4ta carrera','5ta carrera','6ta carrera'] as const;

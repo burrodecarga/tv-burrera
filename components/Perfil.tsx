@@ -52,7 +52,7 @@ const Perfil = ({ profile, uri, size=60, disponibilidad=0, actualizar=true, load
           </SafeAreaView>
         )
       }
- console.log(profile?.avatar_url) 
+ //console.log(profile?.avatar_url) 
       
   return (
     <View>

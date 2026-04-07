@@ -49,14 +49,14 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
         updatedProfile: Profile,
         avatarUpdated: boolean
     ) => {
-        console.log('entrando', updatedProfile)
+        //console.log('entrando', updatedProfile)
 
 
 
         console.log('MECATRON', updatedProfile.avatar_url, avatarUpdated)
 
         if (updatedProfile.avatar_url&&avatarUpdated) {
-            console.log('actualizando avatar')
+            //console.log('actualizando avatar')
             const { avatar_url }=updatedProfile
 
             const fileExt=avatar_url.split(".").pop()
@@ -90,10 +90,10 @@ const ProfileForm=({ profile, loading, setLoading }: ProfileFormProps) => {
         if (error) {
             console.log('ERROR', error)
         } else {
-            console.log("PROFILE SAVED")
+            //console.log("PROFILE SAVED")
             Alert.alert("Profile saved", 'profile save')
         }
-        console.log('FIN')
+        //console.log('FIN')
         //setLoading(false)
     }
 
@@ -115,7 +115,7 @@ await supabase.rpc('delete_own_user').then(({ data, error }) => {
         console.log('Error al darse de baja:', error);
         Alert.alert('Error', 'No se pudo completar la acción. Inténtalo de nuevo.');
     } else {
-        console.log('Usuario dado de baja:', data);
+        //console.log('Usuario dado de baja:', data);
         Alert.alert('Cuenta eliminada', 'Tu cuenta ha sido eliminada exitosamente.');
         supabase.auth.signOut()
     }})
