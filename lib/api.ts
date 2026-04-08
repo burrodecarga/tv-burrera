@@ -193,7 +193,7 @@ export const fetchHipodromos=async () => {
     console.log("error", error)
     return []
   }
-  console.log(data)
+  //console.log('HIPODROMOS',data)
   return data
 }
 

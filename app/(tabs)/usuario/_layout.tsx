@@ -9,7 +9,6 @@ const PollasLayout = () => {
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name='index' />
             <Stack.Screen name='user' />
-            <Stack.Screen name='cartera' />
             <Stack.Screen name='recargar_cartera' />
             <Stack.Screen name='retirar_cartera' />
             <Stack.Screen name='apuestas' options={{headerTitleStyle:{ color: color }, headerShown:true, title: 'Mis Apuestas', headerTitleAlign:'center',

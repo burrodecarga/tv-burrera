@@ -60,3 +60,11 @@ const hoy = new Date();
 const resultado = obtenerDiaYMes(hoy);
 //console.log(`Hoy es ${resultado.diaSemana}, ${resultado.diaNumero} de ${resultado.mes}`);
 // Salida aproximada: "Hoy es lunes, 6 de abril de 2026"
+
+export function isDateValid(dateStr: string) {
+  return !isNaN(new Date(dateStr).getDate());
+}
+
+export function isTimeValid(dateStr: string) {
+  return !isNaN(new Date(dateStr).getTime());
+}

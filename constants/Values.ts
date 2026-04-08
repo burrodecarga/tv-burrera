@@ -48,3 +48,4 @@ export  const TE = '#000000'
 export  const NE = '#000000'
 
 export const VALIDAS = ['-','1ra carrera','2da carrera','3ra carrera','4ta carrera','5ta carrera','6ta carrera'] as const;
+

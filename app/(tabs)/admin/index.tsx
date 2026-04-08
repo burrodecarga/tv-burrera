@@ -4,22 +4,23 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import { VALIDAS } from '@/constants/Values';
 import { Hipodromo, Hipodromos, fetchHipodromos } from '@/lib/api';
-import { obtenerDiaYMes } from '@/utils/date';
+import { MODO, TIPO } from '@/lib/types';
+import { isDateValid, isTimeValid, obtenerDiaYMes } from '@/utils/date';
+import { validarCarrera } from '@/utils/validador';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
-import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 
-type MODO = 'date' | 'time' | 'datetime'
-type TIPO = 'FECHA_DE_POLLA' | 'FECHA_DE_CIERRE' | 'HORA_DE_CIERRE' | 'CARRERA'
 export type POLLA = {
-  polla: string
+  nombre: string
   fecha: Date
   fecha_de_cierre: Date,
-  hora_de_cierre?: Date,
+  hora_de_cierre: Date,
   hipodromo?: string,
   precio?: number,
   carrera1_dist: number | null
@@ -53,7 +54,7 @@ const CrearPollaSCreen = () => {
   const [visible, setVisible] = useState(false)
 
   const [polla, setPolla] = useState<POLLA>({
-    polla: '',
+    nombre: '',
     fecha: new Date(),
     fecha_de_cierre: new Date(),
     hora_de_cierre: new Date(),
@@ -79,6 +80,27 @@ const CrearPollaSCreen = () => {
     carrera6_hor: null,
 
   })
+
+  const storeData = async (value:POLLA) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('newPolla', jsonValue);
+  } catch (e) {
+    // saving error
+  }
+};
+
+const fv= isDateValid(polla.fecha.toString())
+const fcv= isDateValid(polla.fecha_de_cierre.toString())
+const hv= isTimeValid(polla.hora_de_cierre.toString())
+const pollaValida = fv && fcv && hv && polla.hipodromo !== '' && polla.precio !== undefined && polla.precio > 0 
+const carrera1Valida = validarCarrera(polla.carrera1_ejem, polla.carrera1_dist, polla.carrera1_hor)
+const carrera2Valida = validarCarrera(polla.carrera2_ejem, polla.carrera2_dist, polla.carrera2_hor)
+const carrera3Valida = validarCarrera(polla.carrera3_ejem, polla.carrera3_dist, polla.carrera3_hor)
+const carrera4Valida = validarCarrera(polla.carrera4_ejem, polla.carrera4_dist, polla.carrera4_hor)
+const carrera5Valida = validarCarrera(polla.carrera5_ejem, polla.carrera5_dist, polla.carrera5_hor)
+const carrera6Valida = validarCarrera(polla.carrera6_ejem, polla.carrera6_dist, polla.carrera6_hor)
+
 
   const updateCarrera = (date: Date) => {
     switch (carrera) {
@@ -172,7 +194,7 @@ const CrearPollaSCreen = () => {
     switch (type) {
       case 'FECHA_DE_POLLA':
         const { nombreDePolla } = obtenerDiaYMes(date);
-        setPolla({ ...polla, fecha: date, polla: nombreDePolla })
+        setPolla({ ...polla, fecha: date, nombre: nombreDePolla })
         // Handle fecha de polla logic
         break;
       case 'FECHA_DE_CIERRE':
@@ -241,8 +263,8 @@ const CrearPollaSCreen = () => {
         style={{ flex: 1 }}
       >
         <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center', gap: 20, paddingBottom: 20 }}>
-          <Card style={{ width: '90%', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 2, display: polla.polla.length > 0 ? 'flex' : 'none', flexDirection: 'column', padding: 10, marginTop: 20 }}>
-            <Text style={{ fontSize: 10, fontWeight: 700 }} disabled>{polla.polla}</Text>
+          <Card style={{ width: '90%', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 2, display: polla.nombre.length > 0 ? 'flex' : 'none', flexDirection: 'column', padding: 10, marginTop: 20 }}>
+            <Text style={{ fontSize: 10, fontWeight: 700 }} disabled>{polla.nombre}</Text>
             <Text style={{ fontSize: 9 }}>Hipódromo:{polla.hipodromo}</Text>
             <Text style={{ fontSize: 9 }}>Fecha de Polla : {polla.fecha.toLocaleDateString()}</Text>
             <Text style={{ fontSize: 9 }}>Fecha de Cierre de la Polla : {polla.fecha_de_cierre.toLocaleDateString()}</Text>
@@ -332,7 +354,28 @@ const CrearPollaSCreen = () => {
               onCancel={hideDatePicker}
             />
           </View>
-          <Button title="Crear Polla" onPress={() => router.replace('/(tabs)/admin/pasos/paso_1')} />
+          <Button title="Crear Polla" onPress={() => {
+            if (!pollaValida) {
+               Toast.show({
+                 type: 'error',
+                 text1: 'Polla no válida',
+                 text2: 'Por favor, completa todos los campos correctamente.'
+               });
+              return
+            }
+
+               if(!carrera1Valida || !carrera2Valida || !carrera3Valida || !carrera4Valida || !carrera5Valida || !carrera6Valida){
+                 Toast.show({
+                   type: 'error',
+                   text1: 'Hay carrera que no es válida',
+                   text2: 'Por favor, completa todos los campos correctamente.'
+                 });
+                 return;
+               }
+               storeData(polla); 
+               //router.replace('/(tabs)/admin/page');
+             }} 
+               />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
