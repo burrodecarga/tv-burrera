@@ -16,7 +16,8 @@ const ThemedButton = ({ children, icon, loading, ...rest }: Props) => {
       disabled={loading}
       style={({ pressed }) => [
         { backgroundColor: pressed ? "gray" : primaryColor },
-        { backgroundColor: "red", flexDirection: "row", width: 200 },
+
+        styles.button,
       ]}
       {...rest}
     >
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 5,
     alignItems: "center",
-    flexDirection: "column-reverse",
+    flexDirection: "row",
     justifyContent: "center",
   },
 });

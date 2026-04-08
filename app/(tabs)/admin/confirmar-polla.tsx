@@ -17,9 +17,9 @@ const PageModal = () => {
 
   const clearAll = async () => {
     try {
-      await AsyncStorage.clear();
+      await AsyncStorage.removeItem("newPolla");
     } catch (e) {
-      // clear error
+      // remove error
     }
     console.log("Done.");
   };
