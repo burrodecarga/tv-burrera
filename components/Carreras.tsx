@@ -1,4 +1,4 @@
-import { POLLA } from '@/app/(tabs)/admin'
+import { POLLA } from '@/app/(tabs)/admin/crear-polla'
 import React from 'react'
 import { Text, View } from 'react-native'
 type Props = {

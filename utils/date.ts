@@ -1,37 +1,44 @@
-
-
-
 export function getFecha(fechaISO: string): string {
-const fechaObj = new Date(fechaISO);
-// Fecha (ej: 27/10/2023)
-const fechaLocal = fechaObj.toLocaleDateString();
-return fechaLocal
+  const fechaObj = new Date(fechaISO);
+  // Fecha (ej: 27/10/2023)
+  const fechaLocal = fechaObj.toLocaleDateString();
+  return fechaLocal;
 }
 
 export function getHora(fechaISO: string): string {
-const fechaObj = new Date(fechaISO);
-// Hora (ej: 10:30:00 AM - depende de la zona horaria local)
-const horaLocal = fechaObj.toLocaleTimeString('en-US', {
-  hour: 'numeric',
-  minute: '2-digit',
-  hour12: true
-});
-return horaLocal
+  const fechaObj = new Date(fechaISO);
+  // Hora (ej: 10:30:00 AM - depende de la zona horaria local)
+  const horaLocal = fechaObj.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return horaLocal;
+}
+
+export function getHoraAMPM(fechaISO: string): string {
+  const fechaObj = new Date(fechaISO);
+  // Hora (ej: 10:30:00 AM - depende de la zona horaria local)
+  const horaLocal = fechaObj.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return horaLocal;
 }
 
 export function getHoraT(fechaISO: string): string {
-const [hours, minutes, seconds] = fechaISO.split(':');
-const date = new Date();
-date.setHours(Number(hours), Number(minutes), Number(seconds));
+  const [hours, minutes, seconds] = fechaISO.split(":");
+  const date = new Date();
+  date.setHours(Number(hours), Number(minutes), Number(seconds));
 
-const time12 = date.toLocaleTimeString('en-US', {
-  hour: 'numeric',
-  minute: '2-digit',
-  hour12: true});
-return time12
+  const time12 = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return time12;
 }
-
-
 
 // Obtener componentes específicos
 /* const anio = fechaObj.getFullYear();
@@ -42,8 +49,8 @@ const minutos = fechaObj.getMinutes();
  */
 
 export function obtenerDiaYMes(fecha: Date) {
-  const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'long' });
-  const mes = fecha.toLocaleDateString('es-ES', { month: 'long' });
+  const diaSemana = fecha.toLocaleDateString("es-ES", { weekday: "long" });
+  const mes = fecha.toLocaleDateString("es-ES", { month: "long" });
   const diaNumero = fecha.getDate(); // Opcional: número del día
 
   const nombreDePolla = `Polla del ${diaSemana} ${diaNumero} de ${mes} de ${fecha.getFullYear()}`;
@@ -51,7 +58,7 @@ export function obtenerDiaYMes(fecha: Date) {
     diaSemana: diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1),
     mes: mes.charAt(0).toUpperCase() + mes.slice(1),
     diaNumero,
-    nombreDePolla
+    nombreDePolla,
   };
 }
 
@@ -66,5 +73,7 @@ export function isDateValid(dateStr: string) {
 }
 
 export function isTimeValid(dateStr: string) {
-  return !isNaN(new Date(dateStr).getTime());
+  console.log(dateStr);
+  const regex = /^([01]\d|2[0-3]):[0-5]\d$/;
+  return true;
 }

@@ -1,13 +1,66 @@
-import { Stack } from 'expo-router';
-import React from 'react';
-
-
+import { useUserInfo } from "@/hooks/userContext";
+import { Stack } from "expo-router";
+import React from "react";
 
 const PasosLayout = () => {
-  
+  const { isAdmin } = useUserInfo();
   return (
-    <Stack screenOptions={{headerShown:true, title:'Fecha y Hora de Polla', headerTitleStyle:{ fontWeight: 'bold',fontSize:13},headerTitleAlign:'center'}} />
-  )
-}
+    <Stack
+      screenOptions={{
+        headerShown: true,
+        title: "Creación y Confirmación de Polla",
+        headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: true,
+          title: "Menú Principal de Polla",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="crear-polla"
+        options={{
+          headerShown: true,
+          title: "Creación de Polla",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="confirmar-polla"
+        options={{
+          headerShown: true,
+          title: "Confirmación de Polla",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="modificar-polla"
+        options={{
+          headerShown: true,
+          title: "Configuración de Polla",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="pollas-borrador"
+        options={{
+          headerShown: true,
+          title: "Listado de Pollas BORRADOR",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack>
+  );
+};
 
-export default PasosLayout
+export default PasosLayout;

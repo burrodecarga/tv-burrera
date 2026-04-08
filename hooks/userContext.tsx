@@ -24,6 +24,7 @@ export interface UserInfo {
   billetera?:string|null;
   actualizar:boolean;
   setActualizar?:Dispatch<SetStateAction<boolean>>;
+  isAdmin:boolean;
 
 }
 
@@ -33,6 +34,7 @@ const UserContext = createContext<UserInfo>({
   disponibilidad:0,
   billetera:null,
   actualizar:false,
+  isAdmin:false,
 });
 
 // crear un provider donde vamos a tener la logica para escuchar cambios de la session
@@ -43,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     disponibilidad:0,
     billetera:null,
     actualizar:false,
+    isAdmin:false,
   });
   const [loading, setLoading] = useState(false);
   const [disponibilidad, setDisponibilidad] = useState(0)
@@ -52,7 +55,7 @@ const [actualizar, setActualizar] = useState(false)
       setUserInfo({ ...userInfo, session });
     });
     supabase.auth.onAuthStateChange((_event, session) => {
-      setUserInfo({ session, profile: null, actualizar:false,disponibilidad:0,setActualizar });
+      setUserInfo({ session, profile: null, actualizar:false,disponibilidad:0,setActualizar,isAdmin});
       if(session){
         router.replace('/')
       }else{
@@ -143,9 +146,10 @@ const [actualizar, setActualizar] = useState(false)
   };
 
 
+  const isAdmin = userInfo.profile?.role === 'super';
 
   return (
-    <UserContext.Provider value={{ ...userInfo, loading, saveProfile, disponibilidad, actualizar,setActualizar }}>
+    <UserContext.Provider value={{ ...userInfo, loading, saveProfile, disponibilidad, actualizar,setActualizar, isAdmin }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,5 +1,5 @@
-import { Paleta } from '@/constants/Colors'
-import React from 'react'
+import { Paleta } from "@/constants/Colors";
+import React, { Suspense } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -8,77 +8,77 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from 'react-native'
+} from "react-native";
 
-type ButtonProps={
-  title: string
-  onPress: () => void
-  variant?: 'primary'|'secondary'|'outline'|'danger'
-  size?: 'small'|'medium'|'large'
-  disabled?: boolean
-  loading?: boolean
-  style?: ViewStyle
-  textStyle?: TextStyle
-  icon?: React.ReactNode
-}
+type ButtonProps = {
+  title: string;
+  onPress: () => void;
+  variant?: "primary" | "secondary" | "outline" | "danger";
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
+  loading?: boolean;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  icon?: React.ReactNode;
+};
 
 export default function Button({
   title,
   onPress,
-  variant='primary',
-  size='medium',
-  disabled=false,
-  loading=false,
+  variant = "primary",
+  size = "medium",
+  disabled = false,
+  loading = false,
   style,
   textStyle,
   icon,
 }: ButtonProps) {
-  const getVariantStyles=(): { container: ViewStyle; text: TextStyle } => {
+  const getVariantStyles = (): { container: ViewStyle; text: TextStyle } => {
     switch (variant) {
-      case 'secondary':
+      case "secondary":
         return {
           container: {
             backgroundColor: Paleta.secondary,
           },
           text: {
-            color: '#FFFFFF',
+            color: "#FFFFFF",
           },
-        }
-      case 'outline':
+        };
+      case "outline":
         return {
           container: {
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
             borderWidth: 1,
             borderColor: Paleta.textSecondary,
           },
           text: {
             color: Paleta.textSecondary,
           },
-        }
-      case 'danger':
+        };
+      case "danger":
         return {
           container: {
             backgroundColor: Paleta.danger,
           },
           text: {
-            color: '#FFFFFF',
+            color: "#FFFFFF",
           },
-        }
+        };
       default:
         return {
           container: {
             backgroundColor: Paleta.primary,
           },
           text: {
-            color: '#FFFFFF',
+            color: "#FFFFFF",
           },
-        }
+        };
     }
-  }
+  };
 
-  const getSizeStyles=(): { container: ViewStyle; text: TextStyle } => {
+  const getSizeStyles = (): { container: ViewStyle; text: TextStyle } => {
     switch (size) {
-      case 'small':
+      case "small":
         return {
           container: {
             paddingVertical: 8,
@@ -88,8 +88,8 @@ export default function Button({
           text: {
             fontSize: 12,
           },
-        }
-      case 'large':
+        };
+      case "large":
         return {
           container: {
             paddingVertical: 16,
@@ -99,7 +99,7 @@ export default function Button({
           text: {
             fontSize: 18,
           },
-        }
+        };
       default:
         return {
           container: {
@@ -110,59 +110,61 @@ export default function Button({
           text: {
             fontSize: 16,
           },
-        }
+        };
     }
-  }
+  };
 
-  const variantStyles=getVariantStyles()
-  const sizeStyles=getSizeStyles()
+  const variantStyles = getVariantStyles();
+  const sizeStyles = getSizeStyles();
 
   return (
-    <TouchableOpacity
-      style={[
-        styles.button,
-        variantStyles.container,
-        sizeStyles.container,
-        disabled&&styles.disabled,
-        style,
-      ]}
-      onPress={onPress}
-      disabled={disabled||loading}
-      activeOpacity={0.4}
-    >
-      {loading? (
-        <ActivityIndicator
-          color={variant==='outline'? Paleta.primary:'#FFFFFF'}
-          size="small"
-        />
-      ):(
-        <>
-          {icon&&<View style={styles.iconContainer}>{icon}</View>}
-          <Text
-            style={[
-              styles.text,
-              variantStyles.text,
-              sizeStyles.text,
-              textStyle,
-            ]}
-          >
-            {title}
-          </Text>
-        </>
-      )}
-    </TouchableOpacity>
-  )
+    <Suspense>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          variantStyles.container,
+          sizeStyles.container,
+          disabled && styles.disabled,
+          style,
+        ]}
+        onPress={onPress}
+        disabled={disabled || loading}
+        activeOpacity={0.4}
+      >
+        {loading ? (
+          <ActivityIndicator
+            color={variant === "outline" ? Paleta.primary : "#FFFFFF"}
+            size="small"
+          />
+        ) : (
+          <>
+            {icon && <View style={styles.iconContainer}>{icon}</View>}
+            <Text
+              style={[
+                styles.text,
+                variantStyles.text,
+                sizeStyles.text,
+                textStyle,
+              ]}
+            >
+              {title}
+            </Text>
+          </>
+        )}
+      </TouchableOpacity>
+    </Suspense>
+  );
 }
 
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
   },
   disabled: {
     opacity: 0.5,
@@ -170,4 +172,4 @@ const styles=StyleSheet.create({
   iconContainer: {
     marginRight: 8,
   },
-})
+});
