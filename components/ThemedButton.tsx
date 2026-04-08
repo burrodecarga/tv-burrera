@@ -44,5 +44,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    width: "90%",
   },
 });

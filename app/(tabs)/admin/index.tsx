@@ -19,7 +19,6 @@ const AdminScreen = () => {
             router.replace("/(tabs)/admin/crear-polla");
           }}
           icon="add-circle-outline"
-          style={{ width: 190 }}
         >
           Crear Polla
         </ThemedButton>
@@ -28,9 +27,36 @@ const AdminScreen = () => {
             router.replace("/(tabs)/admin/confirmar-polla");
           }}
           icon="checkmark-circle-outline"
-          style={{ width: 190 }}
         >
           Confirmar Polla
+        </ThemedButton>
+        <ThemedButton
+          icon="cog-outline"
+          onPress={() => router.replace("/(tabs)/admin/modificar-polla")}
+          disabled={false}
+        >
+          Configurar Polla
+        </ThemedButton>
+        <ThemedButton
+          icon="arrow-forward-outline"
+          onPress={() => {}}
+          disabled={true}
+        >
+          Ingresar
+        </ThemedButton>
+        <ThemedButton
+          icon="arrow-forward-outline"
+          onPress={() => {}}
+          disabled={true}
+        >
+          Ingresar
+        </ThemedButton>
+        <ThemedButton
+          icon="arrow-forward-outline"
+          onPress={() => {}}
+          disabled={true}
+        >
+          Ingresar
         </ThemedButton>
       </View>
     </SafeAreaView>

@@ -1,4 +1,4 @@
-import { fetchPollasActivas } from "@/lib/api";
+import { fetchPollasByCond } from "@/lib/api";
 import { Polla } from "@/lib/types";
 import React, { createContext, useEffect } from "react";
 
@@ -22,7 +22,7 @@ export default function PollasProvider({ children }: PollasProviderProps) {
 
 
      useEffect(() => {
-         const response = fetchPollasActivas(0).then((data) => {
+         const response = fetchPollasByCond(0).then((data) => {
              if (data) {
                  //console.log('pollas',data)
                  setPollas(data)

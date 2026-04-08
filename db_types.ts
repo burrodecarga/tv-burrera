@@ -213,6 +213,24 @@ export type Database = {
         }
         Relationships: []
       }
+      members: {
+        Row: {
+          created_at: string
+          id: string
+          team_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          team_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          team_id?: string | null
+        }
+        Relationships: []
+      }
       plataformas: {
         Row: {
           activa: number | null
@@ -383,30 +401,79 @@ export type Database = {
       }
       resultados: {
         Row: {
-          caballo: number | null
+          carrera: number | null
           carrera_id: string | null
           created_at: string
           id: string
+          num_caballo: number | null
+          polla: string | null
+          polla_id: string | null
           posicion: number | null
           puntos: number | null
         }
         Insert: {
-          caballo?: number | null
+          carrera?: number | null
           carrera_id?: string | null
           created_at?: string
           id?: string
+          num_caballo?: number | null
+          polla?: string | null
+          polla_id?: string | null
           posicion?: number | null
           puntos?: number | null
         }
         Update: {
-          caballo?: number | null
+          carrera?: number | null
           carrera_id?: string | null
           created_at?: string
           id?: string
+          num_caballo?: number | null
+          polla?: string | null
+          polla_id?: string | null
           posicion?: number | null
           puntos?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "resultados_carrera_id_fkey"
+            columns: ["carrera_id"]
+            isOneToOne: false
+            referencedRelation: "carreras"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      retirados: {
+        Row: {
+          caballo: number | null
+          carrera: number | null
+          created_at: string
+          id: string
+          polla_id: string | null
+        }
+        Insert: {
+          caballo?: number | null
+          carrera?: number | null
+          created_at?: string
+          id?: string
+          polla_id?: string | null
+        }
+        Update: {
+          caballo?: number | null
+          carrera?: number | null
+          created_at?: string
+          id?: string
+          polla_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "retirados_polla_id_fkey"
+            columns: ["polla_id"]
+            isOneToOne: false
+            referencedRelation: "pollas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tasas: {
         Row: {

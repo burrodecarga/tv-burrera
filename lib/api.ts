@@ -50,8 +50,8 @@ export const downloadAvatar = async (path: string): Promise<string> => {
   }
 };
 
-export const fetchPollasActivas = async (condicion: number) => {
-  //console.log(condicion)
+export const fetchPollasByCond = async (condicion: number) => {
+  //console.log("CONDICION", condicion);
   const { data, error } = await supabase
     .from("pollas")
     .select("*")
@@ -65,7 +65,7 @@ export const fetchPollasActivas = async (condicion: number) => {
   }
 };
 
-export type PollasActivas = Awaited<ReturnType<typeof fetchPollasActivas>>;
+export type PollasActivas = Awaited<ReturnType<typeof fetchPollasByCond>>;
 export type PollaActiva = PollasActivas[number];
 
 export const fetchBilleteras = async (userId: string) => {
@@ -207,3 +207,19 @@ export const addPolla = async (
   }
 };
 export type Pollas = Awaited<ReturnType<typeof addPolla>>;
+
+export const fetchRetiradosByPolla = async (idPolla: string) => {
+  const { data, error } = await supabase
+    .from("retirados")
+    .select("*")
+    .eq("polla_id", idPolla);
+  if (error) {
+    console.log("error", error);
+    return [];
+  }
+  return data;
+};
+
+export type RetiradosByPollaId = Awaited<
+  ReturnType<typeof fetchRetiradosByPolla>
+>;

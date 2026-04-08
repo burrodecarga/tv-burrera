@@ -1,23 +1,48 @@
-import { PollasActivas } from '@/lib/api'
-import React from 'react'
-import { FlatList } from 'react-native'
-import { ThemedText } from './themed-text'
-import { ThemedView } from './themed-view'
-import { Polla } from '@/lib/types'
+import { fetchPollasByCond } from "@/lib/api";
+import { Polla } from "@/lib/types";
+import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
+import Toast from "react-native-toast-message";
+import Loading from "./Loading";
+import PollaCard from "./PollaCard";
 
+export default function ListadoDePollas({ condicion }: { condicion: number }) {
+  const [pollas, setPollas] = useState<Polla[] | null>(null);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const getPollasByCondicion = async (condicion: number) => {
+      try {
+        setLoading(true);
+        const res = await fetchPollasByCond(condicion);
+        if (res) {
+          setPollas(res);
+        }
+      } catch (error) {
+        console.log(error);
+        Toast.show({
+          type: "error",
+          text1: "Error en servidor",
+          text2: "Intentar más tarde.",
+        });
+        return [];
+      } finally {
+        setLoading(false);
+      }
+    };
+    getPollasByCondicion(condicion);
+  }, [condicion]);
 
-export default function ListadoDePollas( polla : Polla[] ) {
+  if (loading) {
+    return <Loading />;
+  }
+
+  //console.log("XXXX", pollas);
   return (
-     <FlatList
-          data={polla}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <ThemedView style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-              <ThemedText type="subtitle">{item.polla}XX</ThemedText>
-              <ThemedText>{item.fecha}</ThemedText>
-            </ThemedView>
-          )}
-          />
-  )
+    <FlatList
+      data={pollas}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => <PollaCard data={item} />}
+    />
+  );
 }

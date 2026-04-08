@@ -1,12 +1,11 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import ListadoDePollas from "@/components/ListadoDePollas";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ModificarPollaScreen = () => {
-  return (
-    <View>
-      <Text>ModificarPollaScreen</Text>
-    </View>
-  )
-}
+  return <SafeAreaView style={{ flex: 1 }}>
+    <ListadoDePollas condicion={0}/>
+  </SafeAreaView>;
+};
 
-export default ModificarPollaScreen
+export default ModificarPollaScreen;
