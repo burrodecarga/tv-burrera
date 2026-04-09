@@ -80,6 +80,27 @@ export const fetchPollasRetiradosByCond = async (condicion: number) => {
   }
 };
 
+export const fetchPollasAndRelatiosByCond = async (condicion: number) => {
+  //console.log("CONDICION", condicion);
+  const { data, error } = await supabase
+    .from("pollas")
+    .select(`*,retirados(*),ganadores(*)`)
+    .eq("condicion", condicion);
+  if (error) {
+    console.log("error", error);
+    return [];
+  } else {
+    //console.log('pollas activas', data)
+    return data;
+  }
+};
+
+export type TypefetchPollasAndRelatiosByCond = Awaited<
+  ReturnType<typeof fetchPollasAndRelatiosByCond>
+>;
+export type TypefetchPollaAndRelatiosByCond =
+  TypefetchPollasAndRelatiosByCond[number];
+
 export type PollasActivas = Awaited<ReturnType<typeof fetchPollasByCond>>;
 export type PollaActiva = PollasActivas[number];
 
@@ -230,7 +251,7 @@ export const fetchRetiradosByPolla = async (idPolla: string) => {
       `
     *, retirados (
       *
-    )
+    ), ganadores(*)
   `,
     )
     .eq("id", idPolla);
@@ -261,14 +282,13 @@ export const addRetirado = async (
     return data;
   }
 };
-
 export type TypeAddRetirado = Awaited<ReturnType<typeof addRetirado>>;
 
 export const activarPollaById = async (id: string, condicion: number) => {
   const { data, error } = await supabase
     .from("pollas")
     .update({ condicion: condicion })
-    .eq(id, id)
+    .eq("id", id)
     .select();
 
   if (error) {
@@ -277,3 +297,21 @@ export const activarPollaById = async (id: string, condicion: number) => {
     return data;
   }
 };
+
+export const addGanador = async (
+  ganador: Database["public"]["Tables"]["ganadores"]["Insert"],
+) => {
+  const { data, error } = await supabase
+    .from("ganadores")
+    .insert([ganador])
+    .select();
+
+  if (error) {
+    console.log("error", error);
+    return [];
+  } else {
+    console.log(data);
+    return data;
+  }
+};
+export type TypeAddGanador = Awaited<ReturnType<typeof addGanador>>;

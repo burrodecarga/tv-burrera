@@ -8,10 +8,8 @@ export default function ListadoDeRetiradosByPolla({
 }: {
   retirados: Retirado[];
 }) {
-  console.log("LISTADO DE RETIRADOS", retirados);
-  //const result = retirados.map((r) => r);
+  //console.log("LISTADO DE RETIRADOS", retirados);
 
-  //console.log("BBBB Result", result);
   return (
     <FlatList
       data={retirados}

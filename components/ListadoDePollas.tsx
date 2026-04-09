@@ -1,4 +1,7 @@
-import { fetchPollasRetiradosByCond, RetiradosByPollaId } from "@/lib/api";
+import {
+  fetchPollasAndRelatiosByCond,
+  TypefetchPollasAndRelatiosByCond
+} from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import Toast from "react-native-toast-message";
@@ -6,14 +9,17 @@ import Loading from "./Loading";
 import PollaCard from "./PollaCard";
 
 export default function ListadoDePollas({ condicion }: { condicion: number }) {
-  const [pollas, setPollas] = useState<RetiradosByPollaId | null>(null);
+  const [pollas, setPollas] = useState<null | TypefetchPollasAndRelatiosByCond>(
+    null,
+  );
   const [loading, setLoading] = useState(false);
+  const [actualizar, setActualizar] = useState(false);
 
   useEffect(() => {
     const getPollasByCondicion = async (condicion: number) => {
       try {
         setLoading(true);
-        const res = await fetchPollasRetiradosByCond(condicion);
+        const res = await fetchPollasAndRelatiosByCond(condicion);
         if (res) {
           setPollas(res);
         }
@@ -30,7 +36,7 @@ export default function ListadoDePollas({ condicion }: { condicion: number }) {
       }
     };
     getPollasByCondicion(condicion);
-  }, [condicion]);
+  }, [condicion, actualizar]);
 
   if (loading) {
     return <Loading />;
@@ -40,7 +46,13 @@ export default function ListadoDePollas({ condicion }: { condicion: number }) {
     <FlatList
       data={pollas}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => <PollaCard data={item} />}
+      renderItem={({ item }) => (
+        <PollaCard
+          data={item}
+          actualizar={actualizar}
+          setActualizar={setActualizar}
+        />
+      )}
     />
   );
 }

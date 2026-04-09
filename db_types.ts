@@ -167,30 +167,41 @@ export type Database = {
       }
       ganadores: {
         Row: {
-          carrera_id: string | null
+          caballo: number | null
+          carrera: number | null
           created_at: string
-          ejemplar: number | null
           id: string
+          polla_id: string | null
           posicion: number | null
           puntos: number | null
         }
         Insert: {
-          carrera_id?: string | null
+          caballo?: number | null
+          carrera?: number | null
           created_at?: string
-          ejemplar?: number | null
           id?: string
+          polla_id?: string | null
           posicion?: number | null
           puntos?: number | null
         }
         Update: {
-          carrera_id?: string | null
+          caballo?: number | null
+          carrera?: number | null
           created_at?: string
-          ejemplar?: number | null
           id?: string
+          polla_id?: string | null
           posicion?: number | null
           puntos?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "ganadores_polla_id_fkey"
+            columns: ["polla_id"]
+            isOneToOne: false
+            referencedRelation: "pollas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       hipodromos: {
         Row: {

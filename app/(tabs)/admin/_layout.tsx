@@ -59,6 +59,15 @@ const PasosLayout = () => {
           headerTitleAlign: "center",
         }}
       />
+      <Stack.Screen
+        name="pollas-ganadores"
+        options={{
+          headerShown: true,
+          title: "Ganadores de Pollas",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
     </Stack>
   );
 };

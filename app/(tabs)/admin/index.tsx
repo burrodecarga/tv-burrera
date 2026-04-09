@@ -31,18 +31,18 @@ const AdminScreen = () => {
           Confirmar Polla
         </ThemedButton>
         <ThemedButton
-          icon="cog-outline"
+          icon="list-circle-outline"
           onPress={() => router.replace("/(tabs)/admin/modificar-polla")}
           disabled={false}
         >
-          Configurar Polla
+          Vender Pollas y Retirados
         </ThemedButton>
         <ThemedButton
-          icon="arrow-forward-outline"
-          onPress={() => {}}
-          disabled={true}
+          icon="newspaper-outline"
+          onPress={() => router.replace("/(tabs)/admin/pollas-ganadores")}
+          disabled={false}
         >
-          Ingresar
+          Pollas Activas y resultados
         </ThemedButton>
         <ThemedButton
           icon="arrow-forward-outline"
