@@ -1,5 +1,4 @@
-import { fetchPollasByCond } from "@/lib/api";
-import { Polla } from "@/lib/types";
+import { fetchPollasRetiradosByCond, RetiradosByPollaId } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import Toast from "react-native-toast-message";
@@ -7,14 +6,14 @@ import Loading from "./Loading";
 import PollaCard from "./PollaCard";
 
 export default function ListadoDePollas({ condicion }: { condicion: number }) {
-  const [pollas, setPollas] = useState<Polla[] | null>(null);
+  const [pollas, setPollas] = useState<RetiradosByPollaId | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getPollasByCondicion = async (condicion: number) => {
       try {
         setLoading(true);
-        const res = await fetchPollasByCond(condicion);
+        const res = await fetchPollasRetiradosByCond(condicion);
         if (res) {
           setPollas(res);
         }
@@ -37,7 +36,6 @@ export default function ListadoDePollas({ condicion }: { condicion: number }) {
     return <Loading />;
   }
 
-  //console.log("XXXX", pollas);
   return (
     <FlatList
       data={pollas}

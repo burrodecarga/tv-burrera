@@ -6,6 +6,8 @@ export type Billetera = Database["public"]["Tables"]["billeteras"]["Row"];
 export type Apuesta = Database["public"]["Tables"]["apuestas"]["Row"];
 export type Transaccion = Database["public"]["Tables"]["transacciones"]["Row"];
 export type Retirado = Database["public"]["Tables"]["retirados"]["Row"];
+export type RelacionRetirados =
+  Database["public"]["Tables"]["pollas"]["Relationships"];
 
 export type Transacciones = Tables<"transacciones">;
 export type User = Datab["auth"]["Tables"]["users"]["Row"];
