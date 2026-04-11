@@ -121,57 +121,13 @@ export type Database = {
         }
         Relationships: []
       }
-      carreras: {
-        Row: {
-          created_at: string
-          distancia: number | null
-          fecha: string | null
-          hora: string | null
-          id: string
-          num_carrera: number | null
-          num_competidores: number | null
-          polla_id: string | null
-          tipo: string | null
-        }
-        Insert: {
-          created_at?: string
-          distancia?: number | null
-          fecha?: string | null
-          hora?: string | null
-          id?: string
-          num_carrera?: number | null
-          num_competidores?: number | null
-          polla_id?: string | null
-          tipo?: string | null
-        }
-        Update: {
-          created_at?: string
-          distancia?: number | null
-          fecha?: string | null
-          hora?: string | null
-          id?: string
-          num_carrera?: number | null
-          num_competidores?: number | null
-          polla_id?: string | null
-          tipo?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "carreras_polla_id_fkey1"
-            columns: ["polla_id"]
-            isOneToOne: false
-            referencedRelation: "pollas"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       ganadores: {
         Row: {
           caballo: number | null
           carrera: number | null
           created_at: string
           id: string
-          polla_id: string | null
+          polla_id: string
           posicion: number | null
           puntos: number | null
         }
@@ -180,7 +136,7 @@ export type Database = {
           carrera?: number | null
           created_at?: string
           id?: string
-          polla_id?: string | null
+          polla_id: string
           posicion?: number | null
           puntos?: number | null
         }
@@ -189,7 +145,7 @@ export type Database = {
           carrera?: number | null
           created_at?: string
           id?: string
-          polla_id?: string | null
+          polla_id?: string
           posicion?: number | null
           puntos?: number | null
         }
@@ -280,28 +236,28 @@ export type Database = {
           apostadores: number | null
           carrera1_dist: number | null
           carrera1_ejem: number | null
-          carrera1_hor: string | null
+          carrera1_hor: string
           carrera2_dist: number | null
           carrera2_ejem: number | null
-          carrera2_hor: string | null
+          carrera2_hor: string
           carrera3_dist: number | null
           carrera3_ejem: number | null
-          carrera3_hor: string | null
+          carrera3_hor: string
           carrera4_dist: number | null
           carrera4_ejem: number | null
-          carrera4_hor: string | null
+          carrera4_hor: string
           carrera5_dist: number | null
           carrera5_ejem: number | null
-          carrera5_hor: string | null
+          carrera5_hor: string
           carrera6_dist: number | null
           carrera6_ejem: number | null
-          carrera6_hor: string | null
+          carrera6_hor: string
           condicion: number | null
           created_at: string
-          fecha: string | null
-          fecha_de_cierre: string | null
+          fecha: string
+          fecha_de_cierre: string
           hipodromo: string | null
-          hora_de_cierre: string | null
+          hora_de_cierre: string
           id: string
           nombre: string | null
           pais: string | null
@@ -312,28 +268,28 @@ export type Database = {
           apostadores?: number | null
           carrera1_dist?: number | null
           carrera1_ejem?: number | null
-          carrera1_hor?: string | null
+          carrera1_hor?: string
           carrera2_dist?: number | null
           carrera2_ejem?: number | null
-          carrera2_hor?: string | null
+          carrera2_hor?: string
           carrera3_dist?: number | null
           carrera3_ejem?: number | null
-          carrera3_hor?: string | null
+          carrera3_hor?: string
           carrera4_dist?: number | null
           carrera4_ejem?: number | null
-          carrera4_hor?: string | null
+          carrera4_hor?: string
           carrera5_dist?: number | null
           carrera5_ejem?: number | null
-          carrera5_hor?: string | null
+          carrera5_hor?: string
           carrera6_dist?: number | null
           carrera6_ejem?: number | null
-          carrera6_hor?: string | null
+          carrera6_hor?: string
           condicion?: number | null
           created_at?: string
-          fecha?: string | null
-          fecha_de_cierre?: string | null
+          fecha?: string
+          fecha_de_cierre?: string
           hipodromo?: string | null
-          hora_de_cierre?: string | null
+          hora_de_cierre: string
           id?: string
           nombre?: string | null
           pais?: string | null
@@ -344,28 +300,28 @@ export type Database = {
           apostadores?: number | null
           carrera1_dist?: number | null
           carrera1_ejem?: number | null
-          carrera1_hor?: string | null
+          carrera1_hor?: string
           carrera2_dist?: number | null
           carrera2_ejem?: number | null
-          carrera2_hor?: string | null
+          carrera2_hor?: string
           carrera3_dist?: number | null
           carrera3_ejem?: number | null
-          carrera3_hor?: string | null
+          carrera3_hor?: string
           carrera4_dist?: number | null
           carrera4_ejem?: number | null
-          carrera4_hor?: string | null
+          carrera4_hor?: string
           carrera5_dist?: number | null
           carrera5_ejem?: number | null
-          carrera5_hor?: string | null
+          carrera5_hor?: string
           carrera6_dist?: number | null
           carrera6_ejem?: number | null
-          carrera6_hor?: string | null
+          carrera6_hor?: string
           condicion?: number | null
           created_at?: string
-          fecha?: string | null
-          fecha_de_cierre?: string | null
+          fecha?: string
+          fecha_de_cierre?: string
           hipodromo?: string | null
-          hora_de_cierre?: string | null
+          hora_de_cierre?: string
           id?: string
           nombre?: string | null
           pais?: string | null
@@ -446,10 +402,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "resultados_carrera_id_fkey"
-            columns: ["carrera_id"]
+            foreignKeyName: "resultados_polla_id_fkey"
+            columns: ["polla_id"]
             isOneToOne: false
-            referencedRelation: "carreras"
+            referencedRelation: "pollas"
             referencedColumns: ["id"]
           },
         ]
@@ -459,6 +415,7 @@ export type Database = {
           caballo: number | null
           carrera: number | null
           created_at: string
+          ejemplares: number | null
           id: string
           polla_id: string | null
         }
@@ -466,6 +423,7 @@ export type Database = {
           caballo?: number | null
           carrera?: number | null
           created_at?: string
+          ejemplares?: number | null
           id?: string
           polla_id?: string | null
         }
@@ -473,6 +431,7 @@ export type Database = {
           caballo?: number | null
           carrera?: number | null
           created_at?: string
+          ejemplares?: number | null
           id?: string
           polla_id?: string | null
         }

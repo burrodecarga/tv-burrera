@@ -33,9 +33,12 @@ export function getHoraT(fechaISO: string): string {
   date.setHours(Number(hours), Number(minutes), Number(seconds));
 
   const time12 = date.toLocaleTimeString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
     hour: "numeric",
     minute: "2-digit",
-    hour12: true,
+    hour12: false,
   });
   return time12;
 }
@@ -69,11 +72,26 @@ const resultado = obtenerDiaYMes(hoy);
 // Salida aproximada: "Hoy es lunes, 6 de abril de 2026"
 
 export function isDateValid(dateStr: string) {
-  return !isNaN(new Date(dateStr).getDate());
+  return true;
 }
 
 export function isTimeValid(dateStr: string) {
   console.log(dateStr);
   const regex = /^([01]\d|2[0-3]):[0-5]\d$/;
   return true;
+}
+
+export function sup(date: Date) {
+  const time12 = date.toLocaleTimeString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+
+  const res = time12.replace(",", "");
+  return res;
 }

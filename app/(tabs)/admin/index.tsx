@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const AdminScreen = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#154090" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View
         style={{
           justifyContent: "space-between",
@@ -45,18 +45,18 @@ const AdminScreen = () => {
           Pollas Activas y resultados
         </ThemedButton>
         <ThemedButton
-          icon="arrow-forward-outline"
-          onPress={() => {}}
-          disabled={true}
+          icon="calendar-outline"
+          onPress={() => router.replace("/(tabs)/admin/listado-de-pollas")}
+          disabled={false}
         >
-          Ingresar
+          Listado de Pollas
         </ThemedButton>
         <ThemedButton
           icon="arrow-forward-outline"
-          onPress={() => {}}
-          disabled={true}
+            onPress={() => router.replace("/(tabs)/admin/confirmar-polla")}
+          disabled={false}
         >
-          Ingresar
+          Conf Ingresar
         </ThemedButton>
       </View>
     </SafeAreaView>

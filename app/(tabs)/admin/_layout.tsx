@@ -1,6 +1,7 @@
 import { useUserInfo } from "@/hooks/userContext";
 import { Stack } from "expo-router";
 import React from "react";
+import Feather from '@expo/vector-icons/Feather';
 
 const PasosLayout = () => {
   const { isAdmin } = useUserInfo();
@@ -8,7 +9,7 @@ const PasosLayout = () => {
     <Stack
       screenOptions={{
         headerShown: true,
-        title: "Creación y Confirmación de Polla",
+        title: "Configuración de Pollas",
         headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
         headerTitleAlign: "center",
       }}
@@ -57,6 +58,7 @@ const PasosLayout = () => {
           title: "Listado de Pollas BORRADOR",
           headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
           headerTitleAlign: "center",
+          
         }}
       />
       <Stack.Screen
@@ -64,6 +66,24 @@ const PasosLayout = () => {
         options={{
           headerShown: true,
           title: "Ganadores de Pollas",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="listado-de-pollas"
+        options={{
+          headerShown: true,
+          title: "Listado  de Pollas",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="add-retirados"
+        options={{
+          headerShown: true,
+          title: "Configurar Retirados",
           headerTitleStyle: { fontWeight: "bold", fontSize: 13 },
           headerTitleAlign: "center",
         }}

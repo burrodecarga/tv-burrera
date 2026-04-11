@@ -5,7 +5,7 @@ import Card from "@/components/ui/Card";
 import { VALIDAS } from "@/constants/Values";
 import { Hipodromo, Hipodromos, fetchHipodromos } from "@/lib/api";
 import { MODO, TIPO } from "@/lib/types";
-import { isDateValid, isTimeValid, obtenerDiaYMes } from "@/utils/date";
+import { isDateValid, obtenerDiaYMes, sup } from "@/utils/date";
 import { validarCarrera } from "@/utils/validador";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -98,7 +98,8 @@ const CrearPollaSCreen = () => {
 
   const fv = isDateValid(polla.fecha.toString());
   const fcv = isDateValid(polla.fecha_de_cierre.toString());
-  const hv = isTimeValid(polla.hora_de_cierre.toString());
+  const hv = isDateValid(polla.hora_de_cierre.toString());
+  console.log('POLLA VALIDA', fv,fcv,hv)
   const pollaValida =
     fv &&
     fcv &&
@@ -145,11 +146,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera1_dist: parseInt(distancia),
           carrera1_ejem: parseInt(ejemplares),
-          carrera1_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera1_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -160,11 +157,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera2_dist: parseInt(distancia),
           carrera2_ejem: parseInt(ejemplares),
-          carrera2_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera2_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -175,11 +168,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera3_dist: parseInt(distancia),
           carrera3_ejem: parseInt(ejemplares),
-          carrera3_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera3_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -190,11 +179,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera4_dist: parseInt(distancia),
           carrera4_ejem: parseInt(ejemplares),
-          carrera4_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera4_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -205,11 +190,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera5_dist: parseInt(distancia),
           carrera5_ejem: parseInt(ejemplares),
-          carrera5_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera5_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -220,11 +201,7 @@ const CrearPollaSCreen = () => {
           ...polla,
           carrera6_dist: parseInt(distancia),
           carrera6_ejem: parseInt(ejemplares),
-          carrera6_hor: date.toLocaleTimeString("es-ES", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+          carrera6_hor: sup(date)
         });
         setCarrera("0");
         setEjemplares("12");
@@ -244,21 +221,31 @@ const CrearPollaSCreen = () => {
   };
 
   const handleConfirm = (date: Date) => {
-    console.warn("A date has been picked: ", date);
+    console.warn("ToString: ", date.toString());
+    console.warn("ToIsoString: ", date.toISOString());
+    console.warn("ToDateString: ", date.toDateString());
+    console.warn("toLocaleDateString: ", date.toLocaleDateString());
+    console.warn("ToLocaleString: ", date.toLocaleString());
+    console.warn("toTimeString: ", date.toTimeString());
+    console.warn("ToUtcString: ", date.toUTCString());
+    console.warn("toLocalTimeString: ", date.toLocaleTimeString());
+    console.warn("ToLocaleString: ", date.toLocaleString('en-US'));
+    console.log('SUPABASE',sup(date))
+
     switch (type) {
       case "FECHA_DE_POLLA":
         const { nombreDePolla } = obtenerDiaYMes(date);
-        setPolla({ ...polla, fecha: date, nombre: nombreDePolla });
+        setPolla({ ...polla, fecha: new Date(date), nombre: nombreDePolla });
         // Handle fecha de polla logic
         break;
       case "FECHA_DE_CIERRE":
-        setPolla({ ...polla, fecha_de_cierre: date });
+        setPolla({ ...polla, fecha_de_cierre: new Date(date) });
         // Handle fecha de polla logic
         break;
 
       case "HORA_DE_CIERRE":
         const res = date;
-        setPolla({ ...polla, hora_de_cierre: new Date(res) });
+        setPolla({ ...polla, hora_de_cierre: new Date(date) });
         // Handle fecha de polla logic
         break;
       case "CARRERA":
@@ -476,7 +463,7 @@ const CrearPollaSCreen = () => {
                 width: "100%",
               }}
             >
-              <Carreras values={polla} />
+              <Carreras values={polla} /> 
             </View>
             <View
               style={{
@@ -598,15 +585,15 @@ const CrearPollaSCreen = () => {
                   });
                   return;
                 }
-                // console.log(
-                //   "CARRERAS",
-                //   carrera1Valida,
-                //   carrera2Valida,
-                //   carrera3Valida,
-                //   carrera4Valida,
-                //   carrera5Valida,
-                //   carrera6Valida,
-                // );
+                 console.log(
+                   "CARRERAS",
+                   carrera1Valida,
+                   carrera2Valida,
+                   carrera3Valida,
+                   carrera4Valida,
+                   carrera5Valida,
+                   carrera6Valida,
+                 );
                 if (
                   !carrera1Valida ||
                   !carrera2Valida ||

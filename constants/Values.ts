@@ -145,7 +145,7 @@ export const TE = "#000000";
 export const NE = "#000000";
 
 export const VALIDAS = [
-  "-",
+  "Carreras Válidas",
   "1ra carrera",
   "2da carrera",
   "3ra carrera",
@@ -161,3 +161,5 @@ export const CONDICION_DE_POLLA = [
   "PAGADA",
   "ARCHIVADA",
 ];
+
+export const PUESTO = ["Lugares", "1er Lugar", "2do Lugar", "3er Lugar"];

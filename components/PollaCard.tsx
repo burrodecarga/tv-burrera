@@ -28,6 +28,7 @@ type Props = {
 const PollaCard = ({ data, actualizar = false, setActualizar }: Props) => {
   const [visible, setVisible] = useState(false);
   const [ganadorV, setGanadorV] = useState(false);
+  const [verRetirados, setVerRetirados] = useState(false);
   const [carrera, setCarrera] = useState("");
   const [caballo, setCaballo] = useState("");
   const [posicion, setPosicion] = useState("");
@@ -51,7 +52,7 @@ const PollaCard = ({ data, actualizar = false, setActualizar }: Props) => {
       puntos: puntos,
     };
 
-    console.log("registrando");
+    //console.log("registrando");
 
     try {
       const res = await addGanador(newGanador);
@@ -176,7 +177,7 @@ const PollaCard = ({ data, actualizar = false, setActualizar }: Props) => {
     }
   };
 
-  console.log("DATA POLLACARD", data);
+  //console.log("DATA POLLACARD", data);
 
   return (
     <Card
@@ -223,8 +224,16 @@ const PollaCard = ({ data, actualizar = false, setActualizar }: Props) => {
             <Ionicons name="add-circle-outline" color="black" size={32} />
           </TouchableOpacity>
         </View>
-        {/* TODO: Render retirados or carreras here if available */}
-        {<ListadoDeRetiradosByPolla retirados={data.retirados} />}
+        <View style={{ display: verRetirados ? "none" : "flex" }}>
+          <ListadoDeRetiradosByPolla retirados={data.retirados} />
+        </View>
+        <View style={{ display: verRetirados ? "flex" : "none" }}></View>
+
+        <Button
+          title={!verRetirados ? "Actualizar Apuestas" : "Ver Retirados"}
+          onPress={() => setVerRetirados(!verRetirados)}
+          style={{ marginVertical: 10 }}
+        />
       </Card>
       <Card>
         <View

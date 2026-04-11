@@ -7,6 +7,7 @@ import ThemedButton from '@/components/ThemedButton';
 import { useUserInfo } from '@/hooks/userContext';
 import { supabase } from '@/lib/supabase';
 import { Billetera } from '@/lib/types';
+import { Suspense } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UserInfo = {
@@ -27,6 +28,7 @@ export default function HomeScreen() {
   }
   //console.log(profile?.avatar_url)
   return (
+    <Suspense>
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -116,6 +118,7 @@ Cuando un Caballo esté retirado y está en sus combinaciones se tomará el núm
       </View>
       <ThemedButton onPress={() => supabase.auth.signOut()} >Salir</ThemedButton>
     </ParallaxScrollView>
+    </Suspense>
   );
 }
 

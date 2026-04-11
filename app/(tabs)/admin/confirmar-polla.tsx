@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import { addPolla } from "@/lib/api";
 import { POLLA } from "@/lib/types";
-import { getFecha, getHora } from "@/utils/date";
+import { getFecha } from "@/utils/date";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -30,15 +30,15 @@ const PageModal = () => {
       nombre: polla.nombre,
       hipodromo: polla.hipodromo,
       fecha: polla.fecha,
-      fecha_de_cierre: polla.fecha_de_cierre,
-      hora_de_cierre: getHora(polla.hora_de_cierre!.toString()),
+      // fecha_de_cierre: polla.fecha_de_cierre,
+      // hora_de_cierre: polla.hora_de_cierre,
       precio: polla.precio,
     };
     const res = await addPolla(newPolla as any);
-    //console.log(JSON.stringify(polla, null, 2));
-    // const hora = new Date(polla.hora_de_cierre!);
-    // console.log(polla.hora_de_cierre, hora.getMinutes());
-    // console.log(hora.getHours());
+    console.log(JSON.stringify(polla, null, 2));
+     const hora = new Date(polla.hora_de_cierre!);
+     console.log(polla.hora_de_cierre, hora.getMinutes());
+     console.log(hora.getHours());
     clearAll();
     router.replace("/(tabs)/admin/pollas-borrador");
   };
@@ -57,6 +57,7 @@ const PageModal = () => {
     const getNewPolla = async () => {
       try {
         const res = await getData();
+        //console.log(JSON.stringify(res))
         if (!res) {
           Toast.show({
             type: "error",
@@ -119,13 +120,19 @@ const PageModal = () => {
         <Text style={{ fontSize: 9 }}>
           Fecha de cierre:{" "}
           {polla?.fecha_de_cierre
-            ? getFecha(polla.fecha_de_cierre.toString())
+            ? (polla.fecha_de_cierre.toString())
+            : ""}
+        </Text>
+         <Text style={{ fontSize: 9 }}>
+          Fecha de HORA cierreXXXr:{" "}
+          {polla?.fecha_de_cierre
+            ? (polla.fecha_de_cierre.toString())
             : ""}
         </Text>
         <Text style={{ fontSize: 9 }}>
           Hora de cierre:{" "}
           {polla?.hora_de_cierre
-            ? getFecha(polla.hora_de_cierre.toString())
+            ? (polla.hora_de_cierre.toString())
             : ""}
         </Text>
         <Text style={{ fontSize: 10 }}>

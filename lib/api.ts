@@ -95,6 +95,21 @@ export const fetchPollasAndRelatiosByCond = async (condicion: number) => {
   }
 };
 
+export const fetchPollasAndRelatios = async () => {
+  //console.log("CONDICION", condicion);
+  const { data, error } = await supabase
+    .from("pollas")
+    .select(`*,retirados(*),ganadores(*)`)
+    .order("fecha", { ascending: false });
+  if (error) {
+    console.log("error", error);
+    return [];
+  } else {
+    //console.log('pollas activas', data)
+    return data;
+  }
+};
+
 export type TypefetchPollasAndRelatiosByCond = Awaited<
   ReturnType<typeof fetchPollasAndRelatiosByCond>
 >;

@@ -16,10 +16,9 @@
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/tvburrera.jpg",
         "backgroundImage": "./assets/images/tvburrera.jpg",
-        "monochromeImage": "./assets/images/tvburrera.jpg",
-        
+        "monochromeImage": "./assets/images/tvburrera.jpg"
       },
-        "softwareKeyboardLayoutMode": "pan",
+      "softwareKeyboardLayoutMode": "pan",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.edwinhenriquezh.tvburrera"
@@ -53,6 +52,12 @@
       "eas": {
         "projectId": "faf5be5c-0613-43d5-ad03-459e8cdae7e5"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/faf5be5c-0613-43d5-ad03-459e8cdae7e5"
     }
   }
 }
