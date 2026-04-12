@@ -73,6 +73,7 @@ const PollaCard = ({ data, actualizar = false, setActualizar }: Props) => {
       polla_id: data.id,
       carrera: Number(carrera),
       caballo: Number(caballo),
+      ejemplares:12
     };
     try {
       const res = await addRetirado(newRetirado);

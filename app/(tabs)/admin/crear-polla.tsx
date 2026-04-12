@@ -1,261 +1,54 @@
-import Carreras from "@/components/Carreras";
+import Loading from "@/components/Loading";
+import PollaInfo from "@/components/PollaInfo";
+import { ThemedText } from "@/components/themed-text";
+import ThemedButton from "@/components/ThemedButton";
 import ThemeTextInput from "@/components/ThemeTextInput";
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
-import { VALIDAS } from "@/constants/Values";
-import { Hipodromo, Hipodromos, fetchHipodromos } from "@/lib/api";
-import { MODO, TIPO } from "@/lib/types";
-import { isDateValid, obtenerDiaYMes, sup } from "@/utils/date";
-import { validarCarrera } from "@/utils/validador";
-import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PollaInicial, TypePolla } from "@/constants/valores-iniciales";
+import { DATOS_POLLA, VALIDAS, VALIDAS_CORTAS } from "@/constants/Values";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { fetchHipodromos, Hipodromo, Hipodromos } from "@/lib/api";
+import { TIPO } from "@/lib/types";
+import { obtenerDiaYMes } from "@/utils/date";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 
-export type POLLA = {
-  nombre: string;
-  fecha: Date;
-  fecha_de_cierre: Date;
-  hora_de_cierre: Date;
-  hipodromo?: string;
-  precio?: number;
-  carrera1_dist: number | null;
-  carrera1_ejem: number | null;
-  carrera1_hor: string | null;
-  carrera2_dist: number | null;
-  carrera2_ejem: number | null;
-  carrera2_hor: string | null;
-  carrera3_dist: number | null;
-  carrera3_ejem: number | null;
-  carrera3_hor: string | null;
-  carrera4_dist: number | null;
-  carrera4_ejem: number | null;
-  carrera4_hor: string | null;
-  carrera5_dist: number | null;
-  carrera5_ejem: number | null;
-  carrera5_hor: string | null;
-  carrera6_dist: number | null;
-  carrera6_ejem: number | null;
-  carrera6_hor: string | null;
-};
-const CrearPollaSCreen = () => {
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [mode, setMode] = useState<MODO>("date");
+const DatePickerExample = () => {
+  const [date, setDate] = useState(new Date());
   const [type, setType] = useState<TIPO>("FECHA_DE_POLLA");
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState<any | undefined>("date");
+  const [polla, setPolla] = useState<TypePolla>(PollaInicial);
   const [hipodromos, setHipodromos] = useState<Hipodromos>();
   const [hipodromo, setHipodromo] = useState<Hipodromo>();
   const [carrera, setCarrera] = useState("0");
   const [distancia, setDistancia] = useState("1200");
   const [ejemplares, setEjemplares] = useState("12");
-  const [visible, setVisible] = useState(false);
+  const [verModalPrecio, setVerModalPrecio] = useState(false);
+  const [verModalCarrera, setVerModalCarrera] = useState(false);
 
-  const [polla, setPolla] = useState<POLLA>({
-    nombre: "",
-    fecha: new Date(),
-    fecha_de_cierre: new Date(),
-    hora_de_cierre: new Date(),
-    hipodromo: "",
-    precio: 0,
-    carrera1_dist: null,
-    carrera1_ejem: null,
-    carrera1_hor: null,
-    carrera2_dist: null,
-    carrera2_ejem: null,
-    carrera2_hor: null,
-    carrera3_dist: null,
-    carrera3_ejem: null,
-    carrera3_hor: null,
-    carrera4_dist: null,
-    carrera4_ejem: null,
-    carrera4_hor: null,
-    carrera5_dist: null,
-    carrera5_ejem: null,
-    carrera5_hor: null,
-    carrera6_dist: null,
-    carrera6_ejem: null,
-    carrera6_hor: null,
-  });
+  const color = useThemeColor({}, "tint");
+  const [loading, setLoading] = useState(false);
 
-  const storeData = async (value: POLLA) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("newPolla", jsonValue);
-    } catch (e) {
-      // saving error
-    }
+  const handleCarrera = () => {
+    //console.log('LLEGUE')
+    setMode("time");
+    setType("CARRERA");
+    showDatePicker();
+    setShow(false);
   };
 
-  const fv = isDateValid(polla.fecha.toString());
-  const fcv = isDateValid(polla.fecha_de_cierre.toString());
-  const hv = isDateValid(polla.hora_de_cierre.toString());
-  console.log('POLLA VALIDA', fv,fcv,hv)
-  const pollaValida =
-    fv &&
-    fcv &&
-    hv &&
-    polla.hipodromo !== "" &&
-    polla.precio !== undefined &&
-    polla.precio > 0;
-  //console.log("pollaValida", fv, fcv, hv);
-  const carrera1Valida = validarCarrera(
-    polla.carrera1_ejem,
-    polla.carrera1_dist,
-    polla.carrera1_hor,
-  );
-  const carrera2Valida = validarCarrera(
-    polla.carrera2_ejem,
-    polla.carrera2_dist,
-    polla.carrera2_hor,
-  );
-  const carrera3Valida = validarCarrera(
-    polla.carrera3_ejem,
-    polla.carrera3_dist,
-    polla.carrera3_hor,
-  );
-  const carrera4Valida = validarCarrera(
-    polla.carrera4_ejem,
-    polla.carrera4_dist,
-    polla.carrera4_hor,
-  );
-  const carrera5Valida = validarCarrera(
-    polla.carrera5_ejem,
-    polla.carrera5_dist,
-    polla.carrera5_hor,
-  );
-  const carrera6Valida = validarCarrera(
-    polla.carrera6_ejem,
-    polla.carrera6_dist,
-    polla.carrera6_hor,
-  );
-
-  const updateCarrera = (date: Date) => {
-    switch (carrera) {
-      case "1":
-        setPolla({
-          ...polla,
-          carrera1_dist: parseInt(distancia),
-          carrera1_ejem: parseInt(ejemplares),
-          carrera1_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-      case "2":
-        setPolla({
-          ...polla,
-          carrera2_dist: parseInt(distancia),
-          carrera2_ejem: parseInt(ejemplares),
-          carrera2_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-      case "3":
-        setPolla({
-          ...polla,
-          carrera3_dist: parseInt(distancia),
-          carrera3_ejem: parseInt(ejemplares),
-          carrera3_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-      case "4":
-        setPolla({
-          ...polla,
-          carrera4_dist: parseInt(distancia),
-          carrera4_ejem: parseInt(ejemplares),
-          carrera4_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-      case "5":
-        setPolla({
-          ...polla,
-          carrera5_dist: parseInt(distancia),
-          carrera5_ejem: parseInt(ejemplares),
-          carrera5_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-      case "6":
-        setPolla({
-          ...polla,
-          carrera6_dist: parseInt(distancia),
-          carrera6_ejem: parseInt(ejemplares),
-          carrera6_hor: sup(date)
-        });
-        setCarrera("0");
-        setEjemplares("12");
-        setDistancia("1200");
-        break;
-
-      default:
-        break;
-    }
+  const handleSelecthipodromo = (itemValue: any, itemIndex: number) => {
+    setPolla({ ...polla, hipodromo: itemValue });
   };
   const showDatePicker = () => {
-    setDatePickerVisibility(true);
+    setShow(true);
   };
 
   const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date: Date) => {
-    console.warn("ToString: ", date.toString());
-    console.warn("ToIsoString: ", date.toISOString());
-    console.warn("ToDateString: ", date.toDateString());
-    console.warn("toLocaleDateString: ", date.toLocaleDateString());
-    console.warn("ToLocaleString: ", date.toLocaleString());
-    console.warn("toTimeString: ", date.toTimeString());
-    console.warn("ToUtcString: ", date.toUTCString());
-    console.warn("toLocalTimeString: ", date.toLocaleTimeString());
-    console.warn("ToLocaleString: ", date.toLocaleString('en-US'));
-    console.log('SUPABASE',sup(date))
-
-    switch (type) {
-      case "FECHA_DE_POLLA":
-        const { nombreDePolla } = obtenerDiaYMes(date);
-        setPolla({ ...polla, fecha: new Date(date), nombre: nombreDePolla });
-        // Handle fecha de polla logic
-        break;
-      case "FECHA_DE_CIERRE":
-        setPolla({ ...polla, fecha_de_cierre: new Date(date) });
-        // Handle fecha de polla logic
-        break;
-
-      case "HORA_DE_CIERRE":
-        const res = date;
-        setPolla({ ...polla, hora_de_cierre: new Date(date) });
-        // Handle fecha de polla logic
-        break;
-      case "CARRERA":
-        updateCarrera(date);
-        break;
-
-      default:
-        break;
-    }
-    hideDatePicker();
+    setShow(false);
   };
 
   const fechaPolla = () => {
@@ -276,17 +69,77 @@ const CrearPollaSCreen = () => {
     showDatePicker();
   };
 
-  const handleSelecthipodromo = (itemValue: any, itemIndex: number) => {
-    setPolla({ ...polla, hipodromo: itemValue });
+  const handleConfirm = (_event: any, selectedDate: any) => {
+    console.log("HANDLE CONFIRM", selectedDate);
+    switch (type) {
+      case "FECHA_DE_POLLA":
+        const { nombreDePolla } = obtenerDiaYMes(selectedDate);
+        setPolla((polla) => ({
+          ...polla,
+          fecha: new Date(selectedDate),
+          nombre: nombreDePolla,
+        }));
+        break;
+      case "FECHA_DE_CIERRE":
+        setPolla((polla) => ({
+          ...polla,
+          fecha_de_cierre: new Date(selectedDate),
+        }));
+        // Handle fecha de polla logic
+        break;
+
+      case "HORA_DE_CIERRE":
+        const res = selectedDate;
+        setPolla((polla) => ({
+          ...polla,
+          hora_de_cierre: new Date(selectedDate),
+        }));
+        // Handle fecha de polla logic
+        break;
+
+      default:
+        break;
+    }
+    hideDatePicker();
   };
 
-  const handleCarrera = () => {
-    //console.log('LLEGUE')
-    setMode("time");
-    setType("CARRERA");
-    showDatePicker();
-    setVisible(false);
+  const datosDePolla = (i: number) => {
+    console.log(i);
+    switch (i) {
+      case i:
+        0;
+        //console.log("FECHA DE POLLA");
+        setType("FECHA_DE_POLLA");
+        setMode("date");
+        showDatePicker();
+        break;
+      case i:
+        1;
+        setType((prev) => "FECHA_DE_CIERRE");
+        setMode("date");
+        showDatePicker();
+        break;
+      case i:
+        2;
+        setType((prev) => "HORA_DE_CIERRE");
+        setMode("time");
+        showDatePicker();
+        break;
+
+      default:
+        break;
+    }
   };
+
+  // const onChange = (_event: any, selectedDate: any) => {
+  //   const currentDate = selectedDate || date;
+  //   //console.log(event)
+  //   // On Android, the picker closes itself after selection.
+  //   // On iOS, it remains visible until dismissed.
+  //   setShow(Platform.OS === "ios");
+  //   setDate(currentDate);
+  //   //handleConfirm(currentDate)
+  // };
 
   useEffect(() => {
     const getHipodromos = async () => {
@@ -296,330 +149,323 @@ const CrearPollaSCreen = () => {
     getHipodromos();
   }, []);
 
-  //const { diaSemana, mes, diaNumero } = obtenerDiaYMes(new Date());
-  //console.log(diaSemana, diaNumero, mes)
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ flex: 1 }}
-      >
-        <ScrollView
-          style={{ width: "100%" }}
-          contentContainerStyle={{
-            alignItems: "center",
-            gap: 20,
-            paddingBottom: 20,
-          }}
-        >
-          <Card
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff",  }}>
+      <ScrollView 
+      style={{ flex: 1 }}>
+        <PollaInfo data={polla} />
+        <View style={{ padding: 20, width: "100%", backgroundColor: "#fff",}}>
+          <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+            CONFIGURACIÓN DE POLLA
+          </Text>
+          <View
             style={{
-              width: "90%",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 2,
-              display: polla.nombre.length > 0 ? "flex" : "none",
-              flexDirection: "column",
-              padding: 10,
-              marginTop: 20,
+              padding: 20,
+              gap: 8,
+              display:verModalCarrera?'none':'contents'
             }}
           >
-            <Text style={{ fontSize: 10, fontWeight: 700 }} disabled>
-              {polla.nombre}
-            </Text>
-            <Text style={{ fontSize: 9 }}>Hipódromo:{polla.hipodromo}</Text>
-            <Text style={{ fontSize: 9 }}>
-              Fecha de Polla : {polla.fecha.toLocaleDateString()}
-            </Text>
-            <Text style={{ fontSize: 9 }}>
-              Fecha de Cierre de la Polla :{" "}
-              {polla.fecha_de_cierre.toLocaleDateString()}
-            </Text>
-            <Text style={{ fontSize: 9 }}>
-              Hora de Cierre de la Polla :{" "}
-              {polla.hora_de_cierre?.toLocaleTimeString("es-ES", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-              })}
-            </Text>
-            <Text style={{ fontSize: 10 }}>
-              Precio de la Polla : {polla.precio?.toFixed(0)} fichas
-            </Text>
-          </Card>
-          <View style={{ borderWidth: 1, borderRadius: 8, width: "90%" }}>
-            <Picker
-              selectedValue={hipodromo}
-              onValueChange={(itemValue, itemIndex) =>
-                handleSelecthipodromo(itemValue, itemIndex)
-              }
-            >
-              <Picker.Item
-                label="Seleccionar hipodromo"
-                value={0}
-                style={{ fontSize: 13 }}
-              />
-              {hipodromos &&
-                hipodromos.map((p) => (
-                  <Picker.Item
-                    label={p.name as string}
-                    value={p.name}
-                    style={{ fontSize: 14 }}
-                  />
-                ))}
-            </Picker>
-          </View>
-          <View style={{ width: "90%", flexDirection: "column", gap: 20 }}>
+            <View style={{ borderWidth: 1, borderRadius: 8, marginVertical:10 }}>
+              <Picker
+                selectedValue={hipodromo}
+                onValueChange={(itemValue, itemIndex) =>
+                  handleSelecthipodromo(itemValue, itemIndex)
+                }
+              >
+                <Picker.Item
+                  label="Seleccionar hipodromo"
+                  value={0}
+                  style={{ fontSize: 13 }}
+                />
+                {hipodromos &&
+                  hipodromos.map((p) => (
+                    <Picker.Item
+                      label={p.name as string}
+                      value={p.name}
+                      style={{ fontSize: 14 }}
+                    />
+                  ))}
+              </Picker>
+            </View>
+
             <View
               style={{
                 flexDirection: "row",
-                gap: 5,
-                flex: 1,
-                alignItems: "center",
-                width: "80%",
+                gap: 15,
+                flexWrap: "wrap",
                 justifyContent: "space-between",
               }}
             >
-              <ThemeTextInput
-                keyboardType="numeric"
-                placeholder="Precio de la polla"
-                style={{}}
-                icon="logo-usd"
-                value={polla.precio?.toString()}
-                onChangeText={(text) =>
-                  setPolla({ ...polla, precio: parseFloat(text) || 0 })
-                }
-              />
-              <Text style={{ fontSize: 10, wordWrap: "true" }}> Precio</Text>
-            </View>
-            <Button title="Fecha de la Polla" onPress={fechaPolla} />
-            <Button
-              title="Fecha de cierre de Polla"
-              onPress={fechaCierrePolla}
-            />
-            <Button title="Hora de cierre de Polla" onPress={horaCierrePolla} />
-            <View style={{ display: visible ? "flex" : "none" }}>
-              <Text style={{ textAlign: "center", fontWeight: "700" }}>
-                {VALIDAS[Number(carrera)]}
-              </Text>
-              <Card
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  gap: 3,
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginHorizontal: 0,
-                  width: "100%",
-                  margin: "auto",
-                  backgroundColor: "#c37373",
-                  padding: 10,
-                }}
+              <ThemedButton
+                style={[styles.btn_polla, { backgroundColor: color }]}
+                onPress={fechaPolla}
               >
-                <View style={{ flex: 1 }}>
-                  <ThemeTextInput
-                    keyboardType="numeric"
-                    placeholder="Dist. de carrera"
-                    value={distancia}
-                    onChangeText={(text) => setDistancia(text)}
-                  />
+                Fecha de Polla
+              </ThemedButton>
+              <ThemedButton
+                style={[styles.btn_polla, { backgroundColor: color }]}
+                onPress={fechaCierrePolla}
+              >
+                Fecha de Cierre
+              </ThemedButton>
+              <ThemedButton
+                style={[styles.btn_polla, { backgroundColor: color }]}
+                onPress={horaCierrePolla}
+              >
+                {DATOS_POLLA[2]}
+              </ThemedButton>
+              <ThemedButton
+                style={[styles.btn_polla, { backgroundColor: color }]}
+                onPress={() => setVerModalPrecio(true)}
+              >
+                {DATOS_POLLA[3]}
+              </ThemedButton>
+            </View>
+          </View>
+          <Text style={{ textAlign: "center", fontWeight: "bold", marginVertical:10 }}>
+            CONFIGURACIÓN DE CARRERAS
+          </Text>
+            {/* /*carreras*/}
+
+        <View
+          style={{
+            display: verModalCarrera ? "flex" : "none" ,
+            flexDirection: "column",
+            borderWidth: 0.5,
+            marginHorizontal: 10,
+            borderColor: color,
+            padding: 9,
+            borderRadius: 8,
+         
+          }}
+        >
+          <View style={{ }}>
+            <Text style={{ textAlign: "center", fontWeight: "700" }}>
+              {VALIDAS[Number(carrera)]}
+            </Text>
+            <View>              
+              <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'baseline', gap:10}}>
+                <View>
+                 <Text>Distancia :</Text>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <ThemeTextInput
-                    keyboardType="numeric"
-                    placeholder="Ejemplares"
-                    value={ejemplares}
-                    onChangeText={(text) => setEjemplares(text)}
-                  />
+                <View style={{flex:1}}>                  
+                <ThemeTextInput
+                style={{}}
+                  keyboardType="numeric"
+                  placeholder="Dist. de carrera"
+                  value={distancia}
+                  onChangeText={(text) => setDistancia(text)}
+                />
                 </View>
-              </Card>
-              <Button
-                disabled={
-                  ejemplares === "0" ||
-                  distancia === "0" ||
-                  ejemplares.length === 0 ||
-                  distancia.length === 0
-                }
-                title="Hora de Carrera"
-                onPress={() => {
-                  if (
+                <View>
+                <Text style={{}}>mts</Text>
+                </View>
+              </View>
+                            <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'baseline', gap:10}}>
+                <View>
+                 <Text style={{fontSize:10}}>N° de Competidores :</Text>
+                </View>
+                <View style={{flex:1}}>                  
+                <ThemeTextInput
+                style={{}}
+                  keyboardType="numeric"
+                  placeholder="Ejemplares"
+                  value={ejemplares}
+                  onChangeText={(text) => setEjemplares(text)}
+                />
+                </View>
+                <View>
+                <Text style={{fontSize:9}}>Ejemplares</Text>
+                </View>
+              </View>
+
+              </View>
+              <View>              
+              <View style={{flexDirection:'row', flex:1, justifyContent:'center',  alignItems:'center', }}>
+                <View style={{ alignItems:'center',width:120}}>
+                <ThemedButton
+                  icon="time-outline"
+                  disabled={
                     ejemplares === "0" ||
                     distancia === "0" ||
                     ejemplares.length === 0 ||
                     distancia.length === 0
-                  )
-                    return;
-                  handleCarrera();
-                }}
-              />
-            </View>
-            <View
-              style={{
-                padding: 4,
-                borderWidth: 0.5,
-                borderRadius: 8,
-                width: "100%",
-              }}
-            >
-              <Carreras values={polla} /> 
-            </View>
-            <View
-              style={{
-                flexWrap: "wrap",
-                flexDirection: "row",
-                flex: 1,
-                justifyContent: "space-between",
-                width: "100%",
-                borderWidth: 1,
-                borderColor: "#ccc",
-                borderRadius: 5,
-                padding: 10,
-              }}
-            >
-              <Button
-                title="1ra"
-                onPress={() => {
-                  setCarrera("1");
-                  setVisible(true);
-                }}
-              />
-              <Button
-                title="2da"
-                onPress={() => {
-                  setCarrera("2");
-                  setVisible(true);
-                }}
-              />
-              <Button
-                title="3ra"
-                onPress={() => {
-                  setCarrera("3");
-                  setVisible(true);
-                }}
-              />
-            </View>
-            <View
-              style={{
-                flexWrap: "wrap",
-                flexDirection: "row",
-                flex: 1,
-                justifyContent: "space-between",
-                width: "100%",
-                borderWidth: 1,
-                borderColor: "#ccc",
-                borderRadius: 5,
-                padding: 10,
-              }}
-            >
-              <Button
-                title="4ta"
-                onPress={() => {
-                  setCarrera("4");
-                  setVisible(true);
-                }}
-              />
-              <Button
-                title="5ta"
-                onPress={() => {
-                  setCarrera("5");
-                  setVisible(true);
-                }}
-              />
-              <Button
-                title="6ta"
-                onPress={() => {
-                  setCarrera("6");
-                  setVisible(true);
-                }}
-              />
-            </View>
-          </View>
+                  }
+                  onPress={() => {
+                    if (
+                      ejemplares === "0" ||
+                      distancia === "0" ||
+                      ejemplares.length === 0 ||
+                      distancia.length === 0
+                    )
+                      return;
+                    handleCarrera();
+                  }}
+                >
+                  Hora
+                </ThemedButton>
+                </View>
+                <View style={{ alignItems:'center',width:130}}>
 
-          <View>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode={mode}
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
+                <ThemedButton
+                  icon="log-out-outline"
+                  onPress={()=>{
+                    setVerModalCarrera(false)
+                  }}
+                >Cancelar</ThemedButton>
+                </View>
+              </View>
+            </View>
           </View>
+        </View>
           <View
             style={{
-              flexDirection: "row",
+              padding: 20,
+              gap: 8,
               justifyContent: "space-between",
               alignItems: "center",
-              gap: 10,
             }}
           >
-            <Button
-              title="Regresar"
-              size="small"
-              onPress={() => router.push("/(tabs)/admin")}
-              icon={
-                <Ionicons
-                  name="arrow-back-circle-outline"
-                  size={24}
-                  color="white"
-                />
-              }
-            />
-
-            <Button
-              title="Crear Polla"
-              icon={
-                <Ionicons
-                  name="arrow-back-circle-outline"
-                  size={24}
-                  color="white"
-                />
-              }
+            <View style={{ flexDirection: "row", gap: 5,display: !verModalCarrera ? "flex" : "none"  }}>
+              {VALIDAS.map(
+                (v, i) =>
+                  i !== 0 && (
+                    <ThemedButton
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: color,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 8,
+                      }}
+                      key={v as string}
+                      onPress={() => {
+                        setCarrera(i.toString());
+                        setVerModalCarrera(true);
+                        setMode("date");
+                      }}
+                    >
+                      {VALIDAS_CORTAS[i]}
+                    </ThemedButton>
+                  ),
+              )}
+            </View>
+            {/* <ThemedButton
+              icon="calendar-outline"
               onPress={() => {
-                if (!pollaValida) {
-                  Toast.show({
-                    type: "error",
-                    text1: "Polla no válida",
-                    text2:
-                      "Por favor, completa todos los campos correctamente.",
-                  });
-                  return;
-                }
-                 console.log(
-                   "CARRERAS",
-                   carrera1Valida,
-                   carrera2Valida,
-                   carrera3Valida,
-                   carrera4Valida,
-                   carrera5Valida,
-                   carrera6Valida,
-                 );
-                if (
-                  !carrera1Valida ||
-                  !carrera2Valida ||
-                  !carrera3Valida ||
-                  !carrera4Valida ||
-                  !carrera5Valida ||
-                  !carrera6Valida
-                ) {
-                  Toast.show({
-                    type: "error",
-                    text1: "Hay carrera que no es válida",
-                    text2:
-                      "Por favor, completa todos los campos correctamente.",
-                  });
-                  return;
-                }
-                storeData(polla);
-                console.log("llegue");
-                router.replace("/(tabs)/admin/confirmar-polla");
+                (setShow(true), setMode("date"));
               }}
-            />
+            >
+              Seleccione Fecha
+            </ThemedButton>
+            <ThemedButton
+              icon="time-outline"
+              onPress={() => {
+                (setShow(true), setMode("time"));
+              }}
+            >
+              Seleccione Hora
+            </ThemedButton> */}
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          {/* <Text>Selected: {date.toLocaleDateString()}</Text>
+          <Text>Selected: {date.toLocaleTimeString()}</Text>
+          <Text>Selected: {date.toISOString()}</Text> */}
+
+          <View style={{height:100, flex:1}}/>
+
+          {show && (
+            <DateTimePicker
+              value={date}
+              mode={mode} // Options: "date", "time", "datetime" (iOS), "countdown" (iOS)
+              is24Hour={true}
+              display="default" // Options: "default", "spinner", "calendar", "clock"
+              onChange={handleConfirm}
+            />
+          )}
+        </View>      
+     
+      <View>
+        <Modal visible={verModalPrecio} transparent={true}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#fff",
+                padding: 8,
+                marginHorizontal: 10,
+              }}
+            >
+              <ThemedText
+                style={{ fontSize: 13, textAlign: "center" }}
+                type="defaultSemiBold"
+              >
+                {polla?.nombre}
+              </ThemedText>
+              <ThemedText style={{ textAlign: "center", fontSize: 11 }}>
+                Registrar Precio de Polla
+              </ThemedText>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 10,
+                  flexDirection: "column",
+                  gap: 10,
+                }}
+              >
+                <Text>Precio de Polla</Text>
+                <ThemeTextInput
+                  keyboardType="numeric"
+                  placeholder="Costo de la jugada"
+                  onChangeText={(text) =>
+                    setPolla({ ...polla, precio: parseFloat(text) || 0 })
+                  } // Updates state as user types
+                  value={polla.precio?.toString()}
+                />
+
+                <View style={{ gap: 10 }}>
+                  <View>
+                    <ThemedButton onPress={() => setVerModalPrecio(false)}>
+                      Aceptar
+                    </ThemedButton>
+                  </View>
+                  <View>
+                    <ThemedButton
+                      onPress={() => {
+                        setPolla({ ...polla, precio: 0 });
+                        setVerModalPrecio(false);
+                      }}
+                    >
+                      Cancelar
+                    </ThemedButton>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default CrearPollaSCreen;
+const styles = StyleSheet.create({
+  btn_polla: {
+    width: 130,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+  },
+});
+export default DatePickerExample;

@@ -154,6 +154,16 @@ export const VALIDAS = [
   "6ta carrera",
 ] as const;
 
+export const VALIDAS_CORTAS = [
+  "Carreras Válidas",
+  "1ra",
+  "2da",
+  "3ra",
+  "4ta",
+  "5ta",
+  "6ta",
+] as const;
+
 export const CONDICION_DE_POLLA = [
   "BORRADOR",
   "ACTIVA",
@@ -163,3 +173,12 @@ export const CONDICION_DE_POLLA = [
 ];
 
 export const PUESTO = ["Lugares", "1er Lugar", "2do Lugar", "3er Lugar"];
+
+export const DATOS_POLLA = [
+  "Fecha de Polla",
+  "Fecha de Cierre",
+  "Hora de Cierre",
+  "precio de Polla",
+];
+
+export const PORCENTAJE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

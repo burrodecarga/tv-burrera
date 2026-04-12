@@ -95,3 +95,24 @@ export function sup(date: Date) {
   const res = time12.replace(",", "");
   return res;
 }
+
+export function supFecha(date: Date) {
+  const time12 = date.toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+
+  const res = time12.replace(",", "");
+  return res;
+}
+export function supHora(date: Date) {
+  const time12 = date.toLocaleTimeString("es-ES", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const res = time12.replace(",", "");
+  return res;
+}
