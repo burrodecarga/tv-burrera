@@ -9,22 +9,22 @@ export type TypePolla = {
   precio?: number;
   carrera1_dist: number | null;
   carrera1_ejem: number | null;
-  carrera1_hor: string | null;
+  carrera1_hor: Date | null;
   carrera2_dist: number | null;
   carrera2_ejem: number | null;
   carrera2_hor: Date | string | null;
   carrera3_dist: number | null;
   carrera3_ejem: number | null;
-  carrera3_hor: string | null;
+  carrera3_hor: Date | null;
   carrera4_dist: number | null;
   carrera4_ejem: number | null;
-  carrera4_hor: string | null;
+  carrera4_hor: Date | null;
   carrera5_dist: number | null;
   carrera5_ejem: number | null;
-  carrera5_hor: string | null;
+  carrera5_hor: Date | null;
   carrera6_dist: number | null;
   carrera6_ejem: number | null;
-  carrera6_hor: string | null;
+  carrera6_hor: Date | null;
   condicion: number;
 };
 

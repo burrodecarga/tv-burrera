@@ -69,6 +69,81 @@ const DatePickerExample = () => {
     showDatePicker();
   };
 
+  const updateCarrera = (date: Date) => {
+    switch (carrera) {
+      case "1":
+        setPolla({
+          ...polla,
+          carrera1_dist: parseInt(distancia),
+          carrera1_ejem: parseInt(ejemplares),
+          carrera1_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+      case "2":
+        setPolla({
+          ...polla,
+          carrera2_dist: parseInt(distancia),
+          carrera2_ejem: parseInt(ejemplares),
+          carrera2_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+      case "3":
+        setPolla({
+          ...polla,
+          carrera3_dist: parseInt(distancia),
+          carrera3_ejem: parseInt(ejemplares),
+          carrera3_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+      case "4":
+        setPolla({
+          ...polla,
+          carrera4_dist: parseInt(distancia),
+          carrera4_ejem: parseInt(ejemplares),
+          carrera4_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+      case "5":
+        setPolla({
+          ...polla,
+          carrera5_dist: parseInt(distancia),
+          carrera5_ejem: parseInt(ejemplares),
+          carrera5_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+      case "6":
+        setPolla({
+          ...polla,
+          carrera6_dist: parseInt(distancia),
+          carrera6_ejem: parseInt(ejemplares),
+          carrera6_hor: (date)
+        });
+        setCarrera("0");
+        setEjemplares("12");
+        setDistancia("1200");
+        break;
+
+      default:
+        break;
+    }
+  };
+  
+
   const handleConfirm = (_event: any, selectedDate: any) => {
     console.log("HANDLE CONFIRM", selectedDate);
     switch (type) {
@@ -95,6 +170,9 @@ const DatePickerExample = () => {
           hora_de_cierre: new Date(selectedDate),
         }));
         // Handle fecha de polla logic
+        break;
+          case "CARRERA":
+        updateCarrera(date);
         break;
 
       default:
@@ -230,7 +308,6 @@ const DatePickerExample = () => {
             CONFIGURACIÓN DE CARRERAS
           </Text>
             {/* /*carreras*/}
-
         <View
           style={{
             display: verModalCarrera ? "flex" : "none" ,
